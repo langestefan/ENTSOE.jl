@@ -1,0 +1,11 @@
+{
+  "generatorName": "julia-client",
+  "packageName": "EntsoEAPI",
+  "additionalProperties": {
+    "exportModels": true,
+    "exportOperations": true
+  },
+  "globalProperties": {
+    "skipFormModel": "false"
+  }
+}

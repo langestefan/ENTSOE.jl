@@ -1,0 +1,5001 @@
+openapi: "3.1.0"
+info:
+  title: "Transparency Platform Restful API"
+  version: "1.0.0"
+  description: |
+    Auto-generated from the official ENTSO-E Postman collection by
+    `scripts/postman_to_openapi.jl`.
+    
+    The real ENTSO-E Transparency Platform API exposes a single endpoint that is
+    dispatched purely by query parameters. To make this spec useful for code
+    generation, each Postman request has been mapped to a SYNTHETIC path of the
+    form `/{group}/{request-name}`. A client implemented from this spec must
+    route every operation back to the real base URL with the query parameters
+    attached.
+    
+servers:
+  - url: "https://web-api.tp.entsoe.eu/api"
+    description: "ENTSO-E Transparency Platform (synthetic paths -- see info.description)"
+security:
+  - SecurityToken: []
+tags:
+  - name: "Market"
+  - name: "Load"
+  - name: "Generation"
+  - name: "Transmission"
+  - name: "Outages"
+  - name: "Balancing"
+  - name: "Master Data"
+  - name: "OMI"
+paths:
+  /market/12-1-e-implicit-and-flow-based-allocations-congestion-income:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.E Implicit and Flow-based Allocations - Congestion Income"
+      operationId: "market_12_1_e_implicit_and_flow_based_allocations_congestion_income"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A25 = Allocation results"
+          example: "A25"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B10 = Congestion income"
+          example: "B10"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Daily; A07 = Intraday"
+          example: "A01"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Border (or Bidding Zone for Flow Based Allocations)"
+          example: "10YAT-APG------L"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Border (or Bidding Zone for Flow Based Allocations) - same as out_Domain"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308242200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-b-total-nominated-capacity:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.B Total Nominated Capacity"
+      operationId: "market_12_1_b_total_nominated_capacity"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B08 = Total nominated capacity"
+          example: "B08"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or Bidding Zone"
+          example: "10YGB----------A"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or Bidding Zone"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308202200"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308212200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/11-1-implicit-allocations-offered-transfer-capacity:
+    get:
+      tags:
+        - "Market"
+      summary: "11.1 Implicit Allocations - Offered Transfer Capacity"
+      operationId: "market_11_1_implicit_allocations_offered_transfer_capacity"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A31 = Agreed capacity"
+          example: "A31"
+        - name: "auction.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Implicit"
+          example: "A01"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Day ahead; A07 = Intraday"
+          example: "A01"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YDK-1--------W"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10Y1001A1001A82H"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301012300"
+        - name: "Update_DateAndOrTime"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000"
+          example: "20230313123900"
+        - name: "ClassificationSequence_AttributeInstanceComponent.Position"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer"
+          example: "1"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-h-transfer-capacities-allocated-with-third-countries-12-1-h-explicit:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.H Transfer Capacities Allocated with Third Countries [12.1.H] (explicit)"
+      operationId: "market_12_1_h_transfer_capacities_allocated_with_third_countries_12_1_h_explicit"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A94 = Non EU allocations"
+          example: "A94"
+        - name: "auction.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A02 = Explicit"
+          example: "A02"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A07 = Intraday; A01 = Daily; A02 = Weekly; A03 = Monthly; A08 = Quarterly; A04 = Yearly; A06 = Long Term"
+          example: "A07"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone, Bidding Zone Aggregation"
+          example: "10YFI-1--------U"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone, Bidding Zone Aggregation"
+          example: "10Y1001A1001A49F"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308242200"
+        - name: "auction.Category"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Base; A02 = Peak; A03 = Off Peak; A04 = Hourly"
+          example: "A04"
+        - name: "classificationSequence_AttributeInstanceComponent.Position"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer"
+          example: "1"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-c-total-capacity-already-allocated:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.C Total Capacity Already Allocated"
+      operationId: "market_12_1_c_total_capacity_already_allocated"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A26 = Capacity Document"
+          example: "A26"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A29 = Already Allocated Capacity"
+          example: "A29"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A07 = Intraday; A01 = Daily; A02 = Weekly; A03 = Monthly; A08 = Quarterly; A04 = Yearly; A06 = Long Term"
+          example: "A01"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YHR-HEP------M"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YBA-JPCC-----D"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308242200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308252200"
+        - name: "auction.Category"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Base; A02 = Peak; A03 = Off Peak; A04 = Hourly"
+          example: "A02"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/11-1-a-explicit-allocations-offered-transfer-capacity:
+    get:
+      tags:
+        - "Market"
+      summary: "11.1.A Explicit Allocations - Offered Transfer Capacity"
+      operationId: "market_11_1_a_explicit_allocations_offered_transfer_capacity"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A31 = Agreed capacity"
+          example: "A31"
+        - name: "auction.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A02 = Explicit"
+          example: "A02"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A07 = Intraday; A01 = Day ahead; A02 = Weekly; A03 = Monthly; A08 = Quarterly; A04 = Yearly; A06 = Long Term"
+          example: "A01"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YGB----------A"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+        - name: "auction.Category"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Base; A02 = Peak; A03 = Off Peak; A04 = Hourly"
+          example: "A04"
+        - name: "Update_DateAndOrTime"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000"
+          example: "20230313123900"
+        - name: "ClassificationSequence_AttributeInstanceComponent.Position"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer"
+          example: "1"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-a-explicit-allocations-use-of-the-transfer-capacity:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.A Explicit Allocations - Use of the Transfer Capacity"
+      operationId: "market_12_1_a_explicit_allocations_use_of_the_transfer_capacity"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A25 = Allocation result document"
+          example: "A25"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A43 = Requested capacity (without price); B05 = Capacity allocated (including price)"
+          example: "B05"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A07 = Intraday; A01 = Day ahead; A02 = Weekly; A03 = Monthly; A08 = Quarterly; A04 = Yearly; A06 = Long Term"
+          example: "A07"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YGB----------A"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+        - name: "Auction.Category"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Base; A02 = Peak; A03 = Off Peak; A04 = Hourly"
+          example: "A04"
+        - name: "ClassificationSequence_AttributeInstanceComponent.Position"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer"
+          example: "1"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-a-explicit-allocations-auction-revenue:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.A Explicit Allocations - Auction Revenue"
+      operationId: "market_12_1_a_explicit_allocations_auction_revenue"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A25 = Allocation result document"
+          example: "A25"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B07 = Auction Revenue"
+          example: "B07"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A07 = Intraday; A01 = Daily; A02 = Weekly; A03 = Monthly; A08 = Quarterly; A04 = Yearly; A06 = Long Term"
+          example: "A01"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or a Bidding Zone Aggregation"
+          example: "10YHR-HEP------M"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or a Bidding Zone Aggregation"
+          example: "10YBA-JPCC-----D"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308242200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308252200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-e-implicit-auction-net-positions:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.E Implicit Auction — Net Positions"
+      operationId: "market_12_1_e_implicit_auction_net_positions"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A25 = Allocation results"
+          example: "A25"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B09 = Net position"
+          example: "B09"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Daily; A05 = Total; A07 = Intraday"
+          example: "A07"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone or a Control Area"
+          example: "10YBE----------2"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone or a Control Area (must be same as out_Domain)"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308222200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308232200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/11-1-b-flow-based-allocations:
+    get:
+      tags:
+        - "Market"
+      summary: "11.1.B Flow Based Allocations"
+      operationId: "market_11_1_b_flow_based_allocations"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 1 instances contained in the ZIP response, split into several files within the response ZIP file.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B09 = Flow Based Domain Publication"
+          example: "B09"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A43 = Day ahead; A44 = Intraday; A32 = Month-ahead; A33 = Year-ahead"
+          example: "A44"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Region"
+          example: "10YDOM-REGION-1V"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Region"
+          example: "10YDOM-REGION-1V"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "201402032300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "201402040500"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/11-1-b-flow-based-allocations-archives:
+    get:
+      tags:
+        - "Market"
+      summary: "11.1.B Flow Based Allocations Archives"
+      operationId: "market_11_1_b_flow_based_allocations_archives"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 1 archive in the ZIP response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B09 = Flow Based Domain Publication"
+          example: "B09"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A43 = Day ahead; A44 = Intraday; A32 = Month-ahead; A33 = Year-ahead"
+          example: "A32"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Region"
+          example: "10YDOM-REGION-1V"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Region"
+          example: "10YDOM-REGION-1V"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "201812302300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "201812312200"
+        - name: "StorageType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "archive"
+          example: "archive"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/11-1-continuous-allocations-offered-transfer-capacity:
+    get:
+      tags:
+        - "Market"
+      summary: "11.1 Continuous Allocations - Offered Transfer Capacity"
+      operationId: "market_11_1_continuous_allocations_offered_transfer_capacity"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "DocumentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A31 = Agreed capacity; B33 = Published offered capacity"
+          example: "A31"
+        - name: "Auction.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A08 = Continuous"
+          example: "A08"
+        - name: "Out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YBE----------2"
+        - name: "In_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Bidding Zone Aggregation"
+          example: "10YNL----------L"
+        - name: "PeriodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202405152200"
+        - name: "PeriodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202504162200"
+        - name: "Contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A07 = Intraday"
+          example: "A07"
+        - name: "Update_DateAndOrTime"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: |
+            For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000.
+            
+            If there is no OC evolution version with requested update_DateAndOrTime the system selects OC version valid in the given time (e.g., closest previous update_DateAndOrTime). The most recent publish OC version is provided in case the update_DateAndOrTime parameter is omitted. The most recent published OC version and intermediate OC versions is distinguished by document type:
+            −	Intermediate OC values: A31
+            −	Most recent published OC values: B33
+            
+          example: "20240515123900"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /market/12-1-d-energy-prices:
+    get:
+      tags:
+        - "Market"
+      summary: "12.1.D Energy Prices"
+      operationId: "market_12_1_d_energy_prices"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Price Document"
+          example: "A44"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202407272200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202407282200"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone "
+          example: "10YAT-APG------L"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone (must be same as out_Domain)"
+          example: "10YAT-APG------L"
+        - name: "contract_MarketAgreement.type"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Day-ahead ; A07 = Intraday"
+          example: "A01"
+        - name: "classificationSequence_AttributeInstanceComponent.position"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer"
+          example: "1"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-a-actual-total-load-security-token-in-header:
+    get:
+      tags:
+        - "Load"
+      summary: "6.1.A Actual Total Load - SECURITY_TOKEN in header"
+      operationId: "load_6_1_a_actual_total_load_security_token_in_header"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        **Note**: This is an example where the security token is included in the request header rather than in the query parameters.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A65 = System total load"
+          example: "A65"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A16 = Realised"
+          example: "A16"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202303030000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202303060000"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-a-actual-total-load-post:
+    post:
+      tags:
+        - "Load"
+      summary: "6.1.A Actual Total Load (Post)"
+      operationId: "load_6_1_a_actual_total_load_post"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters: []
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-a-actual-total-load:
+    get:
+      tags:
+        - "Load"
+      summary: "6.1.A Actual Total Load"
+      operationId: "load_6_1_a_actual_total_load"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A65 = System total load"
+          example: "A65"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A16 = Realised"
+          example: "A16"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202303030000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202303060000"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-b-day-ahead-total-load-forecast:
+    get:
+      tags:
+        - "Load"
+      summary: "6.1.B Day-ahead Total Load Forecast"
+      operationId: "load_6_1_b_day_ahead_total_load_forecast"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A65 = System total load"
+          example: "A65"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Day ahead"
+          example: "A01"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308140000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308170000"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-c-week-ahead-total-load-forecast:
+    get:
+      tags:
+        - "Load"
+      summary: "6.1.C Week-ahead Total Load Forecast"
+      operationId: "load_6_1_c_week_ahead_total_load_forecast"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A65 = System total load"
+          example: "A65"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A31 = Week ahead"
+          example: "A31"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308132200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308202200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-d-month-ahead-total-load-forecast:
+    get:
+      tags:
+        - "Load"
+      summary: "6.1.D Month-ahead Total Load Forecast"
+      operationId: "load_6_1_d_month_ahead_total_load_forecast"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A65 = System total load"
+          example: "A65"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A32 = Month ahead"
+          example: "A32"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC of a Control Area, Bidding Zone or Country"
+          example: "{{outBiddingZone_Domain}}"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202307022200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308062200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/6-1-e-year-ahead-total-load-forecast:
+    get:
+      tags:
+        - "Load"
+      summary: "6.1.E Year-ahead Total Load Forecast"
+      operationId: "load_6_1_e_year_ahead_total_load_forecast"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A65 = System total load"
+          example: "A65"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A33 = Year ahead"
+          example: "A33"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301012300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /load/8-1-year-ahead-forecast-margin:
+    get:
+      tags:
+        - "Load"
+      summary: "8.1 Year-ahead Forecast Margin"
+      operationId: "load_8_1_year_ahead_forecast_margin"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A70 = Load forecast margin"
+          example: "A70"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A33 = Year ahead"
+          example: "A33"
+        - name: "outBiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/14-1-a-installed-capacity-per-production-type:
+    get:
+      tags:
+        - "Generation"
+      summary: "14.1.A Installed Capacity per Production Type"
+      operationId: "generation_14_1_a_installed_capacity_per_production_type"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A68 = Installed generation per type"
+          example: "A68"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A33 = Year ahead"
+          example: "A33"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+        - name: "PsrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B01 = Biomass; B02 = Fossil Brown coal/Lignite; B03 = Fossil Coal-derived gas; B04 = Fossil Gas; B05 = Fossil Hard coal; B06 = Fossil Oil; B07 = Fossil Oil shale; B08 = Fossil Peat; B09 = Geothermal; B10 = Hydro Pumped Storage; B11 = Hydro Run-of-river and poundage; B12 = Hydro Water Reservoir; B13 = Marine; B14 = Nuclear; B15 = Other renewable; B16 = Solar; B17 = Waste; B18 = Wind Offshore; B19 = Wind Onshore; B20 = Other; B25 = Energy storage"
+          example: "B01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/16-1-d-water-reservoirs-and-hydro-storage-plants:
+    get:
+      tags:
+        - "Generation"
+      summary: "16.1.D Water Reservoirs and Hydro Storage Plants"
+      operationId: "generation_16_1_d_water_reservoirs_and_hydro_storage_plants"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A72 = Reservoir filling information"
+          example: "A72"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A16 = Realised"
+          example: "A16"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YCA-BULGARIA-R"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202307092100"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202307162100"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/16-1-b-c-actual-generation-per-production-type:
+    get:
+      tags:
+        - "Generation"
+      summary: "16.1.B&C Actual Generation per Production Type"
+      operationId: "generation_16_1_b_c_actual_generation_per_production_type"
+      description: |-
+        <u><b>Request limit</b></u>: Each request may cover a period of up to 1 year.
+        
+        Response from API is same irrespective of querying for Document Types A74 - Wind & Solar & A75 - Actual Generation Per Type
+        
+        Time series with inBiddingZone_Domain attribute reflects Generation values while outBiddingZone_Domain reflects Consumption values.**
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A75 = Actual generation per type (all production types); A74 = Wind and solar generation only"
+          example: "A75"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A16 = Realised"
+          example: "A16"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone, Country"
+          example: "10Y1001A1001A83F"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+        - name: "psrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B01 = Biomass; B02 = Fossil Brown coal/Lignite; B03 = Fossil Coal-derived gas; B04 = Fossil Gas; B05 = Fossil Hard coal; B06 = Fossil Oil; B07 = Fossil Oil shale; B08 = Fossil Peat; B09 = Geothermal; B10 = Hydro Pumped Storage; B11 = Hydro Run-of-river and poundage; B12 = Hydro Water Reservoir; B13 = Marine; B14 = Nuclear; B15 = Other renewable; B16 = Solar; B17 = Waste; B18 = Wind Offshore; B19 = Wind Onshore; B20 = Other; B25 = Energy storage"
+          example: "B01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/16-1-a-actual-generation-per-generation-unit:
+    get:
+      tags:
+        - "Generation"
+      summary: "16.1.A Actual Generation per Generation Unit"
+      operationId: "generation_16_1_a_actual_generation_per_generation_unit"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 day.
+        
+        **Important notes:**
+        
+        - Response from API is same irrespective of querying for Document Types A74 - Wind & Solar & A75 - Actual Generation Per Type
+            
+        - Time series with inBiddingZone_Domain attribute reflects **generation** values while outBiddingZone_Domain reflects **consumption** values.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A73 = Actual generation"
+          example: "A73"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A16 = Realised"
+          example: "A16"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+        - name: "PsrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B01 = Biomass; B02 = Fossil Brown coal/Lignite; B03 = Fossil Coal-derived gas; B04 = Fossil Gas; B05 = Fossil Hard coal; B06 = Fossil Oil; B07 = Fossil Oil shale; B08 = Fossil Peat; B09 = Geothermal; B10 = Hydro Pumped Storage; B11 = Hydro Run-of-river and poundage; B12 = Hydro Water Reservoir; B13 = Marine; B14 = Nuclear; B15 = Other renewable; B16 = Solar; B17 = Waste; B18 = Wind Offshore; B19 = Wind Onshore; B20 = Other; B25 = Energy storage"
+          example: "B14"
+        - name: "RegisteredResource"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC Code of a Generation Unit"
+          example: "22WAMERCO000008L"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/14-1-c-generation-forecast-day-ahead:
+    get:
+      tags:
+        - "Generation"
+      summary: "14.1.C Generation Forecast - Day ahead"
+      operationId: "generation_14_1_c_generation_forecast_day_ahead"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        Time series with inBiddingZone_Domain attribute reflects Generation values while outBiddingZone_Domain reflects Consumption values.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A71 = Generation forecast"
+          example: "A71"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Day ahead"
+          example: "A01"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone, Country"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/14-1-d-generation-forecasts-for-wind-and-solar:
+    get:
+      tags:
+        - "Generation"
+      summary: "14.1.D Generation Forecasts for Wind and Solar"
+      operationId: "generation_14_1_d_generation_forecasts_for_wind_and_solar"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A69 = Wind and solar forecast"
+          example: "A69"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Day ahead; A18 = Current; A40 = Intraday"
+          example: "A01"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or Country"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+        - name: "PsrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B16 = Solar; B18 = Wind Offshore; B19 = Wind Onshore;"
+          example: "B16"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /generation/14-1-b-installed-capacity-per-production-unit:
+    get:
+      tags:
+        - "Generation"
+      summary: "14.1.B Installed Capacity Per Production Unit"
+      operationId: "generation_14_1_b_installed_capacity_per_production_unit"
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A71 = Generation forecast"
+          example: "A71"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A33 = Year ahead"
+          example: "A33"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or Bidding Zone"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308020000"
+        - name: "PsrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B01 = Biomass; B02 = Fossil Brown coal/Lignite; B03 = Fossil Coal-derived gas; B04 = Fossil Gas; B05 = Fossil Hard coal; B06 = Fossil Oil; B07 = Fossil Oil shale; B08 = Fossil Peat; B09 = Geothermal; B10 = Hydro Pumped Storage; B11 = Hydro Run-of-river and poundage; B12 = Hydro Water Reservoir; B13 = Marine; B14 = Nuclear; B15 = Other renewable; B16 = Solar; B17 = Waste; B18 = Wind Offshore; B19 = Wind Onshore; B20 = Other; B25 = Energy storage"
+          example: "B02"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/12-1-g-cross-border-physical-flows:
+    get:
+      tags:
+        - "Transmission"
+      summary: "12.1.G Cross-Border Physical Flows"
+      operationId: "transmission_12_1_g_cross_border_physical_flows"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        Unlike Web GUI, API responds not netted values as data is requested per direction.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A11 = Aggregated energy data report"
+          example: "A11"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone, Country"
+          example: "10YDE-RWENET---I"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone, Country"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308242200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/11-1-a-forecasted-transfer-capacities:
+    get:
+      tags:
+        - "Transmission"
+      summary: "11.1.A Forecasted Transfer Capacities"
+      operationId: "transmission_11_1_a_forecasted_transfer_capacities"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A61 = Estimated Net Transfer Capacity"
+          example: "A61"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Day ahead; A02 = Week ahead; A03 = Month ahead; A04 = Year ahead"
+          example: "A01"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or Bidding Zone"
+          example: "10YGB----------A"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or Bidding Zone"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308152200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/12-1-f-commercial-schedules:
+    get:
+      tags:
+        - "Transmission"
+      summary: "12.1.F Commercial Schedules"
+      operationId: "transmission_12_1_f_commercial_schedules"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A09 = Finalised schedule"
+          example: "A09"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or a Country"
+          example: "10Y1001A1001A82H"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or a Country"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308242200"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Day Ahead Commercial Schedules; A05 = Total Commercial Schedules"
+          example: "A01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/12-1-f-commercial-schedules-net-positions:
+    get:
+      tags:
+        - "Transmission"
+      summary: "12.1.F Commercial Schedules - Net Positions"
+      operationId: "transmission_12_1_f_commercial_schedules_net_positions"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A09 = Finalised schedule"
+          example: "A09"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or a Country"
+          example: "10YAT-APG------L"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone or a Country (same as above)"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202506102200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202506112200"
+        - name: "contract_MarketAgreement.Type"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Day Ahead Commercial Schedules; A05 = Total Commercial Schedules"
+          example: "A01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/11-3-cross-border-capacity-of-dc-links-intraday-transfer-limits:
+    get:
+      tags:
+        - "Transmission"
+      summary: "11.3 Cross Border Capacity of DC Links - Intraday Transfer Limits"
+      operationId: "transmission_11_3_cross_border_capacity_of_dc_links_intraday_transfer_limits"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A93 = DC link capacity"
+          example: "A93"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone, Control Area or Country"
+          example: "11Y0-0000-0265-K"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone, Control Area or Country"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308160000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202308162200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/13-1-c-costs-of-congestion-management:
+    get:
+      tags:
+        - "Transmission"
+      summary: "13.1.C Costs of Congestion Management"
+      operationId: "transmission_13_1_c_costs_of_congestion_management"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A92 = Congestion costs"
+          example: "A92"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area"
+          example: "10YBE----------2"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area (same as out_Domain)"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/13-1-a-redispatching-internal:
+    get:
+      tags:
+        - "Transmission"
+      summary: "13.1.A Redispatching Internal"
+      operationId: "transmission_13_1_a_redispatching_internal"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A63 = Redispatch notice"
+          example: "A63"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A85 = Internal requirements"
+          example: "A85"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area"
+          example: "10YNL----------L"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area (must be same as out_Domain)"
+          example: "10YNL----------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202310312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311302300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/13-1-a-redispatching-cross-border:
+    get:
+      tags:
+        - "Transmission"
+      summary: "13.1.A Redispatching Cross Border"
+      operationId: "transmission_13_1_a_redispatching_cross_border"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A63 = Redispatch notice"
+          example: "A63"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = System Operator re-dispatching"
+          example: "A46"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area"
+          example: "10YAT-APG------L"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312010000"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/9-1-expansion-and-dismantling-project:
+    get:
+      tags:
+        - "Transmission"
+      summary: "9.1 Expansion and Dismantling Project"
+      operationId: "transmission_9_1_expansion_and_dismantling_project"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A90 = Interconnector network expension"
+          example: "A90"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone or a Control Area"
+          example: "10YHU-MAVIR----U"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone or a Control Area"
+          example: "10YSK-SEPS-----K"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B01 = interconnector network evolution; B02 = interconnector network dismantling"
+          example: "B01"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Intermediate; A02 = Final; A05 = Active; A09 = Cancelled; A13 = Withdrawn; X01 = Estimated"
+          example: "A01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /transmission/13-1-b-countertrading:
+    get:
+      tags:
+        - "Transmission"
+      summary: "13.1.B Countertrading"
+      operationId: "transmission_13_1_b_countertrading"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A91 = Counter trade notice"
+          example: "A91"
+        - name: "out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, or Bidding Zone"
+          example: "10YES-REE------0"
+        - name: "in_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, or Bidding Zone"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309122200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309132200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/15-1-c-d-unavailability-of-production-units:
+    get:
+      tags:
+        - "Outages"
+      summary: "15.1.C-D Unavailability of Production Units"
+      operationId: "outages_15_1_c_d_unavailability_of_production_units"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A77 = Production unit unavailability"
+          example: "A77"
+        - name: "BiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301312300"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A53 = Planned maintenance; A54 = Forced unavailability (unplanned outage)"
+          example: "A53"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A05 = Active; A09 = Cancelled; A13 = Withdrawn; (when not defined only Active and Cancelled outages are returned)"
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301152300"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301312300"
+        - name: "RegisteredResource"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC Code of Production Unit"
+          example: "22W20200608A---8"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Older versions of an outage is returned only when mRID parameter is used"
+          example: "-WmcUg9Da9u8AF3A_gx8UQ"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "1"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/15-1-a-b-unavailability-of-generation-units:
+    get:
+      tags:
+        - "Outages"
+      summary: "15.1.A&B Unavailability of Generation Units"
+      operationId: "outages_15_1_a_b_unavailability_of_generation_units"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A80 = Generation unavailability"
+          example: "A80"
+        - name: "BiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301022200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202401022200"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A53 = Planned maintenance; A54 = Forced unavailability (unplanned outage)"
+          example: "A53"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "DocStatus (when not defined only Active and Cancelled outages are returned): A05 = Active; A09 = Cancelled; A13 = Withdrawn"
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301031000"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301032200"
+        - name: "RegisteredResource"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC Code of Generation Unit"
+          example: "22WCOOX6X000064W"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Used to retrieve older versions of an outage"
+          example: "nCYGn4HPvOBiVrWtRFL35g"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/7-1-a-b-aggregated-unavailability-of-consumption-units:
+    get:
+      tags:
+        - "Outages"
+      summary: "7.1.A-B Aggregated Unavailability of Consumption Units"
+      operationId: "outages_7_1_a_b_aggregated_unavailability_of_consumption_units"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A76 = Load unavailability"
+          example: "A76"
+        - name: "BiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or a Bidding Zone (optional if mRID is present)"
+          example: "10Y1001A1001A82H"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (optional if PeriodStartUpdate is defined)"
+          example: "202310312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (optional if PeriodEndUpdate is defined)"
+          example: "202311302300"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A53 = Planned maintenance; A54 = Forced unavailability (unplanned outage)"
+          example: "A53"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/10-1-a-b-unavailability-of-transmission-infrastructure:
+    get:
+      tags:
+        - "Outages"
+      summary: "10.1.A&B Unavailability of Transmission Infrastructure"
+      operationId: "outages_10_1_a_b_unavailability_of_transmission_infrastructure"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A78 = Transmission unavailability"
+          example: "A78"
+        - name: "Out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10YFR-RTE------C"
+        - name: "In_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312012300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312022300"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A53 = Planned maintenance; A54 = Forced unavailability (unplanned outage)"
+          example: "A53"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: |-
+            DocStatus (when not defined only Active and Cancelled outages are returned)
+            A05	= Active
+            A09	= Cancelled
+            A13	= Withdrawn
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202111090000"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112212300"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Used to retrieve previous outage versions"
+          example: "A47mJe5e9jml9FeSL6jfKg"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/10-1-a-b-unavailability-of-transmission-infrastructure-available-capacity:
+    get:
+      tags:
+        - "Outages"
+      summary: "10.1.A&B Unavailability of Transmission Infrastructure - Available Capacity"
+      operationId: "outages_10_1_a_b_unavailability_of_transmission_infrastructure_available_capacity"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A78 = Transmission unavailability"
+          example: "A78"
+        - name: "ControlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312012300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312022300"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A53 = Planned maintenance; A54 = Forced unavailability (unplanned outage)"
+          example: "A53"
+        - name: "Asset_RegisteredResource.mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC code of a Transmission Asset"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: |-
+            DocStatus (when not defined only Active and Cancelled outages are returned)
+            A05	= Active
+            A09	= Cancelled
+            A13	= Withdrawn
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202111090000"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112212300"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Used to retrieve previous outage versions"
+          example: "A47mJe5e9jml9FeSL6jfKg"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/10-1-a-b-unavailability-of-transmission-infrastructure-net-position-impact:
+    get:
+      tags:
+        - "Outages"
+      summary: "10.1.A&B Unavailability of Transmission Infrastructure  - Net Position Impact"
+      operationId: "outages_10_1_a_b_unavailability_of_transmission_infrastructure_net_position_impact"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A78 = Transmission unavailability"
+          example: "A78"
+        - name: "pTDF_Domain.mRID"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312012300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312022300"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A53 = Planned maintenance; A54 = Forced unavailability (unplanned outage)"
+          example: "A53"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: |-
+            DocStatus (when not defined only Active and Cancelled outages are returned)
+            A05	= Active
+            A09	= Cancelled
+            A13	= Withdrawn
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202111090000"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112212300"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Used to retrieve previous outage versions"
+          example: "A47mJe5e9jml9FeSL6jfKg"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "0"
+        - name: "Asset_RegisteredResource.mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC Code of the Transmission Asset"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/10-1-c-unavailability-of-offshore-grid-infrastructure:
+    get:
+      tags:
+        - "Outages"
+      summary: "10.1.C Unavailability of Offshore Grid Infrastructure"
+      operationId: "outages_10_1_c_unavailability_of_offshore_grid_infrastructure"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A79 = Offshore grid infrastructure unavailability"
+          example: "A79"
+        - name: "BiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area, Bidding Zone (optional if mRID is present)"
+          example: "10Y1001A1001A82H"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (optional if PeriodStartUpdate is defined)"
+          example: "202301142300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (optional if PeriodEndUpdate is defined)"
+          example: "202301152300"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "DocStatus (when not defined only Active and Cancelled outages are returned) - A05\t= Active; A09\t= Cancelled; A13\t= Withdrawn"
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (mandatory if PeriodStart and PeriodEnd are not defined)"
+          example: "202312010000"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (mandatory if PeriodStart and PeriodEnd are not defined)"
+          example: "202312020000"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Used to retrieve previous outage versions"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /outages/fall-backs-ifs-in-7-2-mfrr-3-11-afrr-3-10:
+    get:
+      tags:
+        - "Outages"
+      summary: "Fall-backs [IFs IN 7.2, mFRR 3.11, aFRR 3.10]"
+      operationId: "outages_fall_backs_ifs_in_7_2_mfrr_3_11_afrr_3_10"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 XML documents, where `offset=0` returns the first 100 documents, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A53 = Outage publication document"
+          example: "A53"
+        - name: "ProcessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A47 = Manual frequency restoration reserve; A51 = Automatic frequency restoration reserve; A63 = Imbalance Netting"
+          example: "A51"
+        - name: "BusinessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "C47 = Disconnection; A53 = Planned maintenance; A54: Unplanned outage; A83 = Auction cancellation (used in case no solution found or algorithm failure)"
+          example: "C47"
+        - name: "BiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a CTA/LFA/REG"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (optional if PeriodStartUpdate is defined)"
+          example: "202301010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (optional if PeriodEndUpdate is defined)"
+          example: "202401020000"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A13: Withdrawn (used to return withdrawn documents). By default withdrawn publications are not returned."
+          example: "A13"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Used to retrieve previous publication versions"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 100 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/17-1-f-prices-of-activated-balancing-energy:
+    get:
+      tags:
+        - "Balancing"
+      summary: "17.1.F Prices of Activated Balancing Energy"
+      operationId: "balancing_17_1_f_prices_of_activated_balancing_energy"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A84 = Activated balancing prices"
+          example: "A84"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A16\t= Realised; A60 = Scheduled activation mFRR; A61 = Direct activation mFRR; A68 = Local Selection aFRR"
+          example: "A16"
+        - name: "controlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC Code of a LFA, IPA, or a SCA"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309032200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309042200"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A95 = Frequency containment reserve; A96 = Automatic frequency restoration reserve; A97 = Manual frequency restoration reserve; A98 = Replacement reserve"
+          example: "A96"
+        - name: "ExportType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Note: This parameter is planned to be discontinued in R3.09 (October 2023)"
+          example: "zip"
+        - name: "PsrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A04 = Generation; A05 = Load"
+          example: "A04"
+        - name: "Standard_MarketProduct"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Standard"
+          example: "A01"
+        - name: "Original_MarketProduct"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A02 = Specific; A04 = Local"
+          example: "A02"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/if-afrr-3-16-cross-border-marginal-prices-cbmps-for-afrr-central-selection-cs:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IF aFRR 3.16 Cross Border Marginal Prices (CBMPs) for aFRR Central Selection (CS)"
+      operationId: "balancing_if_afrr_3_16_cross_border_marginal_prices_cbmps_for_afrr_central_selection_cs"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 day."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A84 = Activated balancing prices"
+          example: "A84"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A67 = Central Selection aFRR"
+          example: "A67"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A96 = automatic frequency restoration reserve"
+          example: "A96"
+        - name: "Standard_MarketProduct"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Standard"
+          example: "A01"
+        - name: "controlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a LFA, SCA, IPA"
+          example: "10YDE-VE-------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311082300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311092300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/12-3-b-c-balancing-energy-bids:
+    get:
+      tags:
+        - "Balancing"
+      summary: "12.3.B&C Balancing energy bids"
+      operationId: "balancing_12_3_b_c_balancing_energy_bids"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A37 = Reserve bid document"
+          example: "A37"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B74 = Offer"
+          example: "B74"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve; A47 = Manual frequency restoration reserve; A51 = Automatic frequency restoration reserve"
+          example: "A47"
+        - name: "connecting_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000. Note data is archived after 93 days of retention period. Therefore the requested date should be within the retention period."
+          example: "202310072200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000. Note data is archived after 93 days of retention period. Therefore the requested date should be within the retention period."
+          example: "202310082200"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "1000"
+        - name: "Standard_MarketProduct"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Standard; A05 = Standard mFRR scheduled activation; A07 = Standard mFRR direct activation"
+          example: "A01"
+        - name: "Original_MarketProduct"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A02 = Specific; A03 = Integrated Process; A04 = Local"
+          example: "A02"
+        - name: "Direction"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Up; A02 = Down"
+          example: "A01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/12-3-b-c-balancing-energy-bids-archives:
+    get:
+      tags:
+        - "Balancing"
+      summary: "12.3.B&C Balancing energy bids archives"
+      operationId: "balancing_12_3_b_c_balancing_energy_bids_archives"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 ZIP files contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 ZIP archives, where`offset=0` returns the first 100 archives, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A37 = Reserve bid document"
+          example: "A37"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B74 = Offer"
+          example: "B74"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve; A47 = Manual frequency restoration reserve; A51 = Automatic frequency restoration reserve."
+          example: "A47"
+        - name: "connecting_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YBE----------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000. Note data is archived after 93 days of retention period. Therefore the requested period should not be within the retention period."
+          example: "202310072200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000. Note data is archived after 93 days of retention period. Therefore the requested period should not be within the retention period."
+          example: "202310082200"
+        - name: "storageType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Used to request archives"
+          example: "archive "
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first archive to return. The offset parameter paginates the response in batches of 100 archives (e.g., offset = n returns the archives in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-mfrr-9-9-afrr-9-6-9-8-changes-to-bid-availability:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs mFRR 9.9, aFRR 9.6&9.8 Changes to Bid Availability"
+      operationId: "balancing_ifs_mfrr_9_9_afrr_9_6_9_8_changes_to_bid_availability"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B45 = Bid Availability Document"
+          example: "B45"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A47"
+          example: "A47"
+        - name: "Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area or LFA"
+          example: "10YDE-VE-------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309242200"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C40 = Conditional bid; C41 = Thermal limit; C42 = Frequency limit; C43 = Voltage limit; C44 = Current limit; C45 = Short-circuit current limits; C46 = Dynamic stability limit"
+          example: "C46"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "100"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-mfrr-9-9-afrr-9-6-9-8-changes-to-bid-availability-archives:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs mFRR 9.9, aFRR 9.6&9.8 Changes to Bid Availability Archives"
+      operationId: "balancing_ifs_mfrr_9_9_afrr_9_6_9_8_changes_to_bid_availability_archives"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 ZIP files contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 ZIP archives, where`offset=0` returns the first 100 archives, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B45 = Bid Availability Document"
+          example: "B45"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A47"
+          example: "A47"
+        - name: "Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area or LFA"
+          example: "10YDE-VE-------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309242200"
+        - name: "storageType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Used to request archives"
+          example: "archive"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C40 = Conditional bid; C41 = Thermal limit; C42 = Frequency limit; C43 = Voltage limit; C44 = Current limit; C45 = Short-circuit current limits; C46 = Dynamic stability limit"
+          example: "C46"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first archive to return. The offset parameter paginates the response in batches of 100 archives (e.g., offset = n returns the archives in the range n+1 to n+100)."
+          example: "100"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/12-3-e-aggregated-balancing-energy-bids-gl-eb:
+    get:
+      tags:
+        - "Balancing"
+      summary: "12.3.E Aggregated Balancing Energy Bids (GL EB)"
+      operationId: "balancing_12_3_e_aggregated_balancing_energy_bids_gl_eb"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A24 = Bid document"
+          example: "A24"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A51 = Automatic frequency restoration reserve; A46 = Replacement reserve; A47 = Manual frequency restoration reserve; A60 = Scheduled activation mFRR;  A61 = Direct activation mFRR; A67 = Central Selection aFRR; A68 = Local Selection aFRR"
+          example: "A51"
+        - name: "area_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309022200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309032200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-3-10-3-16-3-17-netted-and-exchanged-volumes:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs 3.10, 3.16 & 3.17 Netted and Exchanged Volumes"
+      operationId: "balancing_ifs_3_10_3_16_3_17_netted_and_exchanged_volumes"
+      description: |-
+        <u><b>Request limit:</b></u>
+        
+        - For aFRR: Each request may cover a period of up to 1 day.
+            
+        - For other process types: Each request may cover a period of up to 1 year.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B17 = Aggregated netted external TSO schedule document"
+          example: "B17"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A60 = mFRR with Scheduled Activation; A61 = mFRR with Direct Activation; A51 = Automatic Frequency Restoration Reserve; A63= Imbalance Netting"
+          example: "A63"
+        - name: "Acquiring_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a LFA or SCA"
+          example: "10YDE-VE-------2"
+        - name: "Connecting_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a LFA or SCA"
+          example: "10YDE-VE-------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301012300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301022300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-3-10-3-16-3-17-netted-and-exchanged-volumes-per-border:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs 3.10, 3.16 & 3.17 Netted and Exchanged Volumes per Border"
+      operationId: "balancing_ifs_3_10_3_16_3_17_netted_and_exchanged_volumes_per_border"
+      description: |-
+        <u><b>Request limit:</b></u>
+        
+        - For aFRR: Each request may cover a period of up to 1 day.
+            
+        - For other process types: Each request may cover a period of up to 1 year.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A30 =  Cross border schedule"
+          example: "A30"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A60 = mFRR with Scheduled Activation; A61 = mFRR with Direct Activation; A51 = Automatic Frequency Restoration Reserve; A63= Imbalance Netting"
+          example: "A60"
+        - name: "Acquiring_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a LFA or SCA"
+          example: "10YBE----------2"
+        - name: "Connecting_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a LFA or SCA"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202503010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202503020000"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-afrr-3-4-mfrr-3-4-elastic-demands:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs aFRR 3.4 & mFRR 3.4 Elastic Demands"
+      operationId: "balancing_ifs_afrr_3_4_mfrr_3_4_elastic_demands"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A37 = Reserve bid document"
+          example: "A37"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B75 = Need"
+          example: "B75"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A51 = Automatic Frequency Restoration Reserve; A47 = Manual Frequency Restoration Reserve"
+          example: "A47"
+        - name: "Acquiring_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311302300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312012300"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/17-1-b-c-volumes-and-prices-of-contracted-reserves:
+    get:
+      tags:
+        - "Balancing"
+      summary: "17.1.B&C Volumes and Prices of Contracted Reserves"
+      operationId: "balancing_17_1_b_c_volumes_and_prices_of_contracted_reserves"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A81 = Contracted reserves"
+          example: "A81"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B95 = Procured capacity "
+          example: "B95"
+        - name: "Type_MarketAgreement.Type"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A01 = Daily; A02 = Weekly; A03 = Monthly; A04 = Yearly; A06 = Long term; A13 = Hourly"
+          example: "A01"
+        - name: "controlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309242200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202309252200"
+        - name: "processType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A51 = Automatic frequency restoration reserve; A52 =  Frequency containment reserve; A47 = Manual frequency restoration reserve; A46 = Replacement reserve"
+          example: "A52"
+        - name: "psrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A03 = Mixed; A04 = Generation; A05 = Load"
+          example: "A04"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/12-3-f-procured-balancing-capacity-gl-eb:
+    get:
+      tags:
+        - "Balancing"
+      summary: "12.3.F Procured balancing capacity (GL EB)"
+      operationId: "balancing_12_3_f_procured_balancing_capacity_gl_eb"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A15 = Acquiring system operator reserve schedule"
+          example: "A15"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve; A47 = Manual frequency restoration reserve; A51 = Automatic frequency restoration reserve; A52 = Frequency containment reserve"
+          example: "A51"
+        - name: "area_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Scheduling Area"
+          example: "10YDE-VE-------2"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202306150000"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "[M ]Pattern yyyyMMddHHmm e.g. 201601010000 (IMPOTANT NOTE: Minimum time interval in query response ranges from part of day to year, depending on selected Type_MarketAgreement.Type. Minimum is 1 hour for this data item.)"
+          example: "202306150100"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "0"
+        - name: "Type_MarketAgreement.Type"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Daily; A02 = Weekly; A03 = Monthly; A04 = Yearly; A05 = Total; A06 = Long term; A07 = Intraday; A13 = Hourly"
+          example: "A01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/187-2-fcr-total-capacity-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "187.2 FCR Total capacity (SO GL)"
+      operationId: "balancing_187_2_fcr_total_capacity_so_gl"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A25 = General Capacity Information"
+          example: "A25"
+        - name: "area_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Synchronous Area"
+          example: "10YEU-CONT-SYNC0"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202412312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/187-2-shares-of-fcr-capacity-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "187.2 Shares of FCR capacity (SO GL)"
+      operationId: "balancing_187_2_shares_of_fcr_capacity_so_gl"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C23 = Share of reserve capacity"
+          example: "C23"
+        - name: "area_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Synchronous Area"
+          example: "10YFR-RTE------C"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202412312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/190-2-sharing-of-fcr-between-sas-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "190.2 Sharing of FCR between SAs (SO GL)"
+      operationId: "balancing_190_2_sharing_of_fcr_between_sas_so_gl"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A52 = Frequency containment reserve"
+          example: "A52"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C22 = Shared Balancing Reserve Capacity"
+          example: "C22"
+        - name: "area_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Scheduling Area"
+          example: "10Y1001A1001A59C"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "201510302300"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "201512152300"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/188-3-189-2-frr-rr-capacity-outlook-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "188.3 & 189.2 FRR & RR Capacity Outlook (SO GL)"
+      operationId: "balancing_188_3_189_2_frr_rr_capacity_outlook_so_gl"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = Replacement Reserve; A56 = Frequency Restoration Reserve"
+          example: "A56"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "C76 = Forecasted capacity"
+          example: "C76"
+        - name: "area_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of LFB Area"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202412312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/188-4-189-3-frr-and-rr-actual-capacity-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "188.4 & 189.3 FRR and RR Actual Capacity (SO GL)"
+      operationId: "balancing_188_4_189_3_frr_and_rr_actual_capacity_so_gl"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve; A56 = Frequency restoration reserve"
+          example: "A56"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "C77 = Min; C78 = Avg; C79 = Max"
+          example: "C77"
+        - name: "area_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC Code of LFB Area"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202312312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202403312200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/189-2-outlook-of-reserve-capacities-on-rr-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "189.2 Outlook of Reserve Capacities on RR (SO GL)"
+      operationId: "balancing_189_2_outlook_of_reserve_capacities_on_rr_so_gl"
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve"
+          example: "A46"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C76 = Forecasted capacity"
+          example: "C76"
+        - name: "area_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Scheduling Area"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212310000"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202305010000"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Optional parameter"
+          example: "100"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/189-3-rr-actual-capacity-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "189.3 RR Actual Capacity(SO GL)"
+      operationId: "balancing_189_3_rr_actual_capacity_so_gl"
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve"
+          example: "A46"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C77 = Min"
+          example: "C77"
+        - name: "area_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Scheduling Area"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212310000"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202305010000"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Optional parameter"
+          example: "100"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/17-1-i-financial-expenses-and-income-for-balancing:
+    get:
+      tags:
+        - "Balancing"
+      summary: "17.1.I Financial Expenses and Income for Balancing"
+      operationId: "balancing_17_1_i_financial_expenses_and_income_for_balancing"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A87 = Financial situation"
+          example: "A87"
+        - name: "controlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Control Area or a Market Balance Area"
+          example: "10YHU-MAVIR----U"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202301312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202302282300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/12-3-h-i-allocation-and-use-of-cross-zonal-balancing-capacity:
+    get:
+      tags:
+        - "Balancing"
+      summary: "12.3.H&I Allocation and use of cross-zonal balancing capacity"
+      operationId: "balancing_12_3_h_i_allocation_and_use_of_cross_zonal_balancing_capacity"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 instances contained in the ZIP response. One instance can be split into up to 8 TimeSeries. The total number of files in the ZIP file is variable and depends on the values of the dividing elements - allocation decision time, domain.mRID, etc.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A38 = Reserve allocation result document"
+          example: "A38"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A46 = Replacement reserve; A47 = Manual frequency restoration reserve; A51 = Automatic frequency restoration reserve; A52 = Frequency containment reserve"
+          example: "A51"
+        - name: "Connecting_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone"
+          example: "10Y1001A1001A47J"
+        - name: "Acquiring_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone"
+          example: "10YDK-2--------M"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202306150000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202306152200"
+        - name: "Type_MarketAgreement.Type"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A01 = Daily; A02 = Weekly; A06 = Long term"
+          example: "A01"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-4-5-permanent-allocation-limitations-to-cross-border-capacity-on-hvdc-lines:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs 4.5 Permanent Allocation Limitations to Cross-border Capacity on HVDC Lines"
+      operationId: "balancing_ifs_4_5_permanent_allocation_limitations_to_cross_border_capacity_on_hvdc_lines"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A99 = HVDC Link constraints"
+          example: "A99"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A51 = Automatic Frequency Restoration Reserve; A63= Imbalance Netting; A47 = Manual frequency restoration reserve"
+          example: "A63"
+        - name: "BusinessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B06 = DC Link constraint"
+          example: "B06"
+        - name: "Out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area or LFC area"
+          example: "10YNL----------L"
+        - name: "In_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area or LFC area"
+          example: "10YDK-1--------W"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202101010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112310000"
+        - name: "registeredResource"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC of interconnector (If used, data for the given Transmission Asset is returned, otherwise, data for IC not specified is returned.)"
+          example: "10T-DK-NL-000012"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/ifs-4-3-4-4-balancing-border-capacity-limitations:
+    get:
+      tags:
+        - "Balancing"
+      summary: "IFs 4.3 & 4.4 Balancing Border Capacity Limitations"
+      operationId: "balancing_ifs_4_3_4_4_balancing_border_capacity_limitations"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A31 = Agreed capacity"
+          example: "A31"
+        - name: "BusinessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A26 = Available Transfer Capacity"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A51 = Automatic Frequency Restoration Reserve; A63= Imbalance Netting; A47 = Manual frequency restoration reserve"
+          example: "A47"
+        - name: "Out_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of an LFC Area (LFA) or Scheduling area (SCA)"
+          example: "10YCZ-CEPS-----N"
+        - name: "In_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of an LFC Area (LFA) or Scheduling area (SCA)"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202401312300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202402012300"
+        - name: "registeredResource"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "EIC code of a Transmission Asset: If used, data for the given Transmission Asset is returned, otherwise, data for IC not specified is returned."
+          example: "22T201903146---W"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/190-1-sharing-of-rr-and-frr-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "190.1 Sharing of RR and FRR (SO GL)"
+      operationId: "balancing_190_1_sharing_of_rr_and_frr_so_gl"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A56 = Frequency restoration reserve"
+          example: "A56"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C22 = Shared balancing reserve capacity"
+          example: "C22"
+        - name: "Acquiring_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Load Frequency Control Block"
+          example: "10YAT-APG------L"
+        - name: "Connecting_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Load Frequency Control Block"
+          example: "10YCB-GERMANY--8"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202101010000"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112310000"
+        - name: "offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "0"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/190-3-exchanged-reserve-capacity-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "190.3 Exchanged Reserve Capacity (SO GL)"
+      operationId: "balancing_190_3_exchanged_reserve_capacity_so_gl"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A26 = Capacity document"
+          example: "A26"
+        - name: "processType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A46 =  Replacement reserve"
+          example: "A46"
+        - name: "BusinessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "C21 =  Exchanged balancing reserve capacity"
+          example: "C21"
+        - name: "Acquiring_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Load Frequency Control Block"
+          example: "10YAT-APG------L"
+        - name: "Connecting_Domain"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "Load Frequency Control Block"
+          example: "10YCB-GERMANY--8"
+        - name: "periodStart"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202101010000"
+        - name: "periodEnd"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202112310000"
+        - name: "Offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first TimeSeries to return. The offset parameter paginates the response in batches of 100 TimeSeries (e.g., offset = n returns the TimeSeries in the range n+1 to n+100)."
+          example: "1"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/17-1-g-imbalance-prices:
+    get:
+      tags:
+        - "Balancing"
+      summary: "17.1.G Imbalance prices"
+      operationId: "balancing_17_1_g_imbalance_prices"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A85 = Imbalance prices"
+          example: "A85"
+        - name: "controlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area or Market Balancing Area"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202401010000"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202401050000"
+        - name: "PsrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A04 = Generation; A05 = Load"
+          example: "A04"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/17-1-h-total-imbalance-volumes:
+    get:
+      tags:
+        - "Balancing"
+      summary: "17.1.H Total Imbalance Volumes"
+      operationId: "balancing_17_1_h_total_imbalance_volumes"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A86 = Imbalance volume"
+          example: "A86"
+        - name: "controlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area or Market Balance Area"
+          example: "10YAT-APG------L"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311032300"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202311042300"
+        - name: "businessType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A19: Balance Energy Deviation (default value when not specified)"
+          example: "A19"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/12-3-a-current-balancing-state-gl-eb:
+    get:
+      tags:
+        - "Balancing"
+      summary: "12.3.A Current balancing state [GL EB]"
+      operationId: "balancing_12_3_a_current_balancing_state_gl_eb"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 100 days."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A86 = Imbalance volume"
+          example: "A86"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B33 = Area Control Error"
+          example: "B33"
+        - name: "area_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YHU-MAVIR----U"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202405292200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202405302200"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /balancing/185-4-results-of-the-criteria-application-process-measurements-so-gl:
+    get:
+      tags:
+        - "Balancing"
+      summary: "185.4 Results of the Criteria Application Process - Measurements (SO GL)"
+      operationId: "balancing_185_4_results_of_the_criteria_application_process_measurements_so_gl"
+      description: "<u><b>Request limit:</b></u> Each request may cover a period of up to 1 year."
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A45 =  Measurement Value Document"
+          example: "A45"
+        - name: "processType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A64 = Criteria application for instantaneous frequency (For SNA); A65: Criteria application for frequency restoration (for LFC Block)"
+          example: "A65"
+        - name: "area_domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC Code of a SNA (for processType A64) or LFC Block (for processType A65)"
+          example: "10YCZ-CEPS-----N"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202209302200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202212312300"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /master-data/production-and-generation-units:
+    get:
+      tags:
+        - "Master Data"
+      summary: "Production and Generation Units"
+      operationId: "master_data_production_and_generation_units"
+      description: "> Response contains commissioned production units for given day"
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "A95 = Configuration document"
+          example: "A95"
+        - name: "businessType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "B11 = Production unit"
+          example: "B11"
+        - name: "BiddingZone_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Bidding Zone or a Control Area"
+          example: "10YBE----------2"
+        - name: "Implementation_DateAndOrTime"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Pattern yyyy-MM-dd e.g. 2017-01-01"
+          example: "2017-01-01"
+        - name: "psrType"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "B01 = Biomass; B02 = Fossil Brown coal/Lignite; B03 = Fossil Coal-derived gas; B04 = Fossil Gas; B05 = Fossil Hard coal; B06 = Fossil Oil; B07 = Fossil Oil shale; B08 = Fossil Peat; B09 = Geothermal; B10 = Hydro Pumped Storage; B11 = Hydro Run-of-river and poundage; B12 = Hydro Water Reservoir; B13 = Marine; B14 = Nuclear; B15 = Other renewable; B16 = Solar; B17 = Waste; B18 = Wind Offshore; B19 = Wind Onshore; B20 = Other"
+          example: "B04"
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+  /omi/other-market-information:
+    get:
+      tags:
+        - "OMI"
+      summary: "Other Market Information"
+      operationId: "omi_other_market_information"
+      description: |-
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
+        
+        - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
+            
+        - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
+            
+        
+        <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
+      parameters:
+        - name: "documentType"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "Other market information"
+          example: "B47"
+        - name: "ControlArea_Domain"
+          in: "query"
+          required: true
+          schema:
+            type: "string"
+          description: "EIC code of a Scheduling Area"
+          example: "10YDE-EON------1"
+        - name: "periodStart"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202409232200"
+        - name: "periodEnd"
+          in: "query"
+          required: true
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000"
+          example: "202409242200"
+        - name: "DocStatus"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "A05: Active; A09: Cancelled; A13: Withdrawn"
+          example: "A05"
+        - name: "PeriodStartUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (mandatory if PeriodStart and PeriodEnd are not defined)"
+          example: "202402221000"
+        - name: "PeriodEndUpdate"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Pattern yyyyMMddHHmm e.g. 201601010000 (mandatory if PeriodStart and PeriodEnd are not defined)"
+          example: "202402231200"
+        - name: "Offset"
+          in: "query"
+          required: false
+          schema:
+            type: "integer"
+          description: "Integer: Zero‑based index of the first XML document to return. The offset parameter paginates the response in batches of 200 XML documents (e.g., offset = n returns the XMLs in the range n+1 to n+200)."
+          example: "12"
+        - name: "mRID"
+          in: "query"
+          required: false
+          schema:
+            type: "string"
+          description: "If mRID is included, individual versions of the particular event are queried using the rest of the parameters"
+          example: "NDE5ODBiYjFkM2ExMTljYTM5Mzk2ODcxNDFkZDE4MzU="
+      responses:
+        "200":
+          description: "Successful response"
+          content:
+            application/xml:
+              schema:
+                type: "string"
+components:
+  securitySchemes:
+    SecurityToken:
+      type: "apiKey"
+      in: "query"
+      name: "securityToken"

@@ -1,0 +1,12 @@
+*.bak
+*.jl.*.cov
+*.jl.cov
+*.jl.mem
+*.rej
+.DS_Store
+/Manifest*.toml
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+docs/build/
+docs/package-lock.json
+node_modules/
