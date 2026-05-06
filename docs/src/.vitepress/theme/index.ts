@@ -17,7 +17,7 @@ import Authors from '@/Authors.vue'
 import SidebarDrawerToggle from '@/SidebarDrawerToggle.vue'
 
 import { enhanceAppWithTabs } from 'vitepress-plugin-tabs/client'
-import { theme as openapiTheme, useOpenapi } from 'vitepress-openapi/client'
+import { theme as openapiTheme, useOpenapi, useTheme } from 'vitepress-openapi/client'
 import 'vitepress-openapi/dist/style.css'
 import spec from '../../public/openapi.json'
 
@@ -39,9 +39,24 @@ export const Theme: ThemeConfig = {
     app.component('VersionPicker', VersionPicker)
     app.component('AuthorBadge', AuthorBadge)
     app.component('Authors', Authors)
-    // Single-column layout reads better on documentation sites; two-column
-    // mode (the default) crams the playground next to the schema.
-    useOpenapi({ spec, config: { operation: { cols: 1 } } })
+    useOpenapi({ spec })
+    // Configure how each `<OAOperation>` renders.
+    //
+    // - `cols: 1` — single-column layout reads better on doc sites; the
+    //   default two-column mode crams the playground next to the schema.
+    // - `hiddenSlots` — drop the per-operation sub-sections (Authorizations
+    //   / Parameters / Responses / Playground / Samples). vitepress-openapi
+    //   renders their headings at the same level as the operation summary
+    //   (`<h2>`) and does NOT operation-scope the heading IDs, so on a tag
+    //   page with N operations the right-side TOC ends up with N x 5
+    //   duplicate-anchor entries. Hiding the slots is the cleanest fix
+    //   until upstream operation-scopes the IDs.
+    useTheme({
+      operation: {
+        cols: 1,
+        hiddenSlots: ['security', 'parameters', 'responses', 'playground', 'code-samples'],
+      },
+    })
     openapiTheme.enhanceApp({ app })
   },
 }
