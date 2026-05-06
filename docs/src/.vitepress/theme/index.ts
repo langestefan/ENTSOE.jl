@@ -44,17 +44,20 @@ export const Theme: ThemeConfig = {
     //
     // - `cols: 1` — single-column layout reads better on doc sites; the
     //   default two-column mode crams the playground next to the schema.
-    // - `hiddenSlots` — drop the per-operation sub-sections (Authorizations
-    //   / Parameters / Responses / Playground / Samples). vitepress-openapi
-    //   renders their headings at the same level as the operation summary
-    //   (`<h2>`) and does NOT operation-scope the heading IDs, so on a tag
-    //   page with N operations the right-side TOC ends up with N x 5
-    //   duplicate-anchor entries. Hiding the slots is the cleanest fix
-    //   until upstream operation-scopes the IDs.
+    // - `headingLevels: { h2: 4 }` — OAOperation labels its sub-sections
+    //   (Authorizations / Parameters / Responses / Playground / Code
+    //   Samples) with `<OAHeading level="h2">`, which by default emits
+    //   `<h2>` and lands in VitePress's right-side TOC right next to the
+    //   operation summary (also `<h2>`). The IDs are NOT operation-scoped
+    //   either, so on a page with N operations the TOC fills with N x 5
+    //   duplicate-anchor entries. Pushing those component headings to
+    //   `<h4>` drops them from the outline (default range `[2, 3]`) while
+    //   keeping every section — including the Playground / Try-it-out
+    //   button — fully rendered.
     useTheme({
+      headingLevels: { h2: 4 },
       operation: {
         cols: 1,
-        hiddenSlots: ['security', 'parameters', 'responses', 'playground', 'code-samples'],
       },
     })
     openapiTheme.enhanceApp({ app })
