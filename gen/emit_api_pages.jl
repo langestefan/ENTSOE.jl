@@ -15,7 +15,7 @@
 # overwritten; tags removed from the spec leave stale files behind, which
 # the user can clean up manually.
 
-using JSON
+using JSON: JSON
 
 function emit_api_pages(spec_path::AbstractString, dst_dir::AbstractString)
     isfile(spec_path) ||
