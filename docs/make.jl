@@ -54,7 +54,13 @@ function _api_pages(spec_path::AbstractString, src_dir::AbstractString)
             println(body, "`", op.method, " ", op.path, "`")
             println(body)
             println(body, "```@raw html")
-            println(body, "<OAOperation operationId=\"", op.operationId, "\" />")
+            # `prefix-headings="true"` makes vitepress-openapi prefix every
+            # sub-section anchor ID with this operation's `operationId`
+            # (e.g. `<operationId>-authorizations`), so the inner TOC links
+            # resolve to the right section instead of all collapsing onto
+            # the first occurrence on the page. See the `headingLevels` /
+            # `prefix-headings` note in `.vitepress/theme/index.ts`.
+            println(body, "<OAOperation operationId=\"", op.operationId, "\" prefix-headings=\"true\" />")
             println(body, "```")
             println(body)
         end
