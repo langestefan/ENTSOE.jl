@@ -49,9 +49,16 @@ function _api_pages(spec_path::AbstractString, src_dir::AbstractString)
         # sub-heading collapses onto the same anchor in VitePress's right-
         # side TOC. Limiting the outline to level-2 means each operation's
         # summary heading is the only TOC entry — and it links correctly.
+        #
+        # Frontmatter is wrapped in `@raw html` so Documenter passes the
+        # `---` block through verbatim instead of parsing it as a setext
+        # heading or thematic break. Same pattern DocumenterVitepress uses
+        # in its own docs (see `DocumenterVitepress/docs/src/api.md`).
+        println(body, "```@raw html")
         println(body, "---")
         println(body, "outline: [2, 2]")
         println(body, "---")
+        println(body, "```")
         println(body)
         println(body, "# ", titlecase(tag))
         println(body)
