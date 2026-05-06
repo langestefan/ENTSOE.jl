@@ -16,7 +16,7 @@
 
 using Pkg
 
-const SPEC_URL = "/home/langestefan/Nextcloud/Projects/2026/EntsoE.jl/entsoe-openapi.json"
+const SPEC_URL = joinpath(dirname(@__DIR__), "spec", "openapi.json")
 const API_PKG = "EntsoEAPI"
 const GENERATOR_VERSION = "7.10.0"
 const NPM_WRAPPER_VERSION = "2.21.4"
@@ -86,7 +86,11 @@ function main()
         Pkg.PlatformEngines.download(SPEC_URL, spec_local)
     else
         isfile(SPEC_URL) || error("Spec not found: $SPEC_URL")
-        cp(SPEC_URL, spec_local; force = true)
+        if realpath(SPEC_URL) == realpath(spec_local)
+            @info "Spec already at canonical location $spec_local; skipping copy"
+        else
+            cp(SPEC_URL, spec_local; force = true)
+        end
     end
 
     mktempdir() do tmp

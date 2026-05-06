@@ -26,9 +26,9 @@ gen/
   openapi-config.json
 spec/
   openapi.json           # canonical OpenAPI 3.1 spec consumed by codegen
-entsoe-openapi.{json,yaml}            # post-processed spec at repo root (see below)
-Transparency Platform Restful API.postman_collection.json   # original ENTSO-E source
-scripts/postman_to_openapi.jl         # converter (one-file Julia, self-installing deps)
+  openapi.yaml           # human-readable mirror (regenerated alongside the JSON)
+  Transparency Platform Restful API.postman_collection.json   # original ENTSO-E source
+scripts/postman_to_openapi.jl         # Postman → OpenAPI converter (one-file Julia, self-installing deps)
 ```
 
 The generated `src/api/` directory carries `linguist-generated=true` in `.gitattributes`. Re-running `gen/regenerate.jl` nukes and re-creates `src/api/` only — nothing else.
@@ -45,10 +45,10 @@ Anything we want re-exported from the package goes through that include. If you 
 
 ## Postman → OpenAPI conversion
 
-ENTSO-E publishes its API exclusively through a Postman collection — there is no official OpenAPI spec. The codegen pipeline needs OpenAPI, so we built a custom converter. Two artifacts at the repo root carry this:
+ENTSO-E publishes its API exclusively through a Postman collection — there is no official OpenAPI spec. The codegen pipeline needs OpenAPI, so we built a custom converter. Both the upstream source and the derived spec live in `spec/`:
 
-- `Transparency Platform Restful API.postman_collection.json` — the original Postman v2.1 export from ENTSO-E (~7.5 MB, 77 leaf requests across 8 groups). Treat it as the source of truth for parameter semantics: every parameter description starts with `[M]` (mandatory) or `[O]` (optional) and lists the allowed enum values inline (e.g. `[M] A25 = Allocation results`).
-- `entsoe-openapi.json` and `entsoe-openapi.yaml` — the post-processed OpenAPI 3.1 spec produced by `scripts/postman_to_openapi.jl`. `gen/regenerate.jl` consumes the JSON form (it gets copied into `spec/openapi.json` for codegen).
+- `spec/Transparency Platform Restful API.postman_collection.json` — the original Postman v2.1 export from ENTSO-E (~7.5 MB, 77 leaf requests across 8 groups). Treat it as the source of truth for parameter semantics: every parameter description starts with `[M]` (mandatory) or `[O]` (optional) and lists the allowed enum values inline (e.g. `[M] A25 = Allocation results`).
+- `spec/openapi.json` and `spec/openapi.yaml` — the post-processed OpenAPI 3.1 spec produced by `scripts/postman_to_openapi.jl`. `gen/regenerate.jl` reads the JSON form directly to drive `openapi-generator-cli`. The YAML is a human-readable mirror of the same content.
 
 ### Why we didn't use a generic Postman→OpenAPI tool
 
@@ -68,14 +68,14 @@ The script is dependency-self-bootstrapping: on first run it activates `~/.julia
 
 ### Re-running it
 
-If ENTSO-E publishes an updated Postman collection, drop it in at the repo root with the same filename and run:
+If ENTSO-E publishes an updated Postman collection, drop it into `spec/` with the same filename and run:
 
 ```bash
-julia scripts/postman_to_openapi.jl                       # rewrites entsoe-openapi.{yaml,json}
-julia --project gen/regenerate.jl --from-file entsoe-openapi.json   # rebuilds src/api/
+julia scripts/postman_to_openapi.jl     # rewrites spec/openapi.{json,yaml}
+julia --project gen/regenerate.jl       # rebuilds src/api/ from spec/openapi.json
 ```
 
-Custom paths are supported: `julia scripts/postman_to_openapi.jl <input.json> <output-base>`.
+`gen/regenerate.jl`'s `SPEC_URL` is pinned to `spec/openapi.json`, so the default mode is just "regenerate from the local spec." Custom paths are supported via `julia scripts/postman_to_openapi.jl <input.json> <output-base>` and `julia --project gen/regenerate.jl --from-file <path>`.
 
 ## Common commands
 
@@ -89,9 +89,9 @@ julia --project test/runtests.jl   # auto-walks test/test-*.jl
 # Regenerate src/api/ from the local spec
 julia --project gen/regenerate.jl
 
-# Regenerate from a fresh Postman export
-julia scripts/postman_to_openapi.jl    # rewrites entsoe-openapi.{json,yaml}
-julia --project gen/regenerate.jl --from-file entsoe-openapi.json
+# Regenerate from a fresh Postman export (drop the new collection into spec/ first)
+julia scripts/postman_to_openapi.jl    # rewrites spec/openapi.{json,yaml}
+julia --project gen/regenerate.jl      # rebuilds src/api/ from spec/openapi.json
 
 # Open a REPL with the package loaded
 julia --project

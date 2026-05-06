@@ -22,9 +22,9 @@
 #     julia scripts/postman_to_openapi.jl
 #     julia scripts/postman_to_openapi.jl <input.json> <output-base-without-ext>
 #
-# Defaults: reads `Transparency Platform Restful API.postman_collection.json`
-# at the repo root and writes `entsoe-openapi.yaml` + `entsoe-openapi.json`
-# beside it.
+# Defaults: reads `spec/Transparency Platform Restful API.postman_collection.json`
+# and writes `spec/openapi.json` + `spec/openapi.yaml`. The JSON form is what
+# `gen/regenerate.jl` consumes for `openapi-generator-cli`.
 #
 # Dependencies are installed into a per-user shared environment
 # (`~/.julia/environments/entsoe-scripts`) on first run so this stays a
@@ -213,9 +213,10 @@ function run_conversion(input_path::AbstractString, output_base::AbstractString)
 end
 
 const REPO_ROOT      = normpath(joinpath(@__DIR__, ".."))
-const DEFAULT_INPUT  = joinpath(REPO_ROOT,
+const SPEC_DIR       = joinpath(REPO_ROOT, "spec")
+const DEFAULT_INPUT  = joinpath(SPEC_DIR,
     "Transparency Platform Restful API.postman_collection.json")
-const DEFAULT_OUTPUT = joinpath(REPO_ROOT, "entsoe-openapi")
+const DEFAULT_OUTPUT = joinpath(SPEC_DIR, "openapi")
 
 if abspath(PROGRAM_FILE) == @__FILE__
     input  = length(ARGS) >= 1 ? ARGS[1] : DEFAULT_INPUT
