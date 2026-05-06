@@ -121,9 +121,22 @@ function main()
         @info "JuliaFormatter not installed; skipping formatting of src/api/."
     end
 
+    # Refresh the per-tag REST reference pages (`docs/src/api/<Tag>.md`).
+    # These are committed source — they only need to change when the spec
+    # changes, which is exactly what just happened. Uses the same helper
+    # OpenAPITemplate's scaffolder writes alongside this file.
+    emit_pages_jl = joinpath(@__DIR__, "emit_api_pages.jl")
+    api_pages_dst = joinpath(pkg_root, "docs", "src", "api")
+    if isfile(emit_pages_jl) && isdir(joinpath(pkg_root, "docs", "src"))
+        @info "Refreshing docs/src/api/<Tag>.md from spec."
+        m = Module(:_OpenAPIEmitPages)
+        Base.include(m, emit_pages_jl)
+        Base.invokelatest(m.emit_api_pages, spec_local, api_pages_dst)
+    end
+
     # Print a quick summary of what changed.
     if Sys.which("git") !== nothing && isdir(joinpath(pkg_root, ".git"))
-        run(Cmd(`git diff --stat src/api spec`; dir = pkg_root))
+        run(Cmd(`git diff --stat src/api spec docs/src/api`; dir = pkg_root))
     end
 
     @info "Regeneration complete." spec = spec_local api = api_target

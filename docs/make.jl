@@ -1,5 +1,4 @@
 using Documenter, DocumenterVitepress
-using JSON
 using EntsoE
 
 const SPEC_SRC = joinpath(pkgdir(EntsoE), "spec", "openapi.json")
@@ -13,64 +12,24 @@ if HAS_SPEC
     cp(SPEC_SRC, SPEC_DST; force = true)
 end
 
-# Walk the spec at build time and emit one markdown page per tag with each
-# operation as an `##`-level subsection. This lets VitePress's right-hand
-# outline list every endpoint, which is impossible with a single
-# `<OASpec />` blob (Vue-rendered headings don't make it into the outline).
-function _api_pages(spec_path::AbstractString, src_dir::AbstractString)
-    isfile(spec_path) || return Any[]
-    spec = JSON.parsefile(spec_path)
-    paths = get(spec, "paths", Dict())
-    tag_descriptions = Dict(t["name"] => get(t, "description", "")
-                            for t in get(spec, "tags", Any[]))
-    grouped = Dict{String,Vector{NamedTuple}}()
-    for (path, methods) in paths
-        for (method, op) in methods
-            method in ("get", "post", "put", "delete", "patch", "head", "options") || continue
-            tag = isempty(get(op, "tags", String[])) ? "default" : op["tags"][1]
-            push!(get!(grouped, tag, NamedTuple[]),
-                  (method = uppercase(method),
-                   path = path,
-                   summary = get(op, "summary", "$(uppercase(method)) $path"),
-                   description = get(op, "description", ""),
-                   operationId = get(op, "operationId", "")))
-        end
-    end
-
-    api_dir = joinpath(src_dir, "api")
-    mkpath(api_dir)
+# The per-tag REST reference pages live as committed source under
+# `docs/src/api/<Tag>.md` — written once at scaffold time by
+# OpenAPITemplate's `VitepressDocs` plugin, refreshed by
+# `gen/regenerate.jl` when the spec changes. We don't regenerate them on
+# every docs build (would churn files in a source tree). Just glob them.
+function _api_pages(api_dir::AbstractString)
+    isdir(api_dir) || return Any[]
     pages = Any[]
-    for tag in sort!(collect(keys(grouped)))
-        ops = sort!(grouped[tag], by = o -> (o.path, o.method))
-        body = IOBuffer()
-        println(body, "# ", titlecase(tag))
-        println(body)
-        desc = get(tag_descriptions, tag, "")
-        isempty(desc) || (println(body, desc); println(body))
-        for op in ops
-            isempty(op.operationId) && continue
-            println(body, "## ", op.summary)
-            println(body)
-            println(body, "`", op.method, " ", op.path, "`")
-            println(body)
-            println(body, "```@raw html")
-            # `prefix-headings="true"` makes vitepress-openapi prefix every
-            # sub-section anchor ID with this operation's `operationId`
-            # (e.g. `<operationId>-authorizations`), so the inner TOC links
-            # resolve to the right section instead of all collapsing onto
-            # the first occurrence on the page. See the `headingLevels` /
-            # `prefix-headings` note in `.vitepress/theme/index.ts`.
-            println(body, "<OAOperation operationId=\"", op.operationId, "\" prefix-headings=\"true\" />")
-            println(body, "```")
-            println(body)
-        end
-        write(joinpath(api_dir, "$tag.md"), take!(body))
-        push!(pages, titlecase(tag) => "api/$tag.md")
+    for file in sort!(readdir(api_dir))
+        endswith(file, ".md") || continue
+        file == "index.md" && continue   # hand-written REST overview
+        title = titlecase(splitext(file)[1])
+        push!(pages, title => "api/$file")
     end
     return pages
 end
 
-const API_PAGES = HAS_SPEC ? _api_pages(SPEC_SRC, joinpath(@__DIR__, "src")) : Any[]
+const API_PAGES = _api_pages(joinpath(@__DIR__, "src", "api"))
 
 const PAGES = Any[
     "Home" => "index.md",
