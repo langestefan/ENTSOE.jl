@@ -218,14 +218,27 @@ App() do session
             color = c, colormap = COLORMAP, colorrange = PRICE_RANGE,
             strokecolor = :white, strokewidth = 0.6)
     end
-    # Price labels — white text over a thin black outline. We use a
-    # regular (non-bold) weight intentionally: bold combined with a
-    # stroke double-weights every glyph, which makes three-digit
-    # labels (100+) look cramped because adjacent strokes nearly
-    # touch. Regular weight + stroke keeps the contrast against the
-    # coloured polygons without crushing the digit spacing.
+    # Price labels — white text over a thin black outline. Two
+    # decisions worth flagging:
+    #
+    # 1. We use a regular (non-bold) weight: bold combined with a
+    #    stroke double-weights every glyph, which made three-digit
+    #    labels look cramped (adjacent strokes nearly touched).
+    #
+    # 2. We `lpad` every label to a fixed width of 3 characters
+    #    using **U+2007 FIGURE SPACE** (a digit-width Unicode space).
+    #    Why: each `text!` plot sizes its glyph buffer the *first*
+    #    time the state is recorded, and `record_states` plays months
+    #    in order — so a country whose January price is "94"
+    #    allocates 2 glyph slots, and its July "104" then visually
+    #    clips the third digit. Padding to a fixed width gives every
+    #    label 3 glyph slots from the start; we picked figure-space
+    #    rather than ASCII space because Makie's text shaper strips
+    #    leading regular spaces, which would defeat the padding.
     for (i, iso) in enumerate(plotted_iso)
-        lbl = lift(m -> string(round(Int, price_by_iso[iso][m])), month)
+        lbl = lift(m -> lpad(string(round(Int, price_by_iso[iso][m])),
+                             3, ' '),
+                   month)
         text!(ax, plotted_centers[i]...;
             text = lbl, align = (:center, :center),
             fontsize = 14, color = :white,
