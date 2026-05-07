@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item OTHER_MARKET_INFORMATION [OMI] (10YDE-EON------1) and interval 2024-09-23T22:00:00Z/2024-09-24T22:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-
+      
     status: 200
     request:
       txcount: 0
@@ -35,7 +35,7 @@ responses:
         - Host: "web-api.tp.entsoe.eu"
       body: ""
       method: "GET"
-      target: "/api?PeriodStartUpdate=202402221000&Offset=12&periodEnd=202409242200&ControlArea_Domain=10YDE-EON------1&periodStart=202409232200&DocStatus=A05&PeriodEndUpdate=202402231200&mRID=NDE5ODBiYjFkM2ExMTljYTM5Mzk2ODcxANDFkZDE4MzU%3D&documentType=B47"
+      target: "/api?PeriodStartUpdate=202402221000&Offset=12&periodEnd=202409242200&ControlArea_Domain=10YDE-EON------1&periodStart=202409232200&DocStatus=A05&PeriodEndUpdate=202402231200&mRID=NDE5ODBiYjFkM2ExMTljYTM5Mzk2ODcxNDFkZDE4MzU%3D&documentType=B47"
       version: "1.1.0"
     version: "1.1.0"
 format: "1.0.0"

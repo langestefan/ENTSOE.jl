@@ -14,16 +14,25 @@ repos:
       - id: check-json
       - id: check-toml
       - id: check-yaml
+        # BrokenRecord cassettes contain literal multiline tab-indented
+        # XML response bodies — yamllint / check-yaml choke on them and
+        # replaying them must be byte-stable, so we keep the file
+        # cleanup hooks below off the cassette tree.
+        exclude: "^test/cassettes/"
       - id: mixed-line-ending
         args: [--fix=lf]
+        exclude: "^test/cassettes/"
       - id: no-commit-to-branch
       - id: pretty-format-json
         args: [--autofix, --indent=2]
-        # The committed OpenAPI spec is large and machine-formatted by
-        # `scripts/postman_to_openapi.jl` (or `openapi-generator`); leave it.
-        exclude: "^spec/openapi\\.json$"
+        # Spec / fixtures / cassettes are machine-formatted; leaving
+        # them alone avoids spurious diffs and (more importantly)
+        # avoids breaking BrokenRecord URL matching.
+        exclude: "^(spec/openapi\\.json|test/cassettes/|docs/src/assets/)"
       - id: trailing-whitespace
+        exclude: "^test/cassettes/"
       - id: end-of-file-fixer
+        exclude: "^test/cassettes/"
       - id: check-merge-conflict
         args: [--assume-in-merge]
   - repo: https://github.com/igorshubovych/markdownlint-cli
@@ -40,10 +49,15 @@ repos:
     rev: v0.21.0
     hooks:
       - id: yamlfmt
+        # `prek` invokes yamlfmt with an explicit file list, which
+        # bypasses the `exclude:` in `.yamlfmt.yml`. Re-state it here
+        # at the hook level so cassettes are skipped.
+        exclude: "^test/cassettes(_smoke)?/"
   - repo: https://github.com/adrienverge/yamllint
     rev: v1.38.0
     hooks:
       - id: yamllint
+        exclude: "^test/cassettes(_smoke)?/"
   - repo: https://github.com/ericphanson/ExplicitImports.jl
     rev: v1.15.0
     hooks:

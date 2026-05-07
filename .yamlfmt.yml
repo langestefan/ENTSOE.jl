@@ -6,3 +6,9 @@ formatter:
 line_ending: lf # match the LF ending enforced by mixed-line-ending in pre-commit
 exclude:
   - .copier-answers.yml
+  # BrokenRecord cassettes embed literal HTTP responses — XML bodies
+  # with tab-indented blank lines that yamlfmt would normalise. The
+  # cassette must replay byte-for-byte against the recorded request,
+  # so leave them untouched.
+  - test/cassettes/**/*.yml
+  - test/cassettes_smoke/**/*.yml
