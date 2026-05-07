@@ -121,7 +121,7 @@ version = "1.7.0"
 
 [[deps.ENTSOE]]
 deps = ["Base64", "Dates", "EzXML", "HTTP", "JSON", "Logging", "OpenAPI", "StructArrays", "TOML", "TimeZones"]
-path = "/home/langestefan/Nextcloud/Projects/2026/EntsoE.jl/scripts/.."
+path = ".."
 uuid = "1511bb12-f7c3-431d-bf69-363374839c3b"
 version = "1.0.0-DEV"
 

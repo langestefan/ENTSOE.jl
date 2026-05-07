@@ -121,8 +121,35 @@ hours_per_pt = 1.0  # 12.1.G is hourly resolution
 import_gwh = sum(max.(net, 0)) * hours_per_pt / 1_000
 export_gwh = sum(min.(net, 0)) * hours_per_pt / 1_000
 (net_flow_gwh = round(import_gwh + export_gwh; digits = 2),
- imports_gwh = round(import_gwh; digits = 2),
- exports_gwh = round(export_gwh; digits = 2))
+ imports_gwh  = round(import_gwh;  digits = 2),
+ exports_gwh  = round(export_gwh;  digits = 2))
+```
+
+## Daily roll-up
+
+Sum each day's signed flow into a single bar — easier to compare
+days at a glance than the hourly trace:
+
+```@example xb
+hours_per_day = 24
+daily_gwh = [sum(@view net[(d - 1) * hours_per_day + 1:d * hours_per_day]) / 1_000
+             for d in 1:(length(net) ÷ hours_per_day)]
+day_labels = [Dates.format(de_to_nl.time[(d - 1) * hours_per_day + 1], "E dd")
+              for d in eachindex(daily_gwh)]
+
+fig2 = Figure(size = (760, 320))
+ax = Axis(fig2[1, 1];
+    xlabel = "Day",
+    ylabel = "Net GWh (positive = NL imports)",
+    title  = "NL ↔ DE-LU — daily net flow, week of 2024-09-02",
+    xticks = (1:length(daily_gwh), day_labels),
+)
+hlines!(ax, [0]; color = :gray70, linewidth = 0.5)
+barplot!(ax, 1:length(daily_gwh), daily_gwh;
+    color = [v >= 0 ? :seagreen : :firebrick for v in daily_gwh],
+    strokewidth = 0.5, strokecolor = :white)
+fig2
+save(joinpath(@__DIR__, "assets", "tut_crossborder_daily.png"), fig2); nothing # hide
 ```
 
 ## Where to next

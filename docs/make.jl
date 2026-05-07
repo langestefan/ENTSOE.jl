@@ -39,9 +39,9 @@ const PAGES = Any[
         "Generation mix over a day" => "tutorial_generation_mix.md",
         "Cross-border flows (NL ↔ DE)" => "tutorial_crossborder.md",
         "Forecast vs. realised load" => "tutorial_load_forecast.md",
-        # "Five years of NL prices" => "tutorial_multiyear.md",       # TEMP-DISABLED while debugging build hang
+        "Five years of NL prices" => "tutorial_multiyear.md",
         "EU price heat-map (2025)" => "tutorial_eu_map.md",
-        # "Renewables share map" => "tutorial_renewables_map.md",     # TEMP-DISABLED while debugging build hang
+        "Renewables share map" => "tutorial_renewables_map.md",
     ],
     "Guides" => Any[
         "Recorded HTTP tests" => "cassette_testing.md",

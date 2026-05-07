@@ -126,7 +126,9 @@ most by far in this snapshot, which tracks NL's solar build-out.
 ```@example multiyear
 ym = [(year(t), month(t)) for t in prices.time]
 unique_ym = sort!(unique(ym))
-monthly = [mean(prices.value[ym .== ym0]) for ym0 in unique_ym]
+# `ym .== ym0` would broadcast over the 2-tuple `ym0`; wrap in `Ref` so
+# each tuple is compared against the whole `ym0` as a single value.
+monthly = [mean(prices.value[ym .== Ref(ym0)]) for ym0 in unique_ym]
 
 fig2 = Figure(size = (900, 320))
 ax2 = Axis(fig2[1, 1];

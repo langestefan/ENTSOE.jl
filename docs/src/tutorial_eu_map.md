@@ -2,11 +2,12 @@
 CurrentModule = ENTSOE
 ```
 
-# Tutorial: 2025 day-ahead prices across Europe (animated map)
+# Tutorial: 2025 day-ahead prices across Europe
 
-A second walkthrough — this one fans out across most of Europe and
-animates the **monthly mean day-ahead clearing price** for every
-bidding zone in our `EIC` table over calendar year 2025.
+This second walkthrough fans out across most of Europe and shows the
+**monthly mean day-ahead clearing price** for every bidding zone in
+our `EIC` table over calendar year 2025 — twelve small maps in one
+grid, then a single full-size annual mean.
 
 The data was pulled once with the live API (one year-long
 [`day_ahead_prices`](@ref) call per zone) and pre-aggregated into a
@@ -42,58 +43,25 @@ nl = zones[findfirst(z -> z["name"] == "Netherlands", zones)]
  for m in 1:12]
 ```
 
-## How the recording happens (illustration)
-
-The aggregation script's core loop is short — lift this snippet into
-your own code if you need year-long data for any zone:
-
-```julia
-using ENTSOE, Dates, Statistics
-
-client = ENTSOEClient(ENV["ENTSOE_API_TOKEN"])
-rows   = day_ahead_prices(client, EIC.NL,
-            DateTime("2024-12-31T23:00"),
-            DateTime("2025-12-31T23:00"))
-
-# Group by calendar month → mean. ENTSO-E timestamps are UTC; the
-# script uses CET (Dec 31 23:00 UTC = Jan 1 00:00 CET) to match the
-# market's natural calendar.
-monthly = let sums = zeros(12), counts = zeros(Int, 12)
-    for r in rows
-        m = month(r.time)
-        sums[m] += r.value; counts[m] += 1
-    end
-    [sums[m] / counts[m] for m in 1:12]
-end
-```
-
-The fixture is the same shape: one entry per zone, one mean per month.
-
 ## Setting up the map
 
-We use [GeoMakie](https://geo.makie.org/stable/) to draw country
-polygons (Natural Earth Admin-0 dataset) projected with Lambert
-Conformal Conic, and color each by its monthly mean price. Zones
-that overlap one country (DE_LU spans both Germany and Luxembourg,
-DK1 only Western Denmark, NO2/SE3 only southern halves) are coloured
-on the country polygon — close enough for a tutorial.
+We use [GeoMakie](https://geo.makie.org/stable/) on top of
+[CairoMakie](https://docs.makie.org/stable/explanations/backends/cairomakie)
+to render a static PNG: country polygons (Natural Earth Admin-0
+dataset) projected with Lambert Conformal Conic, coloured by their
+monthly mean price. Zones that overlap one country (DE_LU spans both
+Germany and Luxembourg, DK1 only Western Denmark, NO2/SE3 only
+southern halves) are coloured on the country polygon — close enough
+for a tutorial.
 
 ```@example eu_map
-using GeoMakie, WGLMakie, Bonito
+using GeoMakie, CairoMakie
 using GeoMakie: NaturalEarth
 using GeoInterface
 using Polylabel
 using Proj
 
-WGLMakie.activate!()
-
-# `exportable = true` inlines every JS / CSS asset into the rendered
-# HTML so the `App()` block below works on the static documentation
-# site without a running Julia process. `offline = true` tells Bonito
-# not to even try to open a WebSocket back to a server. Bonito tries
-# to auto-detect this for known platforms (Documenter included), but
-# spelling it out keeps things deterministic across rebuilds.
-Page(; exportable = true, offline = true)
+CairoMakie.activate!(type = "png")
 
 # Natural Earth medium-detail country polygons. Cached after first
 # fetch — subsequent runs are fast.
@@ -113,60 +81,31 @@ sort(collect(keys(price_by_iso)))
 
 For each country polygon, decide whether it's one of our zones — we
 match on Natural Earth's two-letter ISO code (`:ISO_A2_EH`, falling
-back to `:ISO_A2`; the GeoJSON properties are `Symbol`-keyed).
-
-For label *positions* the obvious answer — a bounding-box centroid —
-fails for several countries because Natural Earth's geometries
-include overseas territories: France ships with Réunion and French
-Guiana, ES/PT include the Canaries and Azores, Norway includes
-Svalbard, the Netherlands includes Bonaire. The bbox centroid of
-France ends up well off the southern coast.
-
-We use [Polylabel.jl](https://github.com/asinghvi17/Polylabel.jl)
-instead — a port of Mapbox's *pole of inaccessibility* algorithm,
-which finds the point inside a polygon furthest from any edge. Two
-practical refinements:
-
-1. **Project first.** Polylabel measures distance to edges in
-   whatever coordinate system you hand it. Running it on raw
-   `(lon, lat)` would minimise *angular* distance — biased
-   toward equator-ward points at high latitudes (Sweden, Finland).
-   We project the polygon into the same Lambert Conformal Conic the
-   map uses, run Polylabel there, and inverse-transform the result
-   back to `(lon, lat)` for `text!` to consume.
-
-2. **Pick the largest sub-polygon.** A `MultiPolygon` (France =
-   mainland + 9 overseas pieces) breaks the algorithm's
-   "point-furthest-from-any-edge" intuition because there isn't a
-   single connected region. We project each component, take the
-   largest by projected area (= the mainland in every case here),
-   and run Polylabel on just that.
+back to `:ISO_A2`; the GeoJSON properties are `Symbol`-keyed). For
+label *positions* we use [Polylabel.jl](https://github.com/asinghvi17/Polylabel.jl)
+on the country polygon **after** projecting it into LCC; that lands
+the price label in the visual centre of each country's mainland.
 
 ```@example eu_map
-const PROJ_STR  = "+proj=lcc +lat_1=35 +lat_2=65 +lat_0=50 +lon_0=10"
-const TO_LCC    = Proj.Transformation(
+const PROJ_STR = "+proj=lcc +lat_1=35 +lat_2=65 +lat_0=50 +lon_0=10"
+const TO_LCC   = Proj.Transformation(
     "+proj=longlat +datum=WGS84", PROJ_STR; always_xy = true,
 )
-const FROM_LCC  = Proj.inv(TO_LCC)
+const FROM_LCC = Proj.inv(TO_LCC)
 
-# Shoelace area of a closed ring of (x, y) tuples.
 function _ring_area(pts)
     n = length(pts); s = 0.0
     @inbounds for i in 1:n
-        x1, y1 = pts[i]
-        x2, y2 = pts[mod1(i + 1, n)]
+        x1, y1 = pts[i]; x2, y2 = pts[mod1(i + 1, n)]
         s += x1 * y2 - x2 * y1
     end
     return abs(s) / 2
 end
 
-# Project a `MultiPolygon` (or `Polygon`) into LCC, take the
-# largest component by projected area, return its visual centre as
-# (lon, lat) via `polylabel` + inverse projection.
 function label_lonlat(geom)
-    polys_pts = Vector{Vector{Tuple{Float64, Float64}}}()
     sub_polys = GeoInterface.geomtrait(geom) isa GeoInterface.MultiPolygonTrait ?
         collect(GeoInterface.getgeom(geom)) : [geom]
+    polys_pts = Vector{Vector{Tuple{Float64, Float64}}}()
     for sub in sub_polys
         ring = GeoInterface.getexterior(sub)
         push!(polys_pts,
@@ -174,10 +113,10 @@ function label_lonlat(geom)
              for p in GeoInterface.getgeom(ring)])
     end
     main = polys_pts[argmax(_ring_area.(polys_pts))]
-    p = GeoInterface.Wrappers.Polygon([
-        GeoInterface.Wrappers.LinearRing(main)
-    ])
-    pole = polylabel(p; rtol = 0.005)
+    pole = polylabel(
+        GeoInterface.Wrappers.Polygon([GeoInterface.Wrappers.LinearRing(main)]);
+        rtol = 0.005,
+    )
     lonlat = FROM_LCC(pole[1], pole[2])
     return (Float64(lonlat[1]), Float64(lonlat[2]))
 end
@@ -202,123 +141,54 @@ for feat in countries_fc
     push!(plotted_iso, iso)
     push!(plotted_centers, label_lonlat(feat.geometry))
 end
-
-(plotted = length(plotted_geoms),)
+length(plotted_iso)
 ```
 
-## The interactive map
+## A 12-month grid
 
-The map below is rendered with WGLMakie + Bonito. A slider at the top
-lets you scrub through the year — every priced country re-colors and
-re-labels in place as you drag. Behind the scenes each per-country
-colour and label is `lift`-ed from the slider's value, so the only
-mutation per frame is `slider.value[] = new_month` — Makie's reactive
-graph does the rest.
-
-For *static* docs (no Julia process behind the page) we wrap the
-returned DOM in [`Bonito.record_states`](https://simondanisch.github.io/Bonito.jl/stable/interactions.html).
-That utility plays the slider through every value once at build time,
-captures the observables that depend on it, and bakes the mapping into
-the page so the JavaScript can switch states locally without a server.
-Every per-country colour and label here `lift`s from the *same*
-observable (`slider.value`), which is the case `record_states` handles
-correctly.
+Twelve mini-maps, one per month, in a 4×3 layout. A single shared
+`Colorbar` to the right of the grid keeps the colour scale honest
+across panels, so you can read absolute price differences just by eye.
 
 ```@example eu_map
-const COLORMAP = :magma           # dark for low, bright for high
-const PRICE_RANGE = (40.0, 160.0) # EUR/MWh — clamps the colour scale
+const COLORMAP    = :magma
+const PRICE_RANGE = (40.0, 160.0)
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
                      "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 
-App() do session
-    # Use `Bonito.Slider` (not `StylableSlider`): it implements the
-    # widget interface required by `record_states` (`is_widget`,
-    # `value_range`, `to_watch`). `StylableSlider` doesn't, so its
-    # state changes wouldn't be recorded into the static page. The
-    # `style` kwarg is splatted onto the underlying `<input>` so
-    # `width: 100%` makes it stretch across the figure.
-    slider = Bonito.Slider(1:12; style = "width: 100%; height: 1.4em;")
-    month  = slider.value     # ::Observable{Int}
+fig = Figure(size = (1100, 1100))
 
-    title = lift(m -> "$year-$(lpad(m, 2, '0')) — " *
-                      "$(MONTH_NAMES[m]) day-ahead price (EUR/MWh)",
-                 month)
-
-    fig = Figure(size = (720, 640))
-    ax  = GeoAxis(fig[1, 1];
-        dest   = "+proj=lcc +lat_1=35 +lat_2=65 +lat_0=50 +lon_0=10",
+for m in 1:12
+    row = (m - 1) ÷ 3 + 1
+    col = (m - 1) %  3 + 1
+    ax = GeoAxis(fig[row, col];
+        dest = PROJ_STR,
         limits = ((-15, 35), (34, 72)),
-        title  = title,
-        # Hide the lat/lon graticule. The horizontal parallels otherwise
-        # slice straight through the price labels — a 50°N line cutting
-        # through "146" reads as the third digit being chopped in half.
-        xgridvisible = false, ygridvisible = false)
-
-    # Backdrop: every European country in light grey.
+        title = "$(MONTH_NAMES[m]) $(year)",
+        titlesize = 14,
+        xgridvisible = false, ygridvisible = false,
+    )
+    hidedecorations!(ax)
+    # backdrop: every European country light grey
     for feat in countries_fc
         poly!(ax, feat.geometry;
-            color = :grey85, strokecolor = :white, strokewidth = 0.4)
+            color = :grey85, strokecolor = :white, strokewidth = 0.3)
     end
-    # Foreground: priced zones, colour lifted from the slider.
+    # foreground: priced zones
     for (i, iso) in enumerate(plotted_iso)
-        c = lift(m -> price_by_iso[iso][m], month)
         poly!(ax, plotted_geoms[i];
-            color = c, colormap = COLORMAP, colorrange = PRICE_RANGE,
-            strokecolor = :white, strokewidth = 0.6)
+            color = price_by_iso[iso][m],
+            colormap = COLORMAP, colorrange = PRICE_RANGE,
+            strokecolor = :white, strokewidth = 0.5)
     end
-    # Price labels — white text over a thin black outline. Two
-    # decisions worth flagging:
-    #
-    # 1. We use a regular (non-bold) weight: bold combined with a
-    #    stroke double-weights every glyph, which made three-digit
-    #    labels look cramped (adjacent strokes nearly touched).
-    #
-    # 2. We `lpad` every label to a fixed width of 3 characters
-    #    using **U+2007 FIGURE SPACE** (a digit-width Unicode space).
-    #    Why: each `text!` plot sizes its glyph buffer the *first*
-    #    time the state is recorded, and `record_states` plays months
-    #    in order — so a country whose January price is "94"
-    #    allocates 2 glyph slots, and its July "104" then visually
-    #    clips the third digit. Padding to a fixed width gives every
-    #    label 3 glyph slots from the start; we picked figure-space
-    #    rather than ASCII space because Makie's text shaper strips
-    #    leading regular spaces, which would defeat the padding.
-    for (i, iso) in enumerate(plotted_iso)
-        lbl = lift(m -> lpad(string(round(Int, price_by_iso[iso][m])),
-                             3, ' '),
-                   month)
-        text!(ax, plotted_centers[i]...;
-            text = lbl, align = (:center, :center),
-            fontsize = 14, color = :white,
-            strokewidth = 1.0, strokecolor = :black,
-            overdraw = true)
-    end
-    Colorbar(fig[1, 2];
-        colormap = COLORMAP, colorrange = PRICE_RANGE, label = "EUR / MWh")
-
-    # Bonito layout: slider (wide, with month-name caption) on top,
-    # the WGLMakie figure below. The slider container fills the
-    # available width via flex so it stretches to the figure width
-    # rather than rendering as the StylableSlider default ~120 px.
-    caption = lift(m -> "Month: $(MONTH_NAMES[m]) ($(year))", month)
-    slider_row = DOM.div(
-        DOM.div(slider; style = "flex: 1 1 auto; min-width: 0;"),
-        DOM.span(caption;
-            style = "margin-left: 1em; font-weight: 600; " *
-                    "white-space: nowrap; min-width: 11em;");
-        style = "display: flex; align-items: center; " *
-                "width: 100%; max-width: 720px; " *
-                "gap: 0.75em; padding: 0.5em 0 1em;",
-    )
-    # `record_states` walks the slider through every position once
-    # at build-time and bakes the resulting observable values into
-    # the page. With it the slider drags interactively in the static
-    # HTML; without it the page boots but nothing reacts to drags.
-    return Bonito.record_states(session, DOM.div(slider_row, fig))
 end
-```
 
-## What it shows
+Colorbar(fig[1:4, 4];
+    colormap = COLORMAP, colorrange = PRICE_RANGE,
+    label = "EUR / MWh", height = Relative(0.85))
+fig
+save(joinpath(@__DIR__, "assets", "tut_eu_map_grid.png"), fig); nothing # hide
+```
 
 A few patterns jump out month-to-month:
 
@@ -333,16 +203,54 @@ A few patterns jump out month-to-month:
 - **Autumn climb (Sep–Dec)**. Heating returns; CWE and the Iberian
   peninsula re-converge in the €80–€120 range by year-end.
 
-The colour bar is clamped at €40–€160 so the seasonal swing dominates
-the visual; outliers (single-digit Nordic months, occasional triple-
-digit spikes in southeast Europe) saturate to the ends rather than
-crushing the rest of the map.
+## A single annual-mean map
+
+For the headline view, average each zone's twelve months and draw one
+big map with on-country price labels. Same pipeline, just one layer:
+
+```@example eu_map
+annual_by_iso = Dict(iso => sum(v) / length(v) for (iso, v) in price_by_iso)
+
+fig2 = Figure(size = (820, 720))
+ax = GeoAxis(fig2[1, 1];
+    dest = PROJ_STR,
+    limits = ((-15, 35), (34, 72)),
+    title = "$(year) annual-mean day-ahead price",
+    xgridvisible = false, ygridvisible = false,
+)
+
+for feat in countries_fc
+    poly!(ax, feat.geometry;
+        color = :grey85, strokecolor = :white, strokewidth = 0.4)
+end
+for (i, iso) in enumerate(plotted_iso)
+    poly!(ax, plotted_geoms[i];
+        color = annual_by_iso[iso],
+        colormap = COLORMAP, colorrange = PRICE_RANGE,
+        strokecolor = :white, strokewidth = 0.6)
+end
+for (i, iso) in enumerate(plotted_iso)
+    text!(ax, plotted_centers[i]...;
+        text = string(round(Int, annual_by_iso[iso])),
+        align = (:center, :center),
+        fontsize = 14, color = :white,
+        strokewidth = 1.0, strokecolor = :black)
+end
+Colorbar(fig2[1, 2];
+    colormap = COLORMAP, colorrange = PRICE_RANGE,
+    label = "EUR / MWh")
+fig2
+save(joinpath(@__DIR__, "assets", "tut_eu_map_annual.png"), fig2); nothing # hide
+```
 
 ## Where to next
 
 - The "first-tutorial" walkthrough — [`tutorial.md`](tutorial.md) —
   drills into the day-ahead query for one zone (NL) and parses the
   full quarter-hour timeseries.
+- For the **VRE-share** view of the same map (solar + wind as a % of
+  daily generation across six zones), see the
+  [renewables share map](tutorial_renewables_map.md).
 - For more zones than the 25 we cover here, edit the `ZONES` table
   in `scripts/record_eu_prices_2025.jl` and re-run; the JSON fixture
   picks up the additions automatically.

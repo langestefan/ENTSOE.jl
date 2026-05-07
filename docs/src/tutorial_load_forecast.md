@@ -60,30 +60,20 @@ end
 length(forecast), forecast[1]
 ```
 
-Realised load is published at quarter-hour resolution; the forecast
-is hourly. To compare apples-to-apples we line up *on-the-hour*
-points by stepping through `actual` in strides of 4 — column views
-on `StructVector` make this trivial:
+Both series come back at the same quarter-hour resolution, so we
+can compute the error directly with column-view subtraction:
 
 ```@example loadtut
-actual_h = (
-    time  = actual.time[1:4:end],
-    value = actual.value[1:4:end],
-)
-length(actual_h.value) == length(forecast.value)
-```
+@assert length(actual.value) == length(forecast.value) == length(actual.time)
 
-## Forecast accuracy
-
-```@example loadtut
-err   = forecast.value .- actual_h.value         # MW
-ape   = abs.(err) ./ actual_h.value .* 100        # absolute percent error per hour
-map  = mean(ape)
-bias  = mean(err) / mean(actual_h.value) * 100    # signed bias as a %
+err  = forecast.value .- actual.value           # MW, signed
+ape  = abs.(err) ./ actual.value .* 100         # absolute % error per slot
+map = sum(ape) / length(ape)                   # mean absolute % error
+bias = sum(err) / sum(actual.value) * 100       # signed bias as a %
 
 (map_pct = round(map; digits = 2),
  bias_pct = round(bias; digits = 2),
- worst_hour_idx = argmax(ape),
+ worst_slot_idx = argmax(ape),
  worst_pct = round(maximum(ape); digits = 2))
 ```
 
@@ -94,16 +84,18 @@ on average.
 ## Plotting
 
 ```@example loadtut
-fig = Figure(size = (900, 460))
+fig = Figure(size = (900, 520))
 
 ax1 = Axis(fig[1, 1];
     ylabel = "GW",
     title  = "NL load — actual vs. day-ahead forecast (week 2024-09-02)",
 )
-lines!(ax1, 1:length(actual_h.value), actual_h.value ./ 1_000;
+xs = 1:length(actual.value)
+lines!(ax1, xs, actual.value ./ 1_000;
     color = :black, linewidth = 1.4, label = "Realised")
-lines!(ax1, 1:length(forecast.value), forecast.value ./ 1_000;
-    color = :firebrick, linewidth = 1.4, linestyle = :dash, label = "Day-ahead forecast")
+lines!(ax1, xs, forecast.value ./ 1_000;
+    color = :firebrick, linewidth = 1.4, linestyle = :dash,
+    label = "Day-ahead forecast")
 axislegend(ax1; position = :rb, framevisible = false)
 
 ax2 = Axis(fig[2, 1];
@@ -111,20 +103,41 @@ ax2 = Axis(fig[2, 1];
     xlabel = "UTC time",
 )
 hlines!(ax2, [0]; color = :gray70, linewidth = 0.5)
-band!(ax2, 1:length(err), zero(err), err;
-    color = (ifelse.(err .>= 0, (:firebrick, 0.4), (:seagreen, 0.4))))
-lines!(ax2, 1:length(err), err; color = :black, linewidth = 0.6)
+# `band!` accepts a single fill colour, so we draw the over- and under-
+# forecast halves as two bands. Clamping to zero keeps each half on its
+# correct side of the axis.
+band!(ax2, xs, zeros(length(err)), max.(err, 0);
+    color = (:firebrick, 0.35), label = "Over-forecast")
+band!(ax2, xs, min.(err, 0), zeros(length(err));
+    color = (:seagreen,  0.35), label = "Under-forecast")
+lines!(ax2, xs, err; color = :black, linewidth = 0.6)
 
-# Shared x-axis labels.
 linkxaxes!(ax1, ax2)
 ax2.xticks = (
-    1:24:length(err),
-    [Dates.format(actual_h.time[i], "E dd") for i in 1:24:length(err)],
+    1:96:length(err),    # one tick per day (96 quarter-hours)
+    [Dates.format(actual.time[i], "E dd") for i in 1:96:length(err)],
 )
 hidexdecorations!(ax1; grid = false)
 rowgap!(fig.layout, 1, 6)
 fig
 save(joinpath(@__DIR__, "assets", "tut_load_forecast.png"), fig); nothing # hide
+```
+
+A second plot — the **error histogram** — gives a quick read on the
+forecast's *shape* (centred? skewed? heavy-tailed?):
+
+```@example loadtut
+fig2 = Figure(size = (720, 320))
+ax = Axis(fig2[1, 1];
+    xlabel = "Forecast − actual (MW)",
+    ylabel = "count",
+    title  = "Error distribution — week of 2024-09-02",
+)
+hist!(ax, err; bins = 40, color = (:steelblue, 0.7), strokewidth = 0.5,
+    strokecolor = :white)
+vlines!(ax, [0.0]; color = :black, linestyle = :dash, linewidth = 0.8)
+fig2
+save(joinpath(@__DIR__, "assets", "tut_load_forecast_hist.png"), fig2); nothing # hide
 ```
 
 What you read from this:

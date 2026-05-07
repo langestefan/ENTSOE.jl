@@ -138,6 +138,32 @@ wind_mwh  = sum(gen.value[in.(gen.psr_type, Ref(("B18", "B19")))]) * 0.25
  vre_share = round(100 * (solar_mwh + wind_mwh) / total_mwh; digits = 1))
 ```
 
+## Day-total bar chart
+
+Same data, different lens — the share of each technology in the
+**day's total energy** rather than its instantaneous power:
+
+```@example genmix
+day_totals = [
+    (label = lbl, code = code, color = color,
+     mwh   = sum(gen.value[gen.psr_type .== code]) * 0.25)
+    for (code, lbl, color) in stacked
+]
+
+fig2 = Figure(size = (820, 380))
+ax = Axis(fig2[1, 1];
+    xlabel = "MWh",
+    title  = "NL — energy by production type, 2024-09-02",
+    yticks = (1:length(day_totals), [d.label for d in day_totals]),
+)
+barplot!(ax, 1:length(day_totals), [d.mwh for d in day_totals];
+    direction = :x,
+    color = [d.color for d in day_totals],
+    strokewidth = 0.4, strokecolor = :white)
+fig2
+save(joinpath(@__DIR__, "assets", "tut_generation_mix_totals.png"), fig2); nothing # hide
+```
+
 ## Where to next
 
 - The same wrapper takes a `psr_type=` kwarg to pull a *single*
