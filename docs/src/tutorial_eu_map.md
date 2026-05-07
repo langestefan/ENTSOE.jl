@@ -200,7 +200,11 @@ App() do session
     ax  = GeoAxis(fig[1, 1];
         dest   = "+proj=lcc +lat_1=35 +lat_2=65 +lat_0=50 +lon_0=10",
         limits = ((-15, 35), (34, 72)),
-        title  = title)
+        title  = title,
+        # Hide the lat/lon graticule. The horizontal parallels otherwise
+        # slice straight through the price labels — a 50°N line cutting
+        # through "146" reads as the third digit being chopped in half.
+        xgridvisible = false, ygridvisible = false)
 
     # Backdrop: every European country in light grey.
     for feat in countries_fc
@@ -224,8 +228,9 @@ App() do session
         lbl = lift(m -> string(round(Int, price_by_iso[iso][m])), month)
         text!(ax, plotted_centers[i]...;
             text = lbl, align = (:center, :center),
-            fontsize = 13, color = :white,
-            strokewidth = 0.9, strokecolor = :black)
+            fontsize = 14, color = :white,
+            strokewidth = 1.0, strokecolor = :black,
+            overdraw = true)
     end
     Colorbar(fig[1, 2];
         colormap = COLORMAP, colorrange = PRICE_RANGE, label = "EUR / MWh")
