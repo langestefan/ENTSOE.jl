@@ -7,6 +7,17 @@ exclude = [
   # Placeholder DOI — replace with the real one once registered.
   "^https://doi.org/FIXME$",
   "zenodo.org/badge/DOI/FIXME$",
+  # Zendesk help-center pages return 403 to non-browser User-Agents
+  # (anti-scraping). The page exists; lychee just can't see it.
+  "^https://[a-z0-9.-]*zendesk\\.com/",
+  # GitHub Pages docs:
+  #   - The bare `<user>.github.io/<pkg>` and `<pkg>/stable/` URLs only
+  #     come up after the first tagged release. The README badges link
+  #     to them by convention and resolve once Documenter publishes.
+  #   - The `/dev/` URL is checked separately (it deploys on every push
+  #     to `main`) so we still notice if that breaks.
+  "^https://[a-z0-9.-]+\\.github\\.io/[^/]+/?$",
+  "^https://[a-z0-9.-]+\\.github\\.io/[^/]+/stable/?",
 ]
 
 # Generated artefacts and pinned spec mirrors.

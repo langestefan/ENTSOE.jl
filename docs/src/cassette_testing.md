@@ -184,7 +184,7 @@ julia --project=. -e 'using Pkg; Pkg.test()'
 
 The transcript below is the actual output from running this tutorial
 against the **Petstore v2 demo** (the reference scaffold shipped by
-[OpenAPITemplate.jl](https://github.com/OpenAPITemplate/OpenAPITemplate.jl)).
+[OpenAPITemplate.jl](https://github.com/langestefan/OpenAPITemplate.jl)).
 It exercises four endpoints — `/store/inventory`, `/pet/findByStatus`,
 `/store/order`, and `/pet` — and demonstrates the three-mode cycle
 (record → replay → re-record). Use it as a sanity check that your own
