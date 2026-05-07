@@ -1,0 +1,225 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:31 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Physical Flows_202308232200-202308242200.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="utf-8"?>
+      <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:0">
+        <mRID>f7d16980b4a7459095610151674ed4bc</mRID>
+        <revisionNumber>1</revisionNumber>
+        <type>A11</type>
+        <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+        <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+        <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+        <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+        <createdDateTime>2026-05-07T13:17:31Z</createdDateTime>
+        <period.timeInterval>
+          <start>2023-08-23T22:00Z</start>
+          <end>2023-08-24T22:00Z</end>
+        </period.timeInterval>
+          <TimeSeries>
+            <mRID>1</mRID>
+            <businessType>A66</businessType>
+            <in_Domain.mRID codingScheme="A01">10YBE----------2</in_Domain.mRID>
+            <out_Domain.mRID codingScheme="A01">10YDE-RWENET---I</out_Domain.mRID>
+            <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+            <curveType>A03</curveType>
+              <Period>
+                <timeInterval>
+                  <start>2023-08-23T22:00Z</start>
+                  <end>2023-08-24T22:00Z</end>
+                </timeInterval>
+                <resolution>PT15M</resolution>
+                  <Point>
+                    <position>1</position>
+                    <quantity>0</quantity>
+                  </Point>
+                  <Point>
+                    <position>37</position>
+                    <quantity>605.4</quantity>
+                  </Point>
+                  <Point>
+                    <position>38</position>
+                    <quantity>732.36</quantity>
+                  </Point>
+                  <Point>
+                    <position>39</position>
+                    <quantity>753.02</quantity>
+                  </Point>
+                  <Point>
+                    <position>40</position>
+                    <quantity>816.94</quantity>
+                  </Point>
+                  <Point>
+                    <position>41</position>
+                    <quantity>569</quantity>
+                  </Point>
+                  <Point>
+                    <position>42</position>
+                    <quantity>510.15</quantity>
+                  </Point>
+                  <Point>
+                    <position>43</position>
+                    <quantity>445.29</quantity>
+                  </Point>
+                  <Point>
+                    <position>44</position>
+                    <quantity>364.25</quantity>
+                  </Point>
+                  <Point>
+                    <position>45</position>
+                    <quantity>803.82</quantity>
+                  </Point>
+                  <Point>
+                    <position>46</position>
+                    <quantity>945.31</quantity>
+                  </Point>
+                  <Point>
+                    <position>47</position>
+                    <quantity>973.38</quantity>
+                  </Point>
+                  <Point>
+                    <position>48</position>
+                    <quantity>961.49</quantity>
+                  </Point>
+                  <Point>
+                    <position>49</position>
+                    <quantity>871.08</quantity>
+                  </Point>
+                  <Point>
+                    <position>50</position>
+                    <quantity>789.24</quantity>
+                  </Point>
+                  <Point>
+                    <position>51</position>
+                    <quantity>897.26</quantity>
+                  </Point>
+                  <Point>
+                    <position>52</position>
+                    <quantity>950.37</quantity>
+                  </Point>
+                  <Point>
+                    <position>53</position>
+                    <quantity>938.08</quantity>
+                  </Point>
+                  <Point>
+                    <position>54</position>
+                    <quantity>928.32</quantity>
+                  </Point>
+                  <Point>
+                    <position>55</position>
+                    <quantity>854.31</quantity>
+                  </Point>
+                  <Point>
+                    <position>56</position>
+                    <quantity>836.21</quantity>
+                  </Point>
+                  <Point>
+                    <position>57</position>
+                    <quantity>886.02</quantity>
+                  </Point>
+                  <Point>
+                    <position>58</position>
+                    <quantity>898.45</quantity>
+                  </Point>
+                  <Point>
+                    <position>59</position>
+                    <quantity>940.54</quantity>
+                  </Point>
+                  <Point>
+                    <position>60</position>
+                    <quantity>927.46</quantity>
+                  </Point>
+                  <Point>
+                    <position>61</position>
+                    <quantity>937.08</quantity>
+                  </Point>
+                  <Point>
+                    <position>62</position>
+                    <quantity>834.15</quantity>
+                  </Point>
+                  <Point>
+                    <position>63</position>
+                    <quantity>819.78</quantity>
+                  </Point>
+                  <Point>
+                    <position>64</position>
+                    <quantity>843.56</quantity>
+                  </Point>
+                  <Point>
+                    <position>65</position>
+                    <quantity>819.23</quantity>
+                  </Point>
+                  <Point>
+                    <position>66</position>
+                    <quantity>760.38</quantity>
+                  </Point>
+                  <Point>
+                    <position>67</position>
+                    <quantity>688.58</quantity>
+                  </Point>
+                  <Point>
+                    <position>68</position>
+                    <quantity>658.39</quantity>
+                  </Point>
+                  <Point>
+                    <position>69</position>
+                    <quantity>0</quantity>
+                  </Point>
+                  <Point>
+                    <position>89</position>
+                    <quantity>517.55</quantity>
+                  </Point>
+                  <Point>
+                    <position>90</position>
+                    <quantity>517.98</quantity>
+                  </Point>
+                  <Point>
+                    <position>91</position>
+                    <quantity>561.54</quantity>
+                  </Point>
+                  <Point>
+                    <position>92</position>
+                    <quantity>529.79</quantity>
+                  </Point>
+                  <Point>
+                    <position>93</position>
+                    <quantity>279.76</quantity>
+                  </Point>
+                  <Point>
+                    <position>94</position>
+                    <quantity>227.29</quantity>
+                  </Point>
+                  <Point>
+                    <position>95</position>
+                    <quantity>230.22</quantity>
+                  </Point>
+                  <Point>
+                    <position>96</position>
+                    <quantity>94.31</quantity>
+                  </Point>
+              </Period>
+          </TimeSeries>
+      </Publication_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202308242200&out_Domain=10YDE-RWENET---I&in_Domain=10YBE----------2&periodStart=202308232200&documentType=A11"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

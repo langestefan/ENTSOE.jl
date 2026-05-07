@@ -1,6 +1,7 @@
 using ENTSOE
 using Test
 using Dates: DateTime, Date
+using TimeZones: ZonedDateTime, FixedTimeZone
 
 # Unit tests for the named-argument query layer in
 # `src/conveniences/queries.jl`. Live calls are exercised via
@@ -29,6 +30,15 @@ end
     @test ENTSOE._to_period(DateTime("2024-09-01T22:00")) === Int64(202409012200)
     # Date → midnight on that date.
     @test ENTSOE._to_period(Date("2024-09-02")) === Int64(202409020000)
+    # ZonedDateTime → goes through the AbstractDateTime overload, then
+    # internally converted to UTC via `entsoe_period`.
+    cest = FixedTimeZone("CEST", 7200)
+    zdt  = ZonedDateTime(DateTime("2024-09-02T00:00"), cest)
+    @test ENTSOE._to_period(zdt) === Int64(202409012200)   # 22:00 UTC the prior day
+
+    # Catch-all rejects unsupported types loudly.
+    @test_throws ArgumentError ENTSOE._to_period("not a period")
+    @test_throws ArgumentError ENTSOE._to_period(3.14)
 end
 
 # Pad BrokenRecord state for Julia 1.12 thread-safety (same workaround as
@@ -61,6 +71,22 @@ let id = Base.identify_package("BrokenRecord")
         )
 
         client = ENTSOEClient("PLAYBACK")
+
+        @testset "validate=true passes through for a known EIC" begin
+            # Pair to the negative test above — drives the loop body in
+            # `_query` to completion (line 59) and confirms validation
+            # doesn't false-positive on a real bidding zone code.
+            rows = Base.invokelatest(BR.playback,
+                () -> day_ahead_prices(
+                    client, EIC.NL,
+                    DateTime("2024-09-01T22:00"),
+                    DateTime("2024-09-02T22:00");
+                    validate = true,
+                ),
+                "market_121d_day_ahead_prices_NL.yml",
+            )
+            @test !isempty(rows)
+        end
 
         @testset "actual_total_load (Load 6.1.A cassette)" begin
             rows = Base.invokelatest(BR.playback,
@@ -122,6 +148,119 @@ let id = Base.identify_package("BrokenRecord")
             )
             @test xml isa AbstractString
             @test occursin("<Publication_MarketDocument", xml)
+        end
+
+        # ---------------------------------------------------------------
+        # The remaining named-arg wrappers each get one cassette playback.
+        # We keep assertions light — the point is to drive the wrapper
+        # function and prove the parser handles the document shape.
+        # ---------------------------------------------------------------
+
+        local _start = DateTime("2024-09-01T22:00")
+        local _stop  = DateTime("2024-09-02T22:00")
+
+        @testset "day_ahead_load_forecast (Load 6.1.B cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> day_ahead_load_forecast(client, EIC.NL, _start, _stop),
+                "load_61b_day_ahead_forecast_NL.yml",
+            )
+            @test length(rows) == 96
+            @test all(r.value > 1_000 for r in rows)   # MW
+        end
+
+        @testset "week_ahead_load_forecast (Load 6.1.C cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> week_ahead_load_forecast(client, EIC.NL, _start, _stop),
+                "load_61c_week_ahead_forecast_NL.yml",
+            )
+            # Week-ahead is typically just a min/max forecast for the
+            # period, not a quarter-hour curve — small row count is fine.
+            @test !isempty(rows)
+        end
+
+        @testset "month_ahead_load_forecast (Load 6.1.D cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> month_ahead_load_forecast(client, EIC.NL, _start, _stop),
+                "load_61d_month_ahead_forecast_NL.yml",
+            )
+            @test !isempty(rows)
+        end
+
+        @testset "year_ahead_load_forecast (Load 6.1.E cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> year_ahead_load_forecast(client, EIC.NL,
+                    DateTime("2023-12-31T23:00"),
+                    DateTime("2024-12-31T23:00")),
+                "load_61e_year_ahead_forecast_NL.yml",
+            )
+            @test !isempty(rows)
+        end
+
+        @testset "generation_forecast_day_ahead (Generation 14.1.C cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> generation_forecast_day_ahead(client, EIC.NL, _start, _stop),
+                "generation_141c_forecast_day_ahead_NL.yml",
+            )
+            @test length(rows) == 96
+            @test all(r.value > 0 for r in rows)
+        end
+
+        @testset "wind_solar_forecast (Generation 14.1.D cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> wind_solar_forecast(client, EIC.NL, _start, _stop),
+                "generation_141d_wind_solar_forecast_NL.yml",
+            )
+            @test !isempty(rows)
+            # Result is per-PSR — should see at least Solar (B16) and one
+            # of the wind technologies.
+            @test any(r.psr_type == "B16" for r in rows)
+            @test any(r.psr_type in ("B18", "B19") for r in rows)
+        end
+
+        @testset "actual_generation_per_production_type (Generation 16.1.B/C cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> actual_generation_per_production_type(
+                    client, EIC.NL, _start, _stop),
+                "generation_161bc_actual_per_psr_NL.yml",
+            )
+            @test !isempty(rows)
+            # Many PSR types contributing on a normal day.
+            psrs = unique(r.psr_type for r in rows)
+            @test length(psrs) >= 4
+            @test "B16" in psrs   # Solar always present in NL data
+        end
+
+        @testset "omi_other_market_information — first page is acknowledgement → throws" begin
+            # NL B47 returns an acknowledgement (no OMI submitted for
+            # that area on that day). With `max_pages = 1` our wrapper
+            # sees the ack on iteration 0 and throws.
+            err = nothing
+            try
+                Base.invokelatest(BR.playback,
+                    () -> omi_other_market_information(
+                        client, EIC.NL,
+                        DateTime("2024-09-23T22:00"),
+                        DateTime("2024-09-24T22:00");
+                        document_type = "B47", page_size = 200, max_pages = 1,
+                    ),
+                    "omi_other_market_information_NL.yml",
+                )
+            catch e
+                err = e
+            end
+            @test err isa ENTSOEAcknowledgement
+            @test err.reason_code == "999"
+        end
+
+        @testset "cross_border_physical_flows (Transmission 12.1.G cassette)" begin
+            rows = Base.invokelatest(BR.playback,
+                () -> cross_border_physical_flows(
+                    client, EIC.NL, EIC.DE_LU, _start, _stop),
+                "transmission_121g_cross_border_NL_DE.yml",
+            )
+            @test !isempty(rows)
+            # Hourly resolution, 24 h window.
+            @test rows[1].time == _start
         end
     end
 end

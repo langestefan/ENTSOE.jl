@@ -1,8 +1,28 @@
 using ENTSOE
+using ENTSOE: is_retryable
 using Test
 
 const _NO_SLEEP = (_::Real) -> nothing
 const _ONE_JITTER = () -> 1.0
+
+@testset "is_retryable — APIError without a retryable subtype" begin
+    # `is_retryable` falls through to `return false` for any APIError
+    # whose concrete type isn't one of the listed retryable families
+    # (NetworkError / ClientError / ServerError / AuthError /
+    # RateLimitError / TimeoutError). `ENTSOEAcknowledgement` is the
+    # canonical example: ENTSO-E returning "no matching data" is a
+    # *result*, not a transient failure.
+    ack = ENTSOEAcknowledgement("999", "No matching data found")
+    @test is_retryable(RetryPolicy(), ack) == false
+end
+
+@testset "is_retryable — non-APIError exception fallback" begin
+    # A different overload (`is_retryable(::RetryPolicy, ::Exception)`)
+    # exists so that an arbitrary exception thrown by user code never
+    # accidentally triggers a retry. Exercise it.
+    @test is_retryable(RetryPolicy(), ArgumentError("user bug")) == false
+    @test is_retryable(RetryPolicy(), ErrorException("oops")) == false
+end
 
 @testset "with_retry returns first success" begin
     calls = Ref(0)

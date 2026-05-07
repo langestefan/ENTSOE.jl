@@ -1,0 +1,157 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:27 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Energy_Prices_202407272200-202407282200.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="utf-8"?>
+        <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:3">
+          <mRID>8c8531bce19b4f87b7d7e57586511032</mRID>
+          <revisionNumber>1</revisionNumber>
+          <type>A44</type>
+          <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+          <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+          <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+          <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+          <createdDateTime>2026-05-07T13:17:27Z</createdDateTime>
+          <period.timeInterval>
+            <start>2024-07-27T22:00Z</start>
+            <end>2024-07-28T22:00Z</end>
+          </period.timeInterval>
+            <TimeSeries>
+              <mRID>1</mRID>
+              <auction.type>A01</auction.type>
+              <businessType>A62</businessType>
+              <in_Domain.mRID codingScheme="A01">10YAT-APG------L</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10YAT-APG------L</out_Domain.mRID>
+              <contract_MarketAgreement.type>A01</contract_MarketAgreement.type>
+              <currency_Unit.name>EUR</currency_Unit.name>
+              <price_Measure_Unit.name>MWH</price_Measure_Unit.name>
+                <classificationSequence_AttributeInstanceComponent.position>1</classificationSequence_AttributeInstanceComponent.position>
+              <curveType>A03</curveType>
+                <Period>
+                  <timeInterval>
+                    <start>2024-07-27T22:00Z</start>
+                    <end>2024-07-28T22:00Z</end>
+                  </timeInterval>
+                  <resolution>PT60M</resolution>
+                    <Point>
+                      <position>1</position>
+                        <price.amount>95.44</price.amount>
+                    </Point>
+                    <Point>
+                      <position>2</position>
+                        <price.amount>87.21</price.amount>
+                    </Point>
+                    <Point>
+                      <position>3</position>
+                        <price.amount>80.75</price.amount>
+                    </Point>
+                    <Point>
+                      <position>4</position>
+                        <price.amount>76.25</price.amount>
+                    </Point>
+                    <Point>
+                      <position>5</position>
+                        <price.amount>72.98</price.amount>
+                    </Point>
+                    <Point>
+                      <position>6</position>
+                        <price.amount>64.98</price.amount>
+                    </Point>
+                    <Point>
+                      <position>7</position>
+                        <price.amount>65.08</price.amount>
+                    </Point>
+                    <Point>
+                      <position>8</position>
+                        <price.amount>64.94</price.amount>
+                    </Point>
+                    <Point>
+                      <position>9</position>
+                        <price.amount>25.49</price.amount>
+                    </Point>
+                    <Point>
+                      <position>10</position>
+                        <price.amount>5.18</price.amount>
+                    </Point>
+                    <Point>
+                      <position>11</position>
+                        <price.amount>0</price.amount>
+                    </Point>
+                    <Point>
+                      <position>12</position>
+                        <price.amount>0.01</price.amount>
+                    </Point>
+                    <Point>
+                      <position>13</position>
+                        <price.amount>-0.01</price.amount>
+                    </Point>
+                    <Point>
+                      <position>14</position>
+                        <price.amount>-14.84</price.amount>
+                    </Point>
+                    <Point>
+                      <position>15</position>
+                        <price.amount>-38.91</price.amount>
+                    </Point>
+                    <Point>
+                      <position>16</position>
+                        <price.amount>-9.91</price.amount>
+                    </Point>
+                    <Point>
+                      <position>17</position>
+                        <price.amount>0</price.amount>
+                    </Point>
+                    <Point>
+                      <position>18</position>
+                        <price.amount>38.06</price.amount>
+                    </Point>
+                    <Point>
+                      <position>19</position>
+                        <price.amount>54.94</price.amount>
+                    </Point>
+                    <Point>
+                      <position>20</position>
+                        <price.amount>80.49</price.amount>
+                    </Point>
+                    <Point>
+                      <position>21</position>
+                        <price.amount>88.17</price.amount>
+                    </Point>
+                    <Point>
+                      <position>22</position>
+                        <price.amount>100.99</price.amount>
+                    </Point>
+                    <Point>
+                      <position>23</position>
+                        <price.amount>92.99</price.amount>
+                    </Point>
+                    <Point>
+                      <position>24</position>
+                        <price.amount>81.23</price.amount>
+                    </Point>
+                </Period>
+            </TimeSeries>
+        </Publication_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?classificationSequence_AttributeInstanceComponent.position=1&periodEnd=202407282200&out_Domain=10YAT-APG------L&in_Domain=10YAT-APG------L&offset=0&periodStart=202407272200&contract_MarketAgreement.type=A01&documentType=A44"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

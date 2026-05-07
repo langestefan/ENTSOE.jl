@@ -1,0 +1,41 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:31 GMT"
+      - Content-Type: "text/xml"
+      - Content-Length: "917"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="acknowledgement.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Acknowledgement_MarketDocument
+      	xmlns="urn:iec62325.351:tc57wg16:451-1:acknowledgementdocument:7:0">
+      	<mRID>eb5a49a5-4fac-4</mRID>
+      	<createdDateTime>2026-05-07T13:17:31Z</createdDateTime>
+      	<sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+      	<sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+      	<receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+      	<receiver_MarketParticipant.marketRole.type>A39</receiver_MarketParticipant.marketRole.type>
+      	<received_MarketDocument.createdDateTime>2026-05-07T13:17:31Z</received_MarketDocument.createdDateTime>
+      	<Reason>
+      		<code>999</code>
+      		<text>No matching data found for Data item INSTALLED_GENERATION_CAPACITY_PER_UNIT [NONE] and interval null/null.</text>
+      	</Reason>
+      </Acknowledgement_MarketDocument>
+      
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202308020000&PsrType=B02&in_Domain=10YBE----------2&processType=A33&periodStart=202308010000&documentType=A71"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

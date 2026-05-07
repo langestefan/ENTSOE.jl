@@ -1,0 +1,25 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:33 GMT"
+      - Content-Type: "text/xml"
+      - Content-Length: "882"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="acknowledgement.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: ""
+    status: 400
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202312312300&out_Domain=10YHU-MAVIR----U&in_Domain=10YSK-SEPS-----K&periodStart=202301010000&DocStatus=A01&businessType=B01&documentType=A90"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

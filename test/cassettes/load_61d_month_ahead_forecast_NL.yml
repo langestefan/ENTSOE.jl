@@ -1,0 +1,81 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:03:20 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Total Load Forecast 202409012200-202409022200.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="utf-8"?>
+      <GL_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-6:generationloaddocument:3:0">
+        <mRID>fcc9a96dd0ca4ab5af9a0e5997efffad</mRID>
+        <revisionNumber>1</revisionNumber>
+        <type>A65</type>
+        <process.processType>A32</process.processType>
+        <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+        <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+        <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+        <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+        <createdDateTime>2026-05-07T13:03:20Z</createdDateTime>
+        <time_Period.timeInterval>
+          <start>2024-09-01T22:00Z</start>
+          <end>2024-09-08T22:00Z</end>
+        </time_Period.timeInterval>
+            <TimeSeries>
+              <mRID>1</mRID>
+              <businessType>A60</businessType>
+              <objectAggregation>A01</objectAggregation>
+              <outBiddingZone_Domain.mRID codingScheme="A01">10YNL----------L</outBiddingZone_Domain.mRID>
+              <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+              <curveType>A03</curveType>
+                  <Period>
+                    <timeInterval>
+                      <start>2024-09-01T22:00Z</start>
+                      <end>2024-09-08T22:00Z</end>
+                    </timeInterval>
+                    <resolution>P7D</resolution>
+                        <Point>
+                          <position>1</position>
+                          <quantity>10050.43</quantity>
+                        </Point>
+                  </Period>
+            </TimeSeries>
+            <TimeSeries>
+              <mRID>2</mRID>
+              <businessType>A61</businessType>
+              <objectAggregation>A01</objectAggregation>
+              <outBiddingZone_Domain.mRID codingScheme="A01">10YNL----------L</outBiddingZone_Domain.mRID>
+              <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+              <curveType>A03</curveType>
+                  <Period>
+                    <timeInterval>
+                      <start>2024-09-01T22:00Z</start>
+                      <end>2024-09-08T22:00Z</end>
+                    </timeInterval>
+                    <resolution>P7D</resolution>
+                        <Point>
+                          <position>1</position>
+                          <quantity>15354.34</quantity>
+                        </Point>
+                  </Period>
+            </TimeSeries>
+      </GL_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202409022200&outBiddingZone_Domain=10YNL----------L&processType=A32&periodStart=202409012200&documentType=A65"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

@@ -9,11 +9,13 @@ OpenAPI = "d5e62ea6-ddf3-4d43-8e4c-ad5e6c8bfd7d"
 TOML = "fa267f1f-6049-4f14-aa54-33bafae1ed76"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
 TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
+ZipFile = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
 
 [compat]
 Aqua = "0.8"
 BrokenRecord = "0.1"
 JET = "0.9, 0.10, 0.11"
+ZipFile = "0.10"
 
 # Note: the package being tested (ENTSOE) is NOT listed here.
 # `Pkg.test` injects it into the test sandbox automatically via `develop`

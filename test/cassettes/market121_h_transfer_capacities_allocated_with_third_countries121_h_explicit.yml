@@ -1,0 +1,64 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:21 GMT"
+      - Content-Type: "text/xml"
+      - Content-Length: "1861"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Transfer_capacities_allocated_with_third_countries_202308232200-202308242200.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="utf-8"?>
+      <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:0">
+        <mRID>e3b2448b77b640e5b4e2b2c964517637</mRID>
+        <revisionNumber>1</revisionNumber>
+        <type>A94</type>
+        <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+        <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+        <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+        <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+        <createdDateTime>2026-05-07T13:17:21Z</createdDateTime>
+        <period.timeInterval>
+          <start>2023-08-23T22:00Z</start>
+          <end>2023-08-24T22:00Z</end>
+        </period.timeInterval>
+          <TimeSeries>
+            <mRID>1</mRID>
+              <auction.mRID>A_D_Elbas_FI_RU_0-24</auction.mRID>
+            <auction.type>A02</auction.type>
+              <auction.category>A04</auction.category>
+            <businessType>A34</businessType>
+            <in_Domain.mRID codingScheme="A01">10Y1001A1001A49F</in_Domain.mRID>
+            <out_Domain.mRID codingScheme="A01">10YFI-1--------U</out_Domain.mRID>
+            <contract_MarketAgreement.type>A07</contract_MarketAgreement.type>
+            <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+              <classificationSequence_AttributeInstanceComponent.position>2</classificationSequence_AttributeInstanceComponent.position>
+            <curveType>A03</curveType>
+              <Period>
+                <timeInterval>
+                  <start>2023-08-23T22:00Z</start>
+                  <end>2023-08-24T22:00Z</end>
+                </timeInterval>
+                <resolution>PT60M</resolution>
+                  <Point>
+                    <position>1</position>
+                      <quantity>0</quantity>
+                  </Point>
+              </Period>
+          </TimeSeries>
+      </Publication_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202308242200&auction.Type=A02&out_Domain=10YFI-1--------U&in_Domain=10Y1001A1001A49F&periodStart=202308232200&contract_MarketAgreement.Type=A07&classificationSequence_AttributeInstanceComponent.Position=1&auction.Category=A04&documentType=A94"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

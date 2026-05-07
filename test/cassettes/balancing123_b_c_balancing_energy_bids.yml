@@ -1,0 +1,41 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:37 GMT"
+      - Content-Type: "text/xml"
+      - Content-Length: "968"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="acknowledgement.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Acknowledgement_MarketDocument
+      	xmlns="urn:iec62325.351:tc57wg16:451-1:acknowledgementdocument:7:0">
+      	<mRID>6a7de581-71b2-4</mRID>
+      	<createdDateTime>2026-05-07T13:17:37Z</createdDateTime>
+      	<sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+      	<sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+      	<receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+      	<receiver_MarketParticipant.marketRole.type>A39</receiver_MarketParticipant.marketRole.type>
+      	<received_MarketDocument.createdDateTime>2026-05-07T13:17:37Z</received_MarketDocument.createdDateTime>
+      	<Reason>
+      		<code>999</code>
+      		<text>No matching data found for Data item BALANCING_ENERGY_BIDS_R3 [GL EB 12.3.B&amp;C] (10YBE----------2) and interval 2023-10-07T22:00:00Z/2023-10-08T22:00:00Z.</text>
+      	</Reason>
+      </Acknowledgement_MarketDocument>
+      
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202310082200&connecting_Domain=10YBE----------2&processType=A47&offset=1000&periodStart=202310072200&Standard_MarketProduct=A01&businessType=B74&Original_MarketProduct=A02&Direction=A01&documentType=A37"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

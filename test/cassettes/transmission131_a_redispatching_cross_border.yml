@@ -1,0 +1,75 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:33 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Redispatching_Cross_Border_202311130000-202311131100.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <TransmissionNetwork_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-6:transmissionnetworkdocument:4:2">
+        <mRID>3d838621339c4acfa527ed6f1e9d17c8</mRID>
+        <revisionNumber>1</revisionNumber>
+        <type>A63</type>
+        <process.processType>A16</process.processType>
+        <createdDateTime>2026-05-07T13:17:33Z</createdDateTime>
+        <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+        <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+        <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+        <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+        <period.timeInterval>
+          <start>2023-11-13T00:00Z</start>
+          <end>2023-11-13T11:00Z</end>
+        </period.timeInterval>
+            <TimeSeries>
+              <mRID>1</mRID>
+              <businessType>A46</businessType>
+              <in_Domain.mRID codingScheme="A01">10YFR-RTE------C</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10YAT-APG------L</out_Domain.mRID>
+              <quantity_Measurement_Unit.name>MWH</quantity_Measurement_Unit.name>
+              <mktPSRType.psrType>A05</mktPSRType.psrType>
+              <curveType>A03</curveType>
+              <flowDirection.direction>A02</flowDirection.direction>
+                  <Period>
+                    <timeInterval>
+                      <start>2023-11-13T00:00Z</start>
+                      <end>2023-11-13T11:00Z</end>
+                    </timeInterval>
+                    <resolution>PT15M</resolution>
+                      <Point>
+                        <position>1</position>
+                        <quantity>62.5</quantity>
+                      </Point>
+                      <Point>
+                        <position>21</position>
+                        <quantity>125</quantity>
+                      </Point>
+                  </Period>
+                  <Reason>
+                    <code>B24</code>
+                  </Reason>
+                  <Reason>
+                    <code>A95</code>
+                        <text>Es sind mehrere Regelzonen in der Gegenrichtung beteiligt</text>
+                  </Reason>
+            </TimeSeries>
+      </TransmissionNetwork_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202312010000&out_Domain=10YAT-APG------L&in_Domain=10YFR-RTE------C&periodStart=202311010000&businessType=A46&documentType=A63"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

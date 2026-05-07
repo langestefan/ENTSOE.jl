@@ -40,6 +40,11 @@ end
     )
 end
 
+@testset "_to_datetime — unsupported types reject loudly" begin
+    @test_throws ArgumentError ENTSOE._to_datetime("not a date")
+    @test_throws ArgumentError ENTSOE._to_datetime(3.14)
+end
+
 @testset "query_split — concatenates chunk results" begin
     # Mock query_fn: returns one row per call labelling the chunk.
     history = Tuple{DateTime, DateTime}[]

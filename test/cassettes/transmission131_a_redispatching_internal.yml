@@ -1,0 +1,201 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:33 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Redispatching_Internal_202310312300-202311052300.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <TransmissionNetwork_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-6:transmissionnetworkdocument:4:2">
+        <mRID>e1bfccf766b94929823a43477c4bb228</mRID>
+        <revisionNumber>1</revisionNumber>
+        <type>A63</type>
+        <process.processType>A16</process.processType>
+        <createdDateTime>2026-05-07T13:17:33Z</createdDateTime>
+        <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+        <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+        <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+        <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+        <period.timeInterval>
+          <start>2023-10-31T23:00Z</start>
+          <end>2023-11-05T23:00Z</end>
+        </period.timeInterval>
+            <TimeSeries>
+              <mRID>1</mRID>
+              <businessType>A85</businessType>
+              <in_Domain.mRID codingScheme="A01">10YNL----------L</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10YNL----------L</out_Domain.mRID>
+              <quantity_Measurement_Unit.name>MWH</quantity_Measurement_Unit.name>
+              <mktPSRType.psrType>A05</mktPSRType.psrType>
+              <curveType>A03</curveType>
+              <flowDirection.direction>A01</flowDirection.direction>
+                      <Asset_RegisteredResource>
+                        <mRID codingScheme="A01">49T000000000436O</mRID>
+                            <pSRType.psrType>B21</pSRType.psrType>
+                        <location.name>Hardenberg - Ommen Dante wit 110 kV</location.name>
+                      </Asset_RegisteredResource>
+                  <Period>
+                    <timeInterval>
+                      <start>2023-10-31T23:00Z</start>
+                      <end>2023-11-01T23:00Z</end>
+                    </timeInterval>
+                    <resolution>PT15M</resolution>
+                        <Point>
+                          <position>1</position>
+                          <quantity>25</quantity>
+                        </Point>
+                        <Point>
+                          <position>33</position>
+                          <quantity>0</quantity>
+                        </Point>
+                  </Period>
+                  <Reason>
+                    <code>B24</code>
+                  </Reason>
+            </TimeSeries>
+            <TimeSeries>
+              <mRID>2</mRID>
+              <businessType>A85</businessType>
+              <in_Domain.mRID codingScheme="A01">10YNL----------L</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10YNL----------L</out_Domain.mRID>
+              <quantity_Measurement_Unit.name>MWH</quantity_Measurement_Unit.name>
+              <mktPSRType.psrType>A04</mktPSRType.psrType>
+              <curveType>A03</curveType>
+              <flowDirection.direction>A02</flowDirection.direction>
+                      <Asset_RegisteredResource>
+                        <mRID codingScheme="A01">49T000000000436O</mRID>
+                            <pSRType.psrType>B21</pSRType.psrType>
+                        <location.name>Hardenberg - Ommen Dante wit 110 kV</location.name>
+                      </Asset_RegisteredResource>
+                  <Period>
+                    <timeInterval>
+                      <start>2023-10-31T23:00Z</start>
+                      <end>2023-11-01T23:00Z</end>
+                    </timeInterval>
+                    <resolution>PT15M</resolution>
+                        <Point>
+                          <position>1</position>
+                          <quantity>6.25</quantity>
+                        </Point>
+                        <Point>
+                          <position>33</position>
+                          <quantity>0</quantity>
+                        </Point>
+                  </Period>
+                  <Reason>
+                    <code>B24</code>
+                  </Reason>
+            </TimeSeries>
+            <TimeSeries>
+              <mRID>3</mRID>
+              <businessType>A85</businessType>
+              <in_Domain.mRID codingScheme="A01">10YNL----------L</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10YNL----------L</out_Domain.mRID>
+              <quantity_Measurement_Unit.name>MWH</quantity_Measurement_Unit.name>
+              <mktPSRType.psrType>A05</mktPSRType.psrType>
+              <curveType>A03</curveType>
+              <flowDirection.direction>A01</flowDirection.direction>
+                      <Asset_RegisteredResource>
+                        <mRID codingScheme="A01">49T0000000000282</mRID>
+                            <pSRType.psrType>B21</pSRType.psrType>
+                        <location.name>Krimpen a/d IJssel - Gberg</location.name>
+                      </Asset_RegisteredResource>
+                      <Asset_RegisteredResource>
+                        <mRID codingScheme="A01">49T000000000436O</mRID>
+                            <pSRType.psrType>B21</pSRType.psrType>
+                        <location.name>Hardenberg - Ommen Dante wit 110 kV</location.name>
+                      </Asset_RegisteredResource>
+                  <Period>
+                    <timeInterval>
+                      <start>2023-11-04T23:00Z</start>
+                      <end>2023-11-05T23:00Z</end>
+                    </timeInterval>
+                    <resolution>PT15M</resolution>
+                        <Point>
+                          <position>1</position>
+                          <quantity>0</quantity>
+                        </Point>
+                        <Point>
+                          <position>53</position>
+                          <quantity>27.975</quantity>
+                        </Point>
+                        <Point>
+                          <position>57</position>
+                          <quantity>28.725</quantity>
+                        </Point>
+                        <Point>
+                          <position>61</position>
+                          <quantity>0</quantity>
+                        </Point>
+                  </Period>
+                  <Reason>
+                    <code>B24</code>
+                  </Reason>
+            </TimeSeries>
+            <TimeSeries>
+              <mRID>4</mRID>
+              <businessType>A85</businessType>
+              <in_Domain.mRID codingScheme="A01">10YNL----------L</in_Domain.mRID>
+              <out_Domain.mRID codingScheme="A01">10YNL----------L</out_Domain.mRID>
+              <quantity_Measurement_Unit.name>MWH</quantity_Measurement_Unit.name>
+              <mktPSRType.psrType>A05</mktPSRType.psrType>
+              <curveType>A03</curveType>
+              <flowDirection.direction>A02</flowDirection.direction>
+                      <Asset_RegisteredResource>
+                        <mRID codingScheme="A01">49T0000000000282</mRID>
+                            <pSRType.psrType>B21</pSRType.psrType>
+                        <location.name>Krimpen a/d IJssel - Gberg</location.name>
+                      </Asset_RegisteredResource>
+                      <Asset_RegisteredResource>
+                        <mRID codingScheme="A01">49T000000000436O</mRID>
+                            <pSRType.psrType>B21</pSRType.psrType>
+                        <location.name>Hardenberg - Ommen Dante wit 110 kV</location.name>
+                      </Asset_RegisteredResource>
+                  <Period>
+                    <timeInterval>
+                      <start>2023-11-04T23:00Z</start>
+                      <end>2023-11-05T23:00Z</end>
+                    </timeInterval>
+                    <resolution>PT15M</resolution>
+                        <Point>
+                          <position>1</position>
+                          <quantity>0</quantity>
+                        </Point>
+                        <Point>
+                          <position>53</position>
+                          <quantity>27.975</quantity>
+                        </Point>
+                        <Point>
+                          <position>57</position>
+                          <quantity>28.725</quantity>
+                        </Point>
+                        <Point>
+                          <position>61</position>
+                          <quantity>0</quantity>
+                        </Point>
+                  </Period>
+                  <Reason>
+                    <code>B24</code>
+                  </Reason>
+            </TimeSeries>
+      </TransmissionNetwork_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202311302300&out_Domain=10YNL----------L&in_Domain=10YNL----------L&periodStart=202310312300&businessType=A85&documentType=A63"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

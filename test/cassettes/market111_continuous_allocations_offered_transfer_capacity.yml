@@ -1,0 +1,25 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:26 GMT"
+      - Content-Type: "text/xml"
+      - Content-Length: "902"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="acknowledgement.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: ""
+    status: 400
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?DocumentType=A31&Contract_MarketAgreement.Type=A07&PeriodStart=202405152200&In_Domain=10YNL----------L&PeriodEnd=202504162200&Out_Domain=10YBE----------2&Update_DateAndOrTime=20240515123900&Auction.Type=A08"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

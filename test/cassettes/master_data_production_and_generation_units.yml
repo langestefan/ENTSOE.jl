@@ -1,0 +1,831 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:44 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="EXPORT_PRODUCTION_AND_GENERATION_UNITS_201711100 - 2100111300.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <Configuration_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-6:configurationdocument:3:0">
+          <mRID>0428ba4a5c2044d78d42087357b44568</mRID>
+          <type>A95</type>
+          <process.processType>A39</process.processType>
+          <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+          <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+          <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+          <receiver_MarketParticipant.marketRole.type>A32</receiver_MarketParticipant.marketRole.type>
+          <createdDateTime>2026-05-07T13:17:44Z</createdDateTime>
+          <TimeSeries>
+              <mRID>4cc0dcf27cf64c8f</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2021-05-19</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22W20181005PU--J</registeredResource.mRID>
+              <registeredResource.name>VILVOORDE TGV</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">385</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20181005GU--R</mRID>
+                      <name>VILVOORDE GT</name>
+                      <nominalP unit="MAW">264</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20181015PU--J</mRID>
+                      <name>VILVOORDE GT</name>
+                      <nominalP unit="MAW">255</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20220118GU--F</mRID>
+                      <name>VILVOORDE ST</name>
+                      <nominalP unit="MAW">121</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>c8db9b0881b94740</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2018-10-21</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22W20181005PU--J</registeredResource.mRID>
+              <registeredResource.name>VILVOORDE GT</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">255</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20181015PU--J</mRID>
+                      <name>VILVOORDE GT</name>
+                      <nominalP unit="MAW">255</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>d0ca164599654165</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2025-03-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22W20220520----B</registeredResource.mRID>
+              <registeredResource.name>Flémalle CCGT</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">380</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">890</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20220519----1</mRID>
+                      <name>Flemalle CCGT</name>
+                      <nominalP unit="MAW">890</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>8da5fde9880a4144</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2025-10-23</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22W20231024----8</registeredResource.mRID>
+              <registeredResource.name>Luminus Seraing 2.0 CCGT</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">220</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">875.42</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20231025----2</mRID>
+                      <name>Luminus Seraing 2.0 GT3</name>
+                      <nominalP unit="MAW">586.53</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W20231026----X</mRID>
+                      <name>Luminus Seraing 2.0 ST2</name>
+                      <nominalP unit="MAW">288.89</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>3de7166f30484570</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2018-10-14</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22W201806271---D</registeredResource.mRID>
+              <registeredResource.name>EDF Luminus Seraing TGV</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">220</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">470</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W201806282---2</mRID>
+                      <name>EDF Luminus Seraing GT1</name>
+                      <nominalP unit="MAW">150</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W201806283---Y</mRID>
+                      <name>EDF Luminus Seraing GT2</name>
+                      <nominalP unit="MAW">150</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W201806284---T</mRID>
+                      <name>SERAING TV</name>
+                      <nominalP unit="MAW">170</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>2ad9981085de481c</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WAMERCO000010Y</registeredResource.mRID>
+              <registeredResource.name>Amercoeur 1 R TGV</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">451</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WAMERCO000008L</mRID>
+                      <name>Amercoeur 1 R GT</name>
+                      <nominalP unit="MAW">289</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WAMERCO000009J</mRID>
+                      <name>Amercoeur 1 R ST</name>
+                      <nominalP unit="MAW">162</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>c535265429ab4c38</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2017-03-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WDROGEN0000863</registeredResource.mRID>
+              <registeredResource.name>DROGENBOS TGV</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">465</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WDROGEN0000839</mRID>
+                      <name>DROGENBOS GT1</name>
+                      <nominalP unit="MAW">150</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WDROGEN0000847</mRID>
+                      <name>DROGENBOS GT2</name>
+                      <nominalP unit="MAW">150</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WDROGEN0000855</mRID>
+                      <name>DROGENBOS ST</name>
+                      <nominalP unit="MAW">160</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>dcf6c0e8011c4a9d</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WDROGEN0000863</registeredResource.mRID>
+              <registeredResource.name>DROGENBOS TGV</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">465</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WDROGEN0000839</mRID>
+                      <name>DROGENBOS GT1</name>
+                      <nominalP unit="MAW">100</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WDROGEN0000847</mRID>
+                      <name>DROGENBOS GT2</name>
+                      <nominalP unit="MAW">100</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WDROGEN0000855</mRID>
+                      <name>DROGENBOS ST</name>
+                      <nominalP unit="MAW">165</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>bec8ce6efae649a1</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2017-03-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WHERDER0001288</registeredResource.mRID>
+              <registeredResource.name>HERDERSBRUG STEG</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">480.3</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WHERDER000125E</mRID>
+                      <name>HERDERSBRUG GT1</name>
+                      <nominalP unit="MAW">157</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WHERDER000126C</mRID>
+                      <name>HERDERSBRUG GT2</name>
+                      <nominalP unit="MAW">156.3</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WHERDER000127A</mRID>
+                      <name>HERDERSBRUG ST</name>
+                      <nominalP unit="MAW">167</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>69806ac67c9b40f8</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2017-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WHERDER0001288</registeredResource.mRID>
+              <registeredResource.name>HERDERSBRUG STEG</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">465</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WHERDER000125E</mRID>
+                      <name>HERDERSBRUG GT1</name>
+                      <nominalP unit="MAW">150</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WHERDER000126C</mRID>
+                      <name>HERDERSBRUG GT2</name>
+                      <nominalP unit="MAW">150</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WHERDER000127A</mRID>
+                      <name>HERDERSBRUG ST</name>
+                      <nominalP unit="MAW">167</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>4a5a58beff1f4be2</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2023-02-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WINESCO000149P</registeredResource.mRID>
+              <registeredResource.name>INESCO WKK</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">138</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W2019060542--2</mRID>
+                      <name>INESCO GT1</name>
+                      <nominalP unit="MAW">44.8</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W2019060543--Z</mRID>
+                      <name>INESCO GT2</name>
+                      <nominalP unit="MAW">44.8</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22W2019060544--V</mRID>
+                      <name>INESCO ST</name>
+                      <nominalP unit="MAW">48.5</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WINESCO150149P</mRID>
+                      <name>INESCO WKK</name>
+                      <nominalP unit="MAW">138</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>4baaac96cea14528</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2018-07-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WINESCO000149P</registeredResource.mRID>
+              <registeredResource.name>INESCO WKK</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">11XEEX--MIA----J</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">138</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WINESCO150149P</mRID>
+                      <name>INESCO WKK</name>
+                      <nominalP unit="MAW">138</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>4754eb16bfa74c04</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WINESCO000149P</registeredResource.mRID>
+              <registeredResource.name>INESCO WKK</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">11XEEX--MIA----J</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">133</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WINESCO150149P</mRID>
+                      <name>INESCO WKK</name>
+                      <nominalP unit="MAW">133</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>1bd0b08179934099</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2017-12-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WMARCIN000179H</registeredResource.mRID>
+              <registeredResource.name>Marcinelle Energie (Carsid)</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">413</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WMARCIN150179H</mRID>
+                      <name>Marcinelle Energie (Carsid)</name>
+                      <nominalP unit="MAW">413</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>af023e193a8a4880</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WMARCIN000179H</registeredResource.mRID>
+              <registeredResource.name>Marcinelle Energie (Carsid)</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">405</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WMARCIN150179H</mRID>
+                      <name>Marcinelle Energie (Carsid)</name>
+                      <nominalP unit="MAW">405</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>d1e6681dbf7247fa</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2019-07-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WRINGVA000209C</registeredResource.mRID>
+              <registeredResource.name>RINGVAART STEG</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">385</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WRINGVA150209C</mRID>
+                      <name>RINGVAART STEG</name>
+                      <nominalP unit="MAW">385</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>ae8edef43f974d11</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2016-12-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WRINGVA000209C</registeredResource.mRID>
+              <registeredResource.name>RINGVAART STEG</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">365</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WRINGVA150209C</mRID>
+                      <name>RINGVAART STEG</name>
+                      <nominalP unit="MAW">365</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>2386e19d3b1e4f00</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2022-09-20</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WSAINT-000221B</registeredResource.mRID>
+              <registeredResource.name>SAINT-GHISLAIN STEG</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">386</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WSAINT-150221B</mRID>
+                      <name>SAINT-GHISLAIN STEG</name>
+                      <nominalP unit="MAW">386</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>80d7d8f8fe0649ea</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-10-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WSAINT-000221B</registeredResource.mRID>
+              <registeredResource.name>SAINT-GHISLAIN STEG</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">350</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WSAINT-150221B</mRID>
+                      <name>SAINT-GHISLAIN STEG</name>
+                      <nominalP unit="MAW">350</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>2418a4e20d704fb2</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WSCHELD0002261</registeredResource.mRID>
+              <registeredResource.name>Scheldelaan Exxonmobil</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">140</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WSCHELD1502261</mRID>
+                      <name>Scheldelaan Exxonmobil</name>
+                      <nominalP unit="MAW">140</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>dd3a94faa83d467f</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2018-07-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WT-POWE000244W</registeredResource.mRID>
+              <registeredResource.name>T-power Beringen</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">11XEEX--MIA----J</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">422</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WT-POWE150244W</mRID>
+                      <name>T-power Beringen</name>
+                      <nominalP unit="MAW">422</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>bfa3020bb9c54279</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WT-POWE000244W</registeredResource.mRID>
+              <registeredResource.name>T-power Beringen</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">11XEEX--MIA----J</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">419.8</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WT-POWE150244W</mRID>
+                      <name>T-power Beringen</name>
+                      <nominalP unit="MAW">419.8</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>9380d50d053a4283</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2025-09-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WZANDVL000255D</registeredResource.mRID>
+              <registeredResource.name>Zandvliet Power</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">418.3</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WZANDVL150255D</mRID>
+                      <name>Zandvliet Power</name>
+                      <nominalP unit="MAW">418.3</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>4635ebda9c024cb3</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2016-07-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WZANDVL000255D</registeredResource.mRID>
+              <registeredResource.name>Zandvliet Power</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">386.2</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WZANDVL150255D</mRID>
+                      <name>Zandvliet Power</name>
+                      <nominalP unit="MAW">386.2</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+          <TimeSeries>
+              <mRID>52446f82ea0e42bd</mRID>
+              <businessType>B11</businessType>
+              <implementation_DateAndOrTime.date>2014-01-01</implementation_DateAndOrTime.date>
+              <biddingZone_Domain.mRID codingScheme="A01">10YBE----------2</biddingZone_Domain.mRID>
+              <registeredResource.mRID codingScheme="A01">22WZELZAT0002618</registeredResource.mRID>
+              <registeredResource.name>Zelzate 2 Knippegroen</registeredResource.name>
+              <registeredResource.location.name>Belgium</registeredResource.location.name>
+              <ControlArea_Domain>
+                  <mRID codingScheme="A01">10YBE----------2</mRID>
+              </ControlArea_Domain>
+              <Provider_MarketParticipant>
+                  <mRID codingScheme="A01">10X1001A1001A094</mRID>
+              </Provider_MarketParticipant>
+              <MktPSRType>
+                  <psrType>B04</psrType>
+                  <production_PowerSystemResources.highVoltageLimit unit="KVT">150</production_PowerSystemResources.highVoltageLimit>
+                  <nominalIP_PowerSystemResources.nominalP unit="MAW">315</nominalIP_PowerSystemResources.nominalP>
+                  <GeneratingUnit_PowerSystemResources>
+                      <mRID codingScheme="A01">22WZELZAT1502618</mRID>
+                      <name>Zelzate 2 Knippegroen</name>
+                      <nominalP unit="MAW">315</nominalP>
+                      <generatingUnit_PSRType.psrType>B04</generatingUnit_PSRType.psrType>
+                      <generatingUnit_Location.name>Belgium</generatingUnit_Location.name>
+                  </GeneratingUnit_PowerSystemResources>
+              </MktPSRType>
+          </TimeSeries>
+      </Configuration_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?psrType=B04&BiddingZone_Domain=10YBE----------2&businessType=B11&Implementation_DateAndOrTime=2017-01-01&documentType=A95"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

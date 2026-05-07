@@ -2,7 +2,7 @@
 
 julia_version = "1.12.6"
 manifest_format = "2.0"
-project_hash = "364f2ae19c8dddd774b2cfbdba3d70d41b45ab15"
+project_hash = "08959bed3f5b8818b552ac81da5315f4c413035e"
 
 [[deps.Aqua]]
 deps = ["Compat", "Pkg", "Test"]
@@ -494,6 +494,12 @@ deps = ["Base64", "Dates", "Printf", "StringEncodings"]
 git-tree-sha1 = "a1c0c7585346251353cddede21f180b96388c403"
 uuid = "ddb6d928-2868-570f-bddf-ab3f9cf99eb6"
 version = "0.4.16"
+
+[[deps.ZipFile]]
+deps = ["Libdl", "Printf", "Zlib_jll"]
+git-tree-sha1 = "f492b7fe1698e623024e873244f10d89c95c340a"
+uuid = "a5390f91-8eb1-5f08-bee0-b1d1ffed6cea"
+version = "0.10.1"
 
 [[deps.Zlib_jll]]
 deps = ["Libdl"]

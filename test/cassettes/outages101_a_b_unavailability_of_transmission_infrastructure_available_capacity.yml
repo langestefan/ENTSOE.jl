@@ -1,0 +1,25 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:34 GMT"
+      - Content-Type: "text/xml"
+      - Content-Length: "872"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="acknowledgement.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: ""
+    status: 400
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?DocStatus=A05&PeriodStartUpdate=202111090000&ControlArea_Domain=10YFR-RTE------C&PeriodEndUpdate=202112212300&mRID=A47mJe5e9jml9FeSL6jfKg&BusinessType=A53&offset=0&periodStart=202312012300&Asset_RegisteredResource.mRID=&documentType=A78&periodEnd=202312022300"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

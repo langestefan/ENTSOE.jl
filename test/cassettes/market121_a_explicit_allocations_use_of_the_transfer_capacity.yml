@@ -1,0 +1,250 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:24 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Use_of_transfer_capacity_202308152200-202308162200.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <Publication_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-3:publicationdocument:7:0">
+      	<mRID>feb17b8bb3f644a88b0933592db28db7</mRID>
+          <revisionNumber>1</revisionNumber>
+      	<type>A25</type>
+      	<sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+      	<sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+      	<receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+      	<receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+          <createdDateTime>2026-05-07T13:17:24Z</createdDateTime>
+          <period.timeInterval>
+              <start>2023-08-15T22:00Z</start>
+              <end>2023-08-16T22:00Z</end>
+          </period.timeInterval>
+        <TimeSeries>
+            <mRID>1</mRID>
+            <auction.mRID>NLL-GB-BE-I-ID0006-230816-01</auction.mRID>
+          <auction.type>A02</auction.type>
+          <auction.category>A04</auction.category>
+          <businessType>B05</businessType>
+          <in_Domain.mRID codingScheme="A01">10YBE----------2</in_Domain.mRID>
+          <out_Domain.mRID codingScheme="A01">10YGB----------A</out_Domain.mRID>
+          <contract_MarketAgreement.type>A07</contract_MarketAgreement.type>
+          <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+          <currency_Unit.name>EUR</currency_Unit.name>
+          <price_Measure_Unit.name>MWH</price_Measure_Unit.name>
+          <classificationSequence_AttributeInstanceComponent.position>1</classificationSequence_AttributeInstanceComponent.position>
+          <curveType>A03</curveType>
+            <Period>
+              <timeInterval>
+                <start>2023-08-15T22:00Z</start>
+                <end>2023-08-16T04:00Z</end>
+              </timeInterval>
+              <resolution>PT60M</resolution>
+                <Point>
+                  <position>1</position>
+                    <quantity>455</quantity>
+                    <price.amount>0.11</price.amount>
+                </Point>
+                <Point>
+                  <position>2</position>
+                    <quantity>400</quantity>
+                    <price.amount>0.57</price.amount>
+                </Point>
+                <Point>
+                  <position>3</position>
+                    <quantity>456</quantity>
+                    <price.amount>0.32</price.amount>
+                </Point>
+                <Point>
+                  <position>4</position>
+                    <quantity>0</quantity>
+                    <price.amount>0</price.amount>
+                </Point>
+                <Point>
+                  <position>5</position>
+                    <quantity>205</quantity>
+                    <price.amount>1.11</price.amount>
+                </Point>
+                <Point>
+                  <position>6</position>
+                    <quantity>84</quantity>
+                    <price.amount>1.12</price.amount>
+                </Point>
+            </Period>
+        </TimeSeries>
+        <TimeSeries>
+            <mRID>2</mRID>
+            <auction.mRID>NLL-GB-BE-I-ID0612-230816-01</auction.mRID>
+          <auction.type>A02</auction.type>
+          <auction.category>A04</auction.category>
+          <businessType>B05</businessType>
+          <in_Domain.mRID codingScheme="A01">10YBE----------2</in_Domain.mRID>
+          <out_Domain.mRID codingScheme="A01">10YGB----------A</out_Domain.mRID>
+          <contract_MarketAgreement.type>A07</contract_MarketAgreement.type>
+          <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+          <currency_Unit.name>EUR</currency_Unit.name>
+          <price_Measure_Unit.name>MWH</price_Measure_Unit.name>
+          <classificationSequence_AttributeInstanceComponent.position>1</classificationSequence_AttributeInstanceComponent.position>
+          <curveType>A03</curveType>
+            <Period>
+              <timeInterval>
+                <start>2023-08-16T04:00Z</start>
+                <end>2023-08-16T10:00Z</end>
+              </timeInterval>
+              <resolution>PT60M</resolution>
+                <Point>
+                  <position>1</position>
+                    <quantity>0</quantity>
+                    <price.amount>0</price.amount>
+                </Point>
+                <Point>
+                  <position>2</position>
+                    <quantity>54</quantity>
+                    <price.amount>4.61</price.amount>
+                </Point>
+                <Point>
+                  <position>3</position>
+                    <quantity>478</quantity>
+                    <price.amount>1.11</price.amount>
+                </Point>
+                <Point>
+                  <position>4</position>
+                    <quantity>1097</quantity>
+                    <price.amount>0.21</price.amount>
+                </Point>
+                <Point>
+                  <position>5</position>
+                    <quantity>1521</quantity>
+                    <price.amount>0.07</price.amount>
+                </Point>
+                <Point>
+                  <position>6</position>
+                    <quantity>1753</quantity>
+                    <price.amount>0.02</price.amount>
+                </Point>
+            </Period>
+        </TimeSeries>
+        <TimeSeries>
+            <mRID>3</mRID>
+            <auction.mRID>NLL-GB-BE-I-ID1218-230816-01</auction.mRID>
+          <auction.type>A02</auction.type>
+          <auction.category>A04</auction.category>
+          <businessType>B05</businessType>
+          <in_Domain.mRID codingScheme="A01">10YBE----------2</in_Domain.mRID>
+          <out_Domain.mRID codingScheme="A01">10YGB----------A</out_Domain.mRID>
+          <contract_MarketAgreement.type>A07</contract_MarketAgreement.type>
+          <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+          <currency_Unit.name>EUR</currency_Unit.name>
+          <price_Measure_Unit.name>MWH</price_Measure_Unit.name>
+          <classificationSequence_AttributeInstanceComponent.position>1</classificationSequence_AttributeInstanceComponent.position>
+          <curveType>A03</curveType>
+            <Period>
+              <timeInterval>
+                <start>2023-08-16T10:00Z</start>
+                <end>2023-08-16T16:00Z</end>
+              </timeInterval>
+              <resolution>PT60M</resolution>
+                <Point>
+                  <position>1</position>
+                    <quantity>1730</quantity>
+                    <price.amount>0.02</price.amount>
+                </Point>
+                <Point>
+                  <position>2</position>
+                    <quantity>1802</quantity>
+                    <price.amount>0.02</price.amount>
+                </Point>
+                <Point>
+                  <position>3</position>
+                    <quantity>1580</quantity>
+                    <price.amount>0.02</price.amount>
+                </Point>
+                <Point>
+                  <position>4</position>
+                    <quantity>1644</quantity>
+                    <price.amount>0.02</price.amount>
+                </Point>
+                <Point>
+                  <position>5</position>
+                    <quantity>1484</quantity>
+                    <price.amount>0.03</price.amount>
+                </Point>
+                <Point>
+                  <position>6</position>
+                    <quantity>1248</quantity>
+                    <price.amount>0.07</price.amount>
+                </Point>
+            </Period>
+        </TimeSeries>
+        <TimeSeries>
+            <mRID>4</mRID>
+            <auction.mRID>NLL-GB-BE-I-ID1824-230816-01</auction.mRID>
+          <auction.type>A02</auction.type>
+          <auction.category>A04</auction.category>
+          <businessType>B05</businessType>
+          <in_Domain.mRID codingScheme="A01">10YBE----------2</in_Domain.mRID>
+          <out_Domain.mRID codingScheme="A01">10YGB----------A</out_Domain.mRID>
+          <contract_MarketAgreement.type>A07</contract_MarketAgreement.type>
+          <quantity_Measure_Unit.name>MAW</quantity_Measure_Unit.name>
+          <currency_Unit.name>EUR</currency_Unit.name>
+          <price_Measure_Unit.name>MWH</price_Measure_Unit.name>
+          <classificationSequence_AttributeInstanceComponent.position>1</classificationSequence_AttributeInstanceComponent.position>
+          <curveType>A03</curveType>
+            <Period>
+              <timeInterval>
+                <start>2023-08-16T16:00Z</start>
+                <end>2023-08-16T22:00Z</end>
+              </timeInterval>
+              <resolution>PT60M</resolution>
+                <Point>
+                  <position>1</position>
+                    <quantity>1683</quantity>
+                    <price.amount>0.02</price.amount>
+                </Point>
+                <Point>
+                  <position>2</position>
+                    <quantity>791</quantity>
+                    <price.amount>0.26</price.amount>
+                </Point>
+                <Point>
+                  <position>3</position>
+                    <quantity>597</quantity>
+                    <price.amount>1.11</price.amount>
+                </Point>
+                <Point>
+                  <position>4</position>
+                    <quantity>638</quantity>
+                    <price.amount>1.11</price.amount>
+                </Point>
+                <Point>
+                  <position>5</position>
+                    <quantity>573</quantity>
+                    <price.amount>1.11</price.amount>
+                </Point>
+                <Point>
+                  <position>6</position>
+                    <quantity>244</quantity>
+                    <price.amount>1.89</price.amount>
+                </Point>
+            </Period>
+        </TimeSeries>
+      </Publication_MarketDocument>
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?ClassificationSequence_AttributeInstanceComponent.Position=1&periodEnd=202308162200&out_Domain=10YGB----------A&in_Domain=10YBE----------2&periodStart=202308152200&contract_MarketAgreement.Type=A07&businessType=B05&documentType=A25&Auction.Category=A04"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

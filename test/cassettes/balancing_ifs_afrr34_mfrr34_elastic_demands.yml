@@ -1,0 +1,74 @@
+responses:
+  - headers:
+      - Date: "Thu, 07 May 2026 13:17:38 GMT"
+      - Content-Type: "text/xml"
+      - Transfer-Encoding: "chunked"
+      - Connection: "keep-alive"
+      - Content-Disposition: |-
+          inline; filename="Elastic Demands [IF mFRR 3.4, aFRR 3.5]_202312012015-202312012030.xml"
+      - X-Content-Type-Options: "nosniff"
+      - X-XSS-Protection: "0"
+      - vary: "accept-encoding"
+      - Content-Encoding: "gzip"
+      - Strict-Transport-Security: "max-age=15724800; includeSubDomains"
+    body: |-
+      <?xml version="1.0" encoding="UTF-8"?>
+      <ReserveBid_MarketDocument xmlns="urn:iec62325.351:tc57wg16:451-7:reservebiddocument:7:6">
+          <mRID>c0a8e8317777418eaaee67320c955bed</mRID>
+          <revisionNumber>1</revisionNumber>
+          <type>A37</type>
+          <process.processType>A47</process.processType>
+          <sender_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</sender_MarketParticipant.mRID>
+          <sender_MarketParticipant.marketRole.type>A32</sender_MarketParticipant.marketRole.type>
+          <receiver_MarketParticipant.mRID codingScheme="A01">10X1001A1001A450</receiver_MarketParticipant.mRID>
+          <receiver_MarketParticipant.marketRole.type>A33</receiver_MarketParticipant.marketRole.type>
+          <createdDateTime>2026-05-07T13:17:38Z</createdDateTime>
+          <reserveBid_Period.timeInterval>
+            <start>2023-12-01T20:15Z</start>
+            <end>2023-12-01T20:30Z</end>
+          </reserveBid_Period.timeInterval>
+          <domain.mRID codingScheme="A01">10Y1001C--00085O</domain.mRID>
+          <subject_MarketParticipant.mRID codingScheme="A01">10X1001C--00009H</subject_MarketParticipant.mRID>
+          <subject_MarketParticipant.marketRole.type>A35</subject_MarketParticipant.marketRole.type>
+          <Bid_TimeSeries>
+            <mRID>TS_NEED_CEPS_DOWN</mRID>
+            <auction.mRID>AUCTION-mFRR</auction.mRID>
+            <businessType>B75</businessType>
+            <acquiring_Domain.mRID codingScheme="A01">10YCZ-CEPS-----N</acquiring_Domain.mRID>
+            <connecting_Domain.mRID codingScheme="A01">10Y1001C--00085O</connecting_Domain.mRID>
+            <quantity_Measurement_Unit.name>MAW</quantity_Measurement_Unit.name>
+            <currency_Unit.name>EUR</currency_Unit.name>
+            <price_Measurement_Unit.name>MWH</price_Measurement_Unit.name>
+            <divisible>A01</divisible>
+            <flowDirection.direction>A02</flowDirection.direction>
+            <energyPrice_Measurement_Unit.name>MWH</energyPrice_Measurement_Unit.name>
+            <standard_MarketProduct.marketProductType>A01</standard_MarketProduct.marketProductType>
+            <curveType>A03</curveType>
+                <Period>
+                  <timeInterval>
+                    <start>2023-12-01T20:15Z</start>
+                    <end>2023-12-01T20:30Z</end>
+                  </timeInterval>
+                  <resolution>PT15M</resolution>
+                      <Point>
+                        <position>1</position>
+                        <quantity.quantity>50</quantity.quantity>
+                            <energy_Price.amount>-60</energy_Price.amount>
+                      </Point>
+                </Period>
+          </Bid_TimeSeries>
+        </ReserveBid_MarketDocument>
+        
+    status: 200
+    request:
+      txcount: 0
+      headers:
+        - Content-Length: "0"
+        - Accept: "application/xml"
+        - Host: "web-api.tp.entsoe.eu"
+      body: ""
+      method: "GET"
+      target: "/api?periodEnd=202312012300&processType=A47&offset=0&Acquiring_Domain=10YCZ-CEPS-----N&periodStart=202311302300&businessType=B75&documentType=A37"
+      version: "1.1.0"
+    version: "1.1.0"
+format: "1.0.0"

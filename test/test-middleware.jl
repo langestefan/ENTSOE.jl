@@ -51,3 +51,12 @@ end
                                     timeout = nothing, log_label = nothing)
     @test ENTSOE.with_defaults(() -> :passthrough, mw) === :passthrough
 end
+
+@testset "with_defaults kwargs overload constructs middleware on the fly" begin
+    # The single-arg form `with_defaults(fn; kwargs...)` builds a fresh
+    # `default_middleware(; kwargs...)` for the call. With everything
+    # disabled it's a pure pass-through too.
+    @test ENTSOE.with_defaults(() -> :through;
+        retry = nothing, rate_limit = nothing,
+        timeout = nothing, log_label = nothing) === :through
+end

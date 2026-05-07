@@ -2,6 +2,11 @@ using ENTSOE
 using Test
 using Dates: DateTime
 
+# unzip_response uses ZipFile.jl on demand. The package is in
+# test/Project.toml only when present; the test self-skips otherwise so
+# adding it later just turns this section on.
+const _ZIPFILE_AVAILABLE = Base.identify_package("ZipFile") !== nothing
+
 # Small synthetic XML payloads modelled on real ENTSO-E responses,
 # kept inline so the parser tests don't depend on cassettes being
 # loadable (they're already covered by `test-cassettes.jl`).
@@ -119,6 +124,81 @@ end
     # Non-acknowledgement documents return `nothing`.
     @test parse_acknowledgement(_TS_PRICE_XML) === nothing
     @test parse_acknowledgement(_TS_LOAD_XML) === nothing
+end
+
+@testset "parse_timeseries — extended resolutions" begin
+    # The resolutions table covers PT1H, P1D, P7D, P1M, P1Y as nominal
+    # mappings. We don't see all of these in production today; pass a
+    # synthetic doc through each branch to cover the table.
+    function _ts_xml(resolution)
+        """
+        <?xml version="1.0"?><GL_MarketDocument xmlns="x">
+          <TimeSeries><Period>
+            <timeInterval><start>2024-01-01T00:00Z</start><end>2024-01-02T00:00Z</end></timeInterval>
+            <resolution>$resolution</resolution>
+            <Point><position>1</position><quantity>10.0</quantity></Point>
+          </Period></TimeSeries>
+        </GL_MarketDocument>
+        """
+    end
+
+    for res in ("PT1H", "P1D", "P7D", "P1M", "P1Y")
+        rows = parse_timeseries(_ts_xml(res))
+        @test length(rows) == 1
+        @test rows[1].value == 10.0
+    end
+
+    # Unknown resolution → loud error.
+    @test_throws ErrorException parse_timeseries(_ts_xml("PT42M"))
+end
+
+@testset "parse_timeseries_per_psr — TimeSeries without MktPSRType" begin
+    # Some flavours of the document omit `<MktPSRType>`; the parser then
+    # tags rows with `psr_type = ""`.
+    xml = """
+    <?xml version="1.0"?><GL_MarketDocument xmlns="x">
+      <TimeSeries><Period>
+        <timeInterval><start>2024-01-01T00:00Z</start><end>2024-01-01T01:00Z</end></timeInterval>
+        <resolution>PT60M</resolution>
+        <Point><position>1</position><quantity>5.0</quantity></Point>
+      </Period></TimeSeries>
+    </GL_MarketDocument>
+    """
+    rows = parse_timeseries_per_psr(xml)
+    @test length(rows) == 1
+    @test rows[1].psr_type == ""   # the missing-MktPSRType fallback
+end
+
+@testset "unzip_response" begin
+    if !_ZIPFILE_AVAILABLE
+        @info "ZipFile not installed; skipping unzip_response live tests."
+    else
+        # Build a tiny ZIP in-memory with two entries, then round-trip
+        # through `unzip_response`.
+        ZipFile = Base.require(Base.identify_package("ZipFile"))
+        buf = IOBuffer()
+        w = Base.invokelatest(ZipFile.Writer, buf)
+        f1 = Base.invokelatest(ZipFile.addfile, w, "first.xml")
+        Base.invokelatest(write, f1, "<a/>")
+        f2 = Base.invokelatest(ZipFile.addfile, w, "second.xml")
+        Base.invokelatest(write, f2, "<b/>")
+        Base.invokelatest(close, w)
+
+        zip_bytes = take!(buf)
+        members = unzip_response(zip_bytes)
+        @test length(members) == 2
+        names = [p.first for p in members]
+        @test "first.xml" in names
+        @test "second.xml" in names
+        @test String(members[findfirst(p -> p.first == "first.xml", members)].second) == "<a/>"
+    end
+end
+
+@testset "Base.show(::ENTSOEAcknowledgement)" begin
+    ack = ENTSOEAcknowledgement("999", "No matching data")
+    s = sprint(show, ack)
+    @test occursin("999", s)
+    @test occursin("No matching data", s)
 end
 
 @testset "check_acknowledgement" begin
