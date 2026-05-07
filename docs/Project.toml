@@ -6,13 +6,16 @@ Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterVitepress = "4710194d-e776-4893-9690-8d956a29c365"
 ENTSOE = "1511bb12-f7c3-431d-bf69-363374839c3b"
+GeoInterface = "cf35fbd7-0cd7-5166-be24-54bfbe79505f"
 GeoMakie = "db073c08-6b98-4ee5-b6a4-5efafb3259c6"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Polylabel = "49a44318-e865-4b63-9842-695152d634c1"
+Proj = "c94c279d-25a6-4763-9509-64d165bea63e"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [sources]
-ENTSOE = { path = ".." }
+ENTSOE = {path = ".."}
 
 [compat]
 Bonito = "4.2"
@@ -20,7 +23,10 @@ BrokenRecord = "0.1"
 CairoMakie = "0.13, 0.14, 0.15"
 Documenter = "1"
 DocumenterVitepress = "0.2, 0.3"
+GeoInterface = "1"
 GeoMakie = "0.7, 0.8"
 JSON = "1"
+Polylabel = "0.1, 0.2"
+Proj = "1"
 Statistics = "1"
 WGLMakie = "0.13, 0.14, 0.15"

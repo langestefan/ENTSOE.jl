@@ -81,6 +81,9 @@ on the country polygon — close enough for a tutorial.
 ```@example eu_map
 using GeoMakie, WGLMakie, Bonito
 using GeoMakie: NaturalEarth
+using GeoInterface
+using Polylabel
+using Proj
 
 WGLMakie.activate!()
 
@@ -112,26 +115,72 @@ For each country polygon, decide whether it's one of our zones — we
 match on Natural Earth's two-letter ISO code (`:ISO_A2_EH`, falling
 back to `:ISO_A2`; the GeoJSON properties are `Symbol`-keyed).
 
-For label *positions* a bounding-box centroid would be wrong for
-several countries — France includes Réunion and French Guiana, ES/PT
-include the Canaries and Azores, Norway includes Svalbard, the
-Netherlands includes Bonaire — so their bbox centres fall in the
-ocean. Easier and more reliable: a small hand-picked table of mainland
-visual-centre coordinates, one per ISO code. Anywhere on land that
-reads well at the chosen projection works.
+For label *positions* the obvious answer — a bounding-box centroid —
+fails for several countries because Natural Earth's geometries
+include overseas territories: France ships with Réunion and French
+Guiana, ES/PT include the Canaries and Azores, Norway includes
+Svalbard, the Netherlands includes Bonaire. The bbox centroid of
+France ends up well off the southern coast.
+
+We use [Polylabel.jl](https://github.com/asinghvi17/Polylabel.jl)
+instead — a port of Mapbox's *pole of inaccessibility* algorithm,
+which finds the point inside a polygon furthest from any edge. Two
+practical refinements:
+
+1. **Project first.** Polylabel measures distance to edges in
+   whatever coordinate system you hand it. Running it on raw
+   `(lon, lat)` would minimise *angular* distance — biased
+   toward equator-ward points at high latitudes (Sweden, Finland).
+   We project the polygon into the same Lambert Conformal Conic the
+   map uses, run Polylabel there, and inverse-transform the result
+   back to `(lon, lat)` for `text!` to consume.
+
+2. **Pick the largest sub-polygon.** A `MultiPolygon` (France =
+   mainland + 9 overseas pieces) breaks the algorithm's
+   "point-furthest-from-any-edge" intuition because there isn't a
+   single connected region. We project each component, take the
+   largest by projected area (= the mainland in every case here),
+   and run Polylabel on just that.
 
 ```@example eu_map
-const LABEL_COORDS = Dict(
-    "AT" => (14.0, 47.5),  "BE" => ( 4.5, 50.5),  "CH" => ( 8.2, 46.8),
-    "CZ" => (15.5, 49.8),  "DE" => (10.5, 51.0),  "DK" => ( 9.5, 55.7),
-    "EE" => (25.5, 58.7),  "ES" => (-3.7, 40.4),  "FI" => (26.0, 64.0),
-    "FR" => ( 2.5, 46.5),  "GR" => (22.0, 39.0),  "HR" => (15.5, 45.1),
-    "HU" => (19.0, 47.2),  "IE" => (-8.0, 53.4),  "IT" => (12.5, 42.5),
-    "LT" => (24.0, 55.3),  "LV" => (24.6, 56.8),  "NL" => ( 5.5, 52.2),
-    "NO" => ( 9.5, 61.5),  "PL" => (19.0, 52.0),  "PT" => (-8.0, 39.5),
-    "RO" => (25.0, 45.9),  "SE" => (16.5, 62.5),  "SI" => (14.6, 46.1),
-    "SK" => (19.5, 48.7),
+const PROJ_STR  = "+proj=lcc +lat_1=35 +lat_2=65 +lat_0=50 +lon_0=10"
+const TO_LCC    = Proj.Transformation(
+    "+proj=longlat +datum=WGS84", PROJ_STR; always_xy = true,
 )
+const FROM_LCC  = Proj.inv(TO_LCC)
+
+# Shoelace area of a closed ring of (x, y) tuples.
+function _ring_area(pts)
+    n = length(pts); s = 0.0
+    @inbounds for i in 1:n
+        x1, y1 = pts[i]
+        x2, y2 = pts[mod1(i + 1, n)]
+        s += x1 * y2 - x2 * y1
+    end
+    return abs(s) / 2
+end
+
+# Project a `MultiPolygon` (or `Polygon`) into LCC, take the
+# largest component by projected area, return its visual centre as
+# (lon, lat) via `polylabel` + inverse projection.
+function label_lonlat(geom)
+    polys_pts = Vector{Vector{Tuple{Float64, Float64}}}()
+    sub_polys = GeoInterface.geomtrait(geom) isa GeoInterface.MultiPolygonTrait ?
+        collect(GeoInterface.getgeom(geom)) : [geom]
+    for sub in sub_polys
+        ring = GeoInterface.getexterior(sub)
+        push!(polys_pts,
+            [TO_LCC(GeoInterface.x(p), GeoInterface.y(p))
+             for p in GeoInterface.getgeom(ring)])
+    end
+    main = polys_pts[argmax(_ring_area.(polys_pts))]
+    p = GeoInterface.Wrappers.Polygon([
+        GeoInterface.Wrappers.LinearRing(main)
+    ])
+    pole = polylabel(p; rtol = 0.005)
+    lonlat = FROM_LCC(pole[1], pole[2])
+    return (Float64(lonlat[1]), Float64(lonlat[2]))
+end
 
 function _country_iso2(feature)
     p = feature.properties
@@ -149,10 +198,9 @@ plotted_centers = Tuple{Float64, Float64}[]
 for feat in countries_fc
     iso = _country_iso2(feat)
     haskey(price_by_iso, iso) || continue
-    haskey(LABEL_COORDS, iso)  || continue
     push!(plotted_geoms, feat.geometry)
     push!(plotted_iso, iso)
-    push!(plotted_centers, LABEL_COORDS[iso])
+    push!(plotted_centers, label_lonlat(feat.geometry))
 end
 
 (plotted = length(plotted_geoms),)

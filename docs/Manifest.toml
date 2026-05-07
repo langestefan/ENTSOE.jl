@@ -2,7 +2,7 @@
 
 julia_version = "1.12.6"
 manifest_format = "2.0"
-project_hash = "1298f34407cd0b1c8982ab2a0e1cfeca6c9db29d"
+project_hash = "e876b1e162c2254e74248292faf2bf323c0f0786"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -1330,6 +1330,12 @@ version = "1.4.4"
 git-tree-sha1 = "77b3d3605fc1cd0b42d95eba87dfcd2bf67d5ff6"
 uuid = "647866c9-e3ac-4575-94e7-e3d426903924"
 version = "0.1.2"
+
+[[deps.Polylabel]]
+deps = ["DataStructures", "GeoInterface", "GeometryOps"]
+git-tree-sha1 = "66bd49249971c48afc22f14f75f4aa14abd6a252"
+uuid = "49a44318-e865-4b63-9842-695152d634c1"
+version = "0.2.1"
 
 [[deps.PrecompileTools]]
 deps = ["Preferences"]
