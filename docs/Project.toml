@@ -1,13 +1,20 @@
 [deps]
+BrokenRecord = "bdd55f5b-6e67-4da1-a080-6086e55655a0"
+CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
+Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterVitepress = "4710194d-e776-4893-9690-8d956a29c365"
-JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 EntsoE = "1511bb12-f7c3-431d-bf69-363374839c3b"
+EzXML = "8f5d6c58-4d21-5cfd-889c-e3ad7ee6a615"
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 
 [sources]
 EntsoE = { path = ".." }
 
 [compat]
+BrokenRecord = "0.1"
+CairoMakie = "0.13, 0.14, 0.15"
 Documenter = "1"
 DocumenterVitepress = "0.2, 0.3"
+EzXML = "1"
 JSON = "1"

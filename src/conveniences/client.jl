@@ -40,10 +40,23 @@ function EntsoEClient(
     return Client(inner, NoAuth(), String(base_url))
 end
 
-# Build a `pre_request_hook` with both signatures expected by `OpenAPI.Clients`:
-# the `(ctx::Ctx)` form runs before the URL is assembled and is where we inject
-# `securityToken` into `ctx.query` for any op that declares the SecurityToken
-# scheme. The `(resource, body, headers)` form is a no-op pass-through.
+# Build a `pre_request_hook` with both signatures expected by `OpenAPI.Clients`.
+#
+# Stage 1 — `(ctx::Ctx)` runs before the URL is assembled. We inject
+# `securityToken` into `ctx.query` for any op that declares the
+# SecurityToken scheme. (Headers we'd inject here too, but ENTSO-E uses
+# query-string auth.)
+#
+# Stage 2 — `(resource, body, headers)` runs after the URL is fully
+# assembled (path + query). We use it to collapse the synthetic per-
+# endpoint path back to the single real ENTSO-E endpoint. The OpenAPI
+# spec gives each operation a synthetic path like
+# `/market/12-1-d-energy-prices` so codegen produces one Julia function
+# per logical query (see `info.description` in `spec/openapi.json` and
+# the README of `scripts/postman_to_openapi.jl`). The actual HTTP
+# endpoint is `/api?<query>` for every operation — so we strip
+# everything between `/api` and the query string before the request
+# hits the wire.
 function _entsoe_pre_request_hook(token::String)
     function hook(ctx::OpenAPI.Clients.Ctx)
         "SecurityToken" in ctx.auth && (ctx.query["securityToken"] = token)
@@ -52,7 +65,11 @@ function _entsoe_pre_request_hook(token::String)
     function hook(
             resource_path::AbstractString, body, headers::Dict{String, String},
         )
-        return resource_path, body, headers
+        rewritten = replace(
+            String(resource_path),
+            r"^(https?://[^/]+/api)/[^?]+" => s"\1",
+        )
+        return rewritten, body, headers
     end
     return hook
 end

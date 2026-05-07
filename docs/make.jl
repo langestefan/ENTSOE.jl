@@ -34,6 +34,7 @@ const API_PAGES = _api_pages(joinpath(@__DIR__, "src", "api"))
 const PAGES = Any[
     "Home" => "index.md",
     "Getting Started" => "getting_started.md",
+    "Tutorial" => "tutorial.md",
     "Guides" => Any[
         "Recorded HTTP tests" => "cassette_testing.md",
     ],

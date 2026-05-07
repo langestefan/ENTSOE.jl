@@ -1,6 +1,7 @@
 [deps]
 Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+BrokenRecord = "bdd55f5b-6e67-4da1-a080-6086e55655a0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
@@ -11,6 +12,7 @@ TimeZones = "f269a46b-ccf7-5d73-abea-4c690281aa53"
 
 [compat]
 Aqua = "0.8"
+BrokenRecord = "0.1"
 JET = "0.9, 0.10, 0.11"
 
 # Note: the package being tested (EntsoE) is NOT listed here.
