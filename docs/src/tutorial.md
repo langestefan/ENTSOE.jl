@@ -35,34 +35,14 @@ using ENTSOE
 using CairoMakie
 using Dates: DateTime
 
-import BrokenRecord
-
 CairoMakie.activate!(type = "png")
 
-# BrokenRecord 0.1 sizes its per-thread STATE vector at module load
-# via `map(1:nthreads(), ...)`. Julia 1.12 routinely runs tasks on
-# `threadid()` values higher than `nthreads()` (the interactive
-# thread pool), so any `playback` call hits a `BoundsError`. Pad the
-# vector to cover every reachable thread.
-let target = Base.Threads.maxthreadid()
-    while length(BrokenRecord.STATE) < target
-        template = BrokenRecord.STATE[1]
-        push!(BrokenRecord.STATE, (
-            responses = empty(template.responses),
-            ignore_headers = String[],
-            ignore_query = String[],
-        ))
-    end
-end
-
-const CASSETTES_DIR = joinpath(pkgdir(ENTSOE), "test", "cassettes")
-
-BrokenRecord.configure!(;
-    path = CASSETTES_DIR,
-    ignore_headers = ["Authorization", "X-API-Key", "User-Agent",
-                      "Accept-Encoding"],
-    ignore_query   = ["securityToken"],
-)
+# BrokenRecord setup is shared with the test suite — a small helper file
+# that loads the package, applies the Julia 1.12 STATE-padding
+# workaround, and configures cassette path + token-redacting
+# `ignore_query`. Returns the module so we can call `BR.playback(...)`.
+include(joinpath(pkgdir(ENTSOE), "test", "_brokenrecord_helpers.jl"))
+const BR = _load_brokenrecord()
 
 # Token is irrelevant in playback mode — the HTTP layer is
 # intercepted before the request reaches ENTSO-E. Any non-empty
@@ -79,7 +59,7 @@ to the requested area, normalises the period bounds, and returns a
 parsed `Vector{(time, value)}` straight away.
 
 ```@example tutorial
-prices = BrokenRecord.playback("market_121d_day_ahead_prices_NL.yml") do
+prices = BR.playback("market_121d_day_ahead_prices_NL.yml") do
     day_ahead_prices(client, EIC.NL,
         DateTime("2024-09-01T22:00"),
         DateTime("2024-09-02T22:00"))
@@ -111,7 +91,7 @@ a lot of solar — wholesale price sags as PV output peaks.
 returned as `Vector{(time, value)}` in MW.
 
 ```@example tutorial
-load = BrokenRecord.playback("load_61a_actual_total_load_NL.yml") do
+load = BR.playback("load_61a_actual_total_load_NL.yml") do
     actual_total_load(client, EIC.NL,
         DateTime("2024-09-01T22:00"),
         DateTime("2024-09-02T22:00"))
@@ -143,7 +123,7 @@ the codes to labels with [`describe`](@ref) against the
 [`PSR_TYPE`](@ref) table.
 
 ```@example tutorial
-cap_rows = BrokenRecord.playback("generation_141a_installed_capacity_NL.yml") do
+cap_rows = BR.playback("generation_141a_installed_capacity_NL.yml") do
     installed_capacity_per_production_type(client, EIC.NL,
         DateTime("2023-12-31T23:00"),
         DateTime("2024-12-31T23:00"))

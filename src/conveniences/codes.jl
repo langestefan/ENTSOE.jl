@@ -217,10 +217,10 @@ Resolve a code (string or symbol) against one of the code-list NamedTuples
 [`PSR_TYPE`](@ref). Throws `KeyError` if the code isn't in the table.
 
 ```jldoctest
-julia> describe(DOCUMENT_TYPE, "A44")
+julia> ENTSOE.describe(DOCUMENT_TYPE, "A44")
 "Price document"
 
-julia> describe(PSR_TYPE, :B19)
+julia> ENTSOE.describe(PSR_TYPE, :B19)
 "Wind Onshore"
 ```
 """
@@ -239,10 +239,10 @@ description; returns the *string* code (e.g. `"A44"`). Useful for quickly
 finding a code from a fragment of the official label.
 
 ```jldoctest
-julia> code_for(PSR_TYPE, "wind onshore")
+julia> ENTSOE.code_for(PSR_TYPE, "wind onshore")
 "B19"
 
-julia> code_for(DOCUMENT_TYPE, "price")
+julia> ENTSOE.code_for(DOCUMENT_TYPE, "price")
 "A44"
 ```
 
