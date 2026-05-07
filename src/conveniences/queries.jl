@@ -58,7 +58,26 @@ function _query(api_call::Function, parser;
             validate_eic(code; type = :BZN)
         end
     end
-    xml, _ = api_call()
+    xml, resp = api_call()
+    # The OpenAPI client unconditionally sets `:throw => false` on the
+    # underlying HTTP options, so non-2xx responses come back as
+    # `(nothing, ApiResponse)` rather than throwing. Surface them as
+    # the appropriate typed `APIError` here so callers don't see a
+    # downstream `MethodError: check_acknowledgement(::Nothing)`.
+    if xml === nothing
+        raw = resp === nothing ? nothing : resp.raw
+        if raw === nothing
+            throw(NetworkError(ErrorException(
+                "ENTSO-E request failed before a response was received",
+            )))
+        end
+        body = String(copy(raw.body))
+        headers = Dict{String, String}(string(k) => string(v) for (k, v) in raw.headers)
+        check_response(raw.status, body, headers)
+        # 2xx with no body / unparseable body — shouldn't happen, but
+        # don't silently return `nothing`.
+        throw(ServerError(Int(raw.status), body))
+    end
     check_acknowledgement(xml)
     return parsed ? parser(xml) : xml
 end
