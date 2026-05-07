@@ -7,7 +7,7 @@
 # bounded windows, calls a query function for each, and concatenates the
 # results.
 
-using Dates: Dates, DateTime, Date, Year, Day, Period
+using Dates: Dates, DateTime, Date, Year, Period
 
 # Internal: invert `_to_period`. Accept anything `_to_period` accepts
 # and produce a `DateTime`. Used by `query_split` to chunk the period
@@ -18,11 +18,13 @@ function _to_datetime(t)
     t isa Dates.AbstractDateTime && return DateTime(t)
     if t isa Integer
         s = lpad(string(t), 12, '0')
-        return DateTime(parse(Int, s[1:4]),     # yyyy
-                        parse(Int, s[5:6]),     # MM
-                        parse(Int, s[7:8]),     # dd
-                        parse(Int, s[9:10]),    # HH
-                        parse(Int, s[11:12]))   # mm
+        return DateTime(
+            parse(Int, s[1:4]),     # yyyy
+            parse(Int, s[5:6]),     # MM
+            parse(Int, s[7:8]),     # dd
+            parse(Int, s[9:10]),    # HH
+            parse(Int, s[11:12])
+        )   # mm
     end
     throw(ArgumentError("don't know how to convert $(typeof(t)) to DateTime"))
 end
@@ -105,12 +107,14 @@ function query_split(
         kwargs...,
     )
     length(args) >= 2 ||
-        throw(ArgumentError(
+        throw(
+        ArgumentError(
             "query_split needs at least 2 positional args (start, stop)"
-        ))
-    head  = args[1:(end - 2)]
+        )
+    )
+    head = args[1:(end - 2)]
     start = args[end - 1]
-    stop  = args[end]
+    stop = args[end]
 
     chunks = split_period(start, stop; window = window)
     results = Any[]

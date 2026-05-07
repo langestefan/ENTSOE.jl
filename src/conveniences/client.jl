@@ -90,13 +90,13 @@ apis.generation     # GenerationApi
 """
 function entsoe_apis(c::Client)
     return (
-        balancing    = BalancingApi(c.inner),
-        generation   = GenerationApi(c.inner),
-        load         = LoadApi(c.inner),
-        market       = MarketApi(c.inner),
-        master_data  = MasterDataApi(c.inner),
-        omi          = OMIApi(c.inner),
-        outages      = OutagesApi(c.inner),
+        balancing = BalancingApi(c.inner),
+        generation = GenerationApi(c.inner),
+        load = LoadApi(c.inner),
+        market = MarketApi(c.inner),
+        master_data = MasterDataApi(c.inner),
+        omi = OMIApi(c.inner),
+        outages = OutagesApi(c.inner),
         transmission = TransmissionApi(c.inner),
     )
 end

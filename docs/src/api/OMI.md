@@ -7,4 +7,3 @@
 ```@raw html
 <OAOperation operationId="omi_other_market_information" prefix-headings="true" />
 ```
-

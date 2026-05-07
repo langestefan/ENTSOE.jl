@@ -95,12 +95,14 @@ function main()
 
     mktempdir() do tmp
         out = joinpath(tmp, "out")
-        cmd = Cmd(`npx --yes @openapitools/openapi-generator-cli@$(NPM_WRAPPER_VERSION) generate
+        cmd = Cmd(
+            `npx --yes @openapitools/openapi-generator-cli@$(NPM_WRAPPER_VERSION) generate
                    -i $spec_local
                    -g julia-client
                    -o $out
                    --additional-properties=packageName=$(API_PKG),exportModels=true,exportOperations=true`;
-                  dir = tmp)
+            dir = tmp
+        )
         env = copy(ENV)
         env["OPENAPI_GENERATOR_VERSION"] = GENERATOR_VERSION
         run(setenv(cmd, env))
@@ -140,8 +142,10 @@ function main()
         # them).
         if isfile(generated_ref)
             @info "Refreshing generated_reference.md base-path section."
-            Base.invokelatest(m.emit_basepath_section, generated_ref,
-                joinpath(api_target, "apis"), API_PKG[1:end-3])
+            Base.invokelatest(
+                m.emit_basepath_section, generated_ref,
+                joinpath(api_target, "apis"), API_PKG[1:(end - 3)]
+            )
         end
     end
 
@@ -150,7 +154,7 @@ function main()
         run(Cmd(`git diff --stat src/api spec docs/src docs/src/api`; dir = pkg_root))
     end
 
-    @info "Regeneration complete." spec = spec_local api = api_target
+    return @info "Regeneration complete." spec = spec_local api = api_target
 end
 
 main()

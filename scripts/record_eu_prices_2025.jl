@@ -30,38 +30,38 @@ using JSON
 
 const ZONES = [
     # (label,         iso2, eic_code)
-    ("Netherlands",   "NL", EIC.NL),
-    ("Belgium",       "BE", EIC.BE),
-    ("Germany–Lux",   "DE", EIC.DE_LU),
-    ("France",        "FR", EIC.FR),
-    ("Spain",         "ES", EIC.ES),
-    ("Portugal",      "PT", EIC.PT),
+    ("Netherlands", "NL", EIC.NL),
+    ("Belgium", "BE", EIC.BE),
+    ("Germany–Lux", "DE", EIC.DE_LU),
+    ("France", "FR", EIC.FR),
+    ("Spain", "ES", EIC.ES),
+    ("Portugal", "PT", EIC.PT),
     ("Italy (North)", "IT", EIC.IT_NORTH),
-    ("Switzerland",   "CH", EIC.CH),
-    ("Austria",       "AT", EIC.AT),
-    ("Czechia",       "CZ", EIC.CZ),
-    ("Slovakia",      "SK", EIC.SK),
-    ("Hungary",       "HU", EIC.HU),
-    ("Slovenia",      "SI", EIC.SI),
-    ("Croatia",       "HR", EIC.HR),
-    ("Romania",       "RO", EIC.RO),
-    ("Greece",        "GR", EIC.GR),
-    ("Poland",        "PL", EIC.PL),
-    ("Denmark (W)",   "DK", EIC.DK1),
-    ("Finland",       "FI", EIC.FI),
-    ("Sweden (S)",    "SE", EIC.SE3),
-    ("Norway (S)",    "NO", EIC.NO2),
-    ("Estonia",       "EE", EIC.EE),
-    ("Latvia",        "LV", EIC.LV),
-    ("Lithuania",     "LT", EIC.LT),
+    ("Switzerland", "CH", EIC.CH),
+    ("Austria", "AT", EIC.AT),
+    ("Czechia", "CZ", EIC.CZ),
+    ("Slovakia", "SK", EIC.SK),
+    ("Hungary", "HU", EIC.HU),
+    ("Slovenia", "SI", EIC.SI),
+    ("Croatia", "HR", EIC.HR),
+    ("Romania", "RO", EIC.RO),
+    ("Greece", "GR", EIC.GR),
+    ("Poland", "PL", EIC.PL),
+    ("Denmark (W)", "DK", EIC.DK1),
+    ("Finland", "FI", EIC.FI),
+    ("Sweden (S)", "SE", EIC.SE3),
+    ("Norway (S)", "NO", EIC.NO2),
+    ("Estonia", "EE", EIC.EE),
+    ("Latvia", "LV", EIC.LV),
+    ("Lithuania", "LT", EIC.LT),
     ("Ireland (SEM)", "IE", EIC.IE_SEM),
 ]
 
 # ENTSO-E periods are UTC, and a "calendar year in CET" is the
 # convention this market uses (Dec 31 23:00 UTC → Dec 31 23:00 UTC).
 const PERIOD_START = DateTime("2024-12-31T23:00")
-const PERIOD_END   = DateTime("2025-12-31T23:00")
-const YEAR         = 2025
+const PERIOD_END = DateTime("2025-12-31T23:00")
+const YEAR = 2025
 
 function _resolve_token()
     tok = get(ENV, "ENTSOE_API_TOKEN", "")
@@ -72,11 +72,11 @@ function _resolve_token()
 end
 
 function _monthly_means(rows)
-    sums   = zeros(Float64, 12)
+    sums = zeros(Float64, 12)
     counts = zeros(Int, 12)
     for r in rows
         m = month(r.time)
-        sums[m]   += r.value
+        sums[m] += r.value
         counts[m] += 1
     end
     return [counts[m] == 0 ? NaN : sums[m] / counts[m] for m in 1:12]
@@ -90,11 +90,11 @@ function main()
     client = ENTSOEClient(String(token))
 
     out = Dict{String, Any}(
-        "year"    => YEAR,
+        "year" => YEAR,
         "comment" => "Day-ahead clearing prices, EUR/MWh, monthly mean. " *
-                     "Recorded $(Dates.format(Dates.now(), "yyyy-mm-dd")) " *
-                     "by `scripts/record_eu_prices_2025.jl`.",
-        "zones"   => Dict{String, Any}[],
+            "Recorded $(Dates.format(Dates.now(), "yyyy-mm-dd")) " *
+            "by `scripts/record_eu_prices_2025.jl`.",
+        "zones" => Dict{String, Any}[],
     )
 
     for (label, iso2, eic) in ZONES
@@ -111,11 +111,11 @@ function main()
         means = _monthly_means(rows)
         push!(
             out["zones"], Dict(
-                "name"            => label,
-                "iso2"            => iso2,
-                "eic"             => String(eic),
+                "name" => label,
+                "iso2" => iso2,
+                "eic" => String(eic),
                 "monthly_eur_mwh" => means,
-                "n_points"        => length(rows),
+                "n_points" => length(rows),
             )
         )
     end

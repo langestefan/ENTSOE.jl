@@ -50,12 +50,12 @@ function slugify(s::AbstractString)
 end
 
 strip_marker(d::AbstractString) = replace(String(d), r"^\s*\[[MO]\]\s*" => "")
-is_required(d::AbstractString)  = occursin(r"^\s*\[M\]", String(d))
+is_required(d::AbstractString) = occursin(r"^\s*\[M\]", String(d))
 
 function infer_schema(value)
     v = value === nothing ? "" : string(value)
-    occursin(r"^-?\d+$", v) && return OrderedDict{String,Any}("type" => "integer")
-    return OrderedDict{String,Any}("type" => "string")
+    occursin(r"^-?\d+$", v) && return OrderedDict{String, Any}("type" => "integer")
+    return OrderedDict{String, Any}("type" => "string")
 end
 
 # Recursively walk Postman's nested item tree, collecting (top-level-tag, leaf)
@@ -77,23 +77,23 @@ end
 
 function build_operation(item, tag::AbstractString, used_paths::Set{String})
     name = String(get(item, :name, "endpoint"))
-    req  = item.request
+    req = item.request
     method = lowercase(String(get(req, :method, "GET")))
 
-    params = OrderedDict{String,Any}[]
+    params = OrderedDict{String, Any}[]
     url = get(req, :url, nothing)
     if url isa JSON3.Object && haskey(url, :query)
         for q in url.query
             key = String(get(q, :key, ""))
             isempty(key) && continue
             key == "securityToken" && continue   # lifted to global security scheme
-            desc  = String(get(q, :description, ""))
+            desc = String(get(q, :description, ""))
             value = get(q, :value, nothing)
-            p = OrderedDict{String,Any}(
-                "name"     => key,
-                "in"       => "query",
+            p = OrderedDict{String, Any}(
+                "name" => key,
+                "in" => "query",
                 "required" => is_required(desc),
-                "schema"   => infer_schema(value),
+                "schema" => infer_schema(value),
             )
             stripped = strip_marker(desc)
             isempty(stripped) || (p["description"] = stripped)
@@ -114,23 +114,25 @@ function build_operation(item, tag::AbstractString, used_paths::Set{String})
     end
     push!(used_paths, path)
 
-    op_id = replace(slugify(tag) * "_" * slugify(name) *
-                    (n > 1 ? "_$n" : ""), '-' => '_')
+    op_id = replace(
+        slugify(tag) * "_" * slugify(name) *
+            (n > 1 ? "_$n" : ""), '-' => '_'
+    )
 
-    op = OrderedDict{String,Any}(
-        "tags"        => [tag],
-        "summary"     => name,
+    op = OrderedDict{String, Any}(
+        "tags" => [tag],
+        "summary" => name,
         "operationId" => op_id,
     )
     req_desc = String(get(req, :description, ""))
     isempty(req_desc) || (op["description"] = req_desc)
     op["parameters"] = params
-    op["responses"]  = OrderedDict{String,Any}(
-        "200" => OrderedDict{String,Any}(
+    op["responses"] = OrderedDict{String, Any}(
+        "200" => OrderedDict{String, Any}(
             "description" => "Successful response",
-            "content"     => OrderedDict{String,Any}(
-                "application/xml" => OrderedDict{String,Any}(
-                    "schema" => OrderedDict{String,Any}("type" => "string"),
+            "content" => OrderedDict{String, Any}(
+                "application/xml" => OrderedDict{String, Any}(
+                    "schema" => OrderedDict{String, Any}("type" => "string"),
                 ),
             ),
         ),
@@ -157,12 +159,12 @@ function run_conversion(input_path::AbstractString, output_base::AbstractString)
     println("Reading: ", input_path)
     coll = JSON3.read(read(input_path, String))
 
-    leaves = Tuple{String,Any}[]
+    leaves = Tuple{String, Any}[]
     collect_leaves!(coll.item, nothing, leaves)
     println("Collected ", length(leaves), " leaf requests")
 
-    paths    = OrderedDict{String,Any}()
-    used     = Set{String}()
+    paths = OrderedDict{String, Any}()
+    used = Set{String}()
     tag_list = String[]
 
     for (tag, item) in leaves
@@ -170,29 +172,31 @@ function run_conversion(input_path::AbstractString, output_base::AbstractString)
         result = build_operation(item, tag, used)
         result === nothing && continue
         path, method, op = result
-        path_obj = get!(paths, path, OrderedDict{String,Any}())
+        path_obj = get!(paths, path, OrderedDict{String, Any}())
         path_obj[method] = op
     end
 
-    spec = OrderedDict{String,Any}(
+    spec = OrderedDict{String, Any}(
         "openapi" => "3.1.0",
-        "info" => OrderedDict{String,Any}(
-            "title"       => String(coll.info.name),
-            "version"     => "1.0.0",
+        "info" => OrderedDict{String, Any}(
+            "title" => String(coll.info.name),
+            "version" => "1.0.0",
             "description" => INFO_DESCRIPTION,
         ),
-        "servers" => [OrderedDict{String,Any}(
-            "url"         => "https://web-api.tp.entsoe.eu/api",
-            "description" => "ENTSO-E Transparency Platform (synthetic paths -- see info.description)",
-        )],
-        "security" => [OrderedDict{String,Any}("SecurityToken" => String[])],
-        "tags"     => [OrderedDict{String,Any}("name" => t) for t in tag_list],
-        "paths"    => paths,
-        "components" => OrderedDict{String,Any}(
-            "securitySchemes" => OrderedDict{String,Any}(
-                "SecurityToken" => OrderedDict{String,Any}(
+        "servers" => [
+            OrderedDict{String, Any}(
+                "url" => "https://web-api.tp.entsoe.eu/api",
+                "description" => "ENTSO-E Transparency Platform (synthetic paths -- see info.description)",
+            ),
+        ],
+        "security" => [OrderedDict{String, Any}("SecurityToken" => String[])],
+        "tags" => [OrderedDict{String, Any}("name" => t) for t in tag_list],
+        "paths" => paths,
+        "components" => OrderedDict{String, Any}(
+            "securitySchemes" => OrderedDict{String, Any}(
+                "SecurityToken" => OrderedDict{String, Any}(
                     "type" => "apiKey",
-                    "in"   => "query",
+                    "in" => "query",
                     "name" => "securityToken",
                 ),
             ),
@@ -209,17 +213,19 @@ function run_conversion(input_path::AbstractString, output_base::AbstractString)
     println("Wrote: ", yaml_out)
     println("Wrote: ", json_out)
     println("Operations: ", sum(length(v) for v in values(paths)))
-    println("Tags: ", join(tag_list, ", "))
+    return println("Tags: ", join(tag_list, ", "))
 end
 
-const REPO_ROOT      = normpath(joinpath(@__DIR__, ".."))
-const SPEC_DIR       = joinpath(REPO_ROOT, "spec")
-const DEFAULT_INPUT  = joinpath(SPEC_DIR,
-    "Transparency Platform Restful API.postman_collection.json")
+const REPO_ROOT = normpath(joinpath(@__DIR__, ".."))
+const SPEC_DIR = joinpath(REPO_ROOT, "spec")
+const DEFAULT_INPUT = joinpath(
+    SPEC_DIR,
+    "Transparency Platform Restful API.postman_collection.json"
+)
 const DEFAULT_OUTPUT = joinpath(SPEC_DIR, "openapi")
 
 if abspath(PROGRAM_FILE) == @__FILE__
-    input  = length(ARGS) >= 1 ? ARGS[1] : DEFAULT_INPUT
+    input = length(ARGS) >= 1 ? ARGS[1] : DEFAULT_INPUT
     output = length(ARGS) >= 2 ? ARGS[2] : DEFAULT_OUTPUT
     run_conversion(input, output)
 end

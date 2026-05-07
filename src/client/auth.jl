@@ -53,19 +53,19 @@ end
 
 Inject credentials into the outgoing request headers.
 """
-apply!(::NoAuth, ::Dict{String,String}) = nothing
+apply!(::NoAuth, ::Dict{String, String}) = nothing
 
-function apply!(a::BearerToken, headers::Dict{String,String})
+function apply!(a::BearerToken, headers::Dict{String, String})
     headers["Authorization"] = "Bearer " * a.token
     return nothing
 end
 
-function apply!(a::APIKey, headers::Dict{String,String})
+function apply!(a::APIKey, headers::Dict{String, String})
     headers[a.header] = a.key
     return nothing
 end
 
-function apply!(a::BasicAuth, headers::Dict{String,String})
+function apply!(a::BasicAuth, headers::Dict{String, String})
     creds = base64encode(a.username * ":" * a.password)
     headers["Authorization"] = "Basic " * creds
     return nothing
@@ -80,7 +80,7 @@ implements both required signatures: a `Ctx`-only pass-through and a
 """
 function build_pre_request_hook(auth::Auth)
     hook(ctx) = ctx
-    function hook(resource::AbstractString, body, headers::Dict{String,String})
+    function hook(resource::AbstractString, body, headers::Dict{String, String})
         apply!(auth, headers)
         return resource, body, headers
     end
@@ -109,21 +109,25 @@ function resolve_credentials end
 
 const _DEFAULT_ENV_PREFIX = "ENTSOE"
 const _CREDENTIALS_FILE =
-    joinpath(get(ENV, "XDG_CONFIG_HOME", joinpath(homedir(), ".config")),
-             "entsoe", "credentials.toml")
+    joinpath(
+    get(ENV, "XDG_CONFIG_HOME", joinpath(homedir(), ".config")),
+    "entsoe", "credentials.toml"
+)
 
 _load_credentials_file(path::AbstractString = _CREDENTIALS_FILE) =
-    isfile(path) ? TOML.parsefile(path) : Dict{String,Any}()
+    isfile(path) ? TOML.parsefile(path) : Dict{String, Any}()
 
 function resolve_credentials(::Type{BearerToken}; env_prefix::AbstractString = _DEFAULT_ENV_PREFIX)
     token = get(ENV, "$(env_prefix)_TOKEN", nothing)
     token === nothing || return BearerToken(token)
-    cfg = get(_load_credentials_file(), "bearer", Dict{String,Any}())
+    cfg = get(_load_credentials_file(), "bearer", Dict{String, Any}())
     haskey(cfg, "token") && return BearerToken(String(cfg["token"]))
-    throw(ArgumentError(
-        "No bearer token found. Set `$(env_prefix)_TOKEN` or add " *
-        "`[bearer] token = \"…\"` to $(_CREDENTIALS_FILE).",
-    ))
+    throw(
+        ArgumentError(
+            "No bearer token found. Set `$(env_prefix)_TOKEN` or add " *
+                "`[bearer] token = \"…\"` to $(_CREDENTIALS_FILE).",
+        )
+    )
 end
 
 function resolve_credentials(::Type{APIKey}; env_prefix::AbstractString = _DEFAULT_ENV_PREFIX)
@@ -132,26 +136,32 @@ function resolve_credentials(::Type{APIKey}; env_prefix::AbstractString = _DEFAU
         header = get(ENV, "$(env_prefix)_API_KEY_HEADER", "X-API-Key")
         return APIKey(key; header = header)
     end
-    cfg = get(_load_credentials_file(), "apikey", Dict{String,Any}())
-    haskey(cfg, "key") && return APIKey(String(cfg["key"]);
-                                        header = String(get(cfg, "header", "X-API-Key")))
-    throw(ArgumentError(
-        "No API key found. Set `$(env_prefix)_API_KEY` (and optionally " *
-        "`$(env_prefix)_API_KEY_HEADER`) or add `[apikey] key = \"…\"` to " *
-        "$(_CREDENTIALS_FILE).",
-    ))
+    cfg = get(_load_credentials_file(), "apikey", Dict{String, Any}())
+    haskey(cfg, "key") && return APIKey(
+        String(cfg["key"]);
+        header = String(get(cfg, "header", "X-API-Key"))
+    )
+    throw(
+        ArgumentError(
+            "No API key found. Set `$(env_prefix)_API_KEY` (and optionally " *
+                "`$(env_prefix)_API_KEY_HEADER`) or add `[apikey] key = \"…\"` to " *
+                "$(_CREDENTIALS_FILE).",
+        )
+    )
 end
 
 function resolve_credentials(::Type{BasicAuth}; env_prefix::AbstractString = _DEFAULT_ENV_PREFIX)
     user = get(ENV, "$(env_prefix)_USERNAME", nothing)
     pass = get(ENV, "$(env_prefix)_PASSWORD", nothing)
     user !== nothing && pass !== nothing && return BasicAuth(user, pass)
-    cfg = get(_load_credentials_file(), "basic", Dict{String,Any}())
+    cfg = get(_load_credentials_file(), "basic", Dict{String, Any}())
     haskey(cfg, "username") && haskey(cfg, "password") &&
         return BasicAuth(String(cfg["username"]), String(cfg["password"]))
-    throw(ArgumentError(
-        "No basic-auth credentials found. Set `$(env_prefix)_USERNAME` and " *
-        "`$(env_prefix)_PASSWORD`, or add `[basic] username = \"…\" password = \"…\"` " *
-        "to $(_CREDENTIALS_FILE).",
-    ))
+    throw(
+        ArgumentError(
+            "No basic-auth credentials found. Set `$(env_prefix)_USERNAME` and " *
+                "`$(env_prefix)_PASSWORD`, or add `[basic] username = \"…\" password = \"…\"` " *
+                "to $(_CREDENTIALS_FILE).",
+        )
+    )
 end

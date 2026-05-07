@@ -22,7 +22,7 @@ _show_field(io::IO, val::OpenAPI.APIModel, indent::Int) =
     show(IOContext(io, :indent => indent), MIME"text/plain"(), val)
 
 function _show_field(io::IO, val::AbstractVector, indent::Int)
-    if isempty(val)
+    return if isempty(val)
         print(io, "[]")
     else
         print(io, "[", length(val), " item", length(val) == 1 ? "" : "s", "]")

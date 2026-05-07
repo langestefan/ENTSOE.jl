@@ -53,7 +53,7 @@ Decide whether a thrown exception should trigger another attempt under
 function is_retryable(p::RetryPolicy, err::APIError)
     if err isa NetworkError
         return p.retry_on_network_error
-    elseif err isa Union{ClientError,ServerError,AuthError}
+    elseif err isa Union{ClientError, ServerError, AuthError}
         return err.status in p.retryable_statuses
     elseif err isa RateLimitError
         return err.status in p.retryable_statuses
@@ -73,11 +73,11 @@ For `RateLimitError`, the longer of `backoff_delay` and the server-supplied
 avoid real sleeps and assert exact delays.
 """
 function with_retry(
-    fn::Function;
-    policy::RetryPolicy = RetryPolicy(),
-    sleep_fn = Base.sleep,
-    jitter = rand,
-)
+        fn::Function;
+        policy::RetryPolicy = RetryPolicy(),
+        sleep_fn = Base.sleep,
+        jitter = rand,
+    )
     last_err = nothing
     for attempt in 1:policy.max_attempts
         try

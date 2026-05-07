@@ -32,27 +32,30 @@ using Dates: Dates, DateTime, Date
 # Internal: normalise any of the accepted period inputs to the Int64
 # yyyymmddHHMM expected by the generated layer. Identity for already-
 # integer inputs.
-_to_period(t::Integer)::Int64               = Int64(t)
-_to_period(t::DateTime)::Int64              = entsoe_period(t)
-_to_period(t::Date)::Int64                  = entsoe_period(t)
+_to_period(t::Integer)::Int64 = Int64(t)
+_to_period(t::DateTime)::Int64 = entsoe_period(t)
+_to_period(t::Date)::Int64 = entsoe_period(t)
 _to_period(t::Dates.AbstractDateTime)::Int64 = entsoe_period(t)
 # Catch-all: lets JET infer `_to_period(::Any) -> Int64` even though the
 # wrapper signatures take `period_start::Any`. At runtime an unsupported
 # type errors loudly here rather than silently propagating into the
 # generated function as a mistyped `Int64` argument.
-_to_period(t)::Int64 = throw(ArgumentError(
-    "unsupported period type $(typeof(t)) — pass DateTime, Date, " *
-        "ZonedDateTime, or an Int64 yyyymmddHHMM."
-))
+_to_period(t)::Int64 = throw(
+    ArgumentError(
+        "unsupported period type $(typeof(t)) — pass DateTime, Date, " *
+            "ZonedDateTime, or an Int64 yyyymmddHHMM."
+    )
+)
 
 # Internal: every wrapper either parses the XML or returns it raw. The
 # `parser` argument is a function `xml::String -> Any`. `parsed=false`
 # short-circuits and returns the XML.
-function _query(api_call::Function, parser;
-                parsed::Bool = true,
-                validate::Bool = false,
-                eics = (),
-            )
+function _query(
+        api_call::Function, parser;
+        parsed::Bool = true,
+        validate::Bool = false,
+        eics = (),
+    )
     if validate
         for code in eics
             validate_eic(code; type = :BZN)
@@ -67,14 +70,18 @@ function _query(api_call::Function, parser;
     if xml === nothing
         raw = resp === nothing ? nothing : resp.raw
         if raw === nothing
-            throw(NetworkError(ErrorException(
-                "ENTSO-E request failed before a response was received",
-            )))
+            throw(
+                NetworkError(
+                    ErrorException(
+                        "ENTSO-E request failed before a response was received",
+                    )
+                )
+            )
         end
         body = String(copy(raw.body))
         headers = Dict{String, String}(string(k) => string(v) for (k, v) in raw.headers)
         check_response(raw.status, body, headers)
-        # 2xx with no body / unparseable body — shouldn't happen, but
+        # 2xx with no body / unparsable body — shouldn't happen, but
         # don't silently return `nothing`.
         throw(ServerError(Int(raw.status), body))
     end
@@ -115,9 +122,11 @@ function day_ahead_prices(
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
-    return _query(parse_timeseries; parsed = parsed,
-                  validate = validate, eics = (area,)) do
-        ENTSOE.market121_d_energy_prices(
+    return _query(
+        parse_timeseries; parsed = parsed,
+        validate = validate, eics = (area,)
+    ) do
+        market121_d_energy_prices(
             apis.market, "A44",
             _to_period(period_start), _to_period(period_end),
             String(area), String(area),
@@ -138,8 +147,10 @@ function _load_query(
         api_fn::Function,
     )
     apis = entsoe_apis(client)
-    return _query(parse_timeseries; parsed = parsed,
-                  validate = validate, eics = (area,)) do
+    return _query(
+        parse_timeseries; parsed = parsed,
+        validate = validate, eics = (area,)
+    ) do
         api_fn(
             apis.load, "A65", String(process), String(area),
             _to_period(period_start), _to_period(period_end),
@@ -154,65 +165,75 @@ Realised total system load (Load 6.1.A, `documentType=A65`,
 `processType=A16`). Quarter-hour resolution. Returns
 `Vector{(time, value)}` with `value` in MW.
 """
-actual_total_load(client::Client, area, start, stop;
-                  parsed = true, validate = false) =
+actual_total_load(
+    client::Client, area, start, stop;
+    parsed = true, validate = false
+) =
     _load_query(
-        client, "A16", area, start, stop;
-        parsed = parsed, validate = validate,
-        api_fn = ENTSOE.load61_a_actual_total_load,
-    )
+    client, "A16", area, start, stop;
+    parsed = parsed, validate = validate,
+    api_fn = load61_a_actual_total_load,
+)
 
 """
     day_ahead_load_forecast(client, area, start, stop; parsed=true)
 
 Day-ahead total load forecast (Load 6.1.B, `processType=A01`).
 """
-day_ahead_load_forecast(client::Client, area, start, stop;
-                        parsed = true, validate = false) =
+day_ahead_load_forecast(
+    client::Client, area, start, stop;
+    parsed = true, validate = false
+) =
     _load_query(
-        client, "A01", area, start, stop;
-        parsed = parsed, validate = validate,
-        api_fn = ENTSOE.load61_b_day_ahead_total_load_forecast,
-    )
+    client, "A01", area, start, stop;
+    parsed = parsed, validate = validate,
+    api_fn = load61_b_day_ahead_total_load_forecast,
+)
 
 """
     week_ahead_load_forecast(client, area, start, stop; parsed=true)
 
 Week-ahead total load forecast (Load 6.1.C, `processType=A31`).
 """
-week_ahead_load_forecast(client::Client, area, start, stop;
-                         parsed = true, validate = false) =
+week_ahead_load_forecast(
+    client::Client, area, start, stop;
+    parsed = true, validate = false
+) =
     _load_query(
-        client, "A31", area, start, stop;
-        parsed = parsed, validate = validate,
-        api_fn = ENTSOE.load61_c_week_ahead_total_load_forecast,
-    )
+    client, "A31", area, start, stop;
+    parsed = parsed, validate = validate,
+    api_fn = load61_c_week_ahead_total_load_forecast,
+)
 
 """
     month_ahead_load_forecast(client, area, start, stop; parsed=true)
 
 Month-ahead total load forecast (Load 6.1.D, `processType=A32`).
 """
-month_ahead_load_forecast(client::Client, area, start, stop;
-                          parsed = true, validate = false) =
+month_ahead_load_forecast(
+    client::Client, area, start, stop;
+    parsed = true, validate = false
+) =
     _load_query(
-        client, "A32", area, start, stop;
-        parsed = parsed, validate = validate,
-        api_fn = ENTSOE.load61_d_month_ahead_total_load_forecast,
-    )
+    client, "A32", area, start, stop;
+    parsed = parsed, validate = validate,
+    api_fn = load61_d_month_ahead_total_load_forecast,
+)
 
 """
     year_ahead_load_forecast(client, area, start, stop; parsed=true)
 
 Year-ahead total load forecast (Load 6.1.E, `processType=A33`).
 """
-year_ahead_load_forecast(client::Client, area, start, stop;
-                         parsed = true, validate = false) =
+year_ahead_load_forecast(
+    client::Client, area, start, stop;
+    parsed = true, validate = false
+) =
     _load_query(
-        client, "A33", area, start, stop;
-        parsed = parsed, validate = validate,
-        api_fn = ENTSOE.load61_e_year_ahead_total_load_forecast,
-    )
+    client, "A33", area, start, stop;
+    parsed = parsed, validate = validate,
+    api_fn = load61_e_year_ahead_total_load_forecast,
+)
 
 # ---------------------------------------------------------------------------
 # Generation
@@ -236,9 +257,11 @@ function installed_capacity_per_production_type(
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
-    return _query(parse_installed_capacity; parsed = parsed,
-                  validate = validate, eics = (area,)) do
-        ENTSOE.generation141_a_installed_capacity_per_production_type(
+    return _query(
+        parse_installed_capacity; parsed = parsed,
+        validate = validate, eics = (area,)
+    ) do
+        generation141_a_installed_capacity_per_production_type(
             apis.generation, "A68", "A33", String(area),
             _to_period(period_start), _to_period(period_end),
         )
@@ -259,9 +282,11 @@ function generation_forecast_day_ahead(
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
-    return _query(parse_timeseries; parsed = parsed,
-                  validate = validate, eics = (area,)) do
-        ENTSOE.generation141_c_generation_forecast_day_ahead(
+    return _query(
+        parse_timeseries; parsed = parsed,
+        validate = validate, eics = (area,)
+    ) do
+        generation141_c_generation_forecast_day_ahead(
             apis.generation, "A71", "A01", String(area),
             _to_period(period_start), _to_period(period_end),
         )
@@ -288,9 +313,11 @@ function wind_solar_forecast(
         psr_type::Union{Nothing, AbstractString} = nothing,
     )
     apis = entsoe_apis(client)
-    return _query(parse_timeseries_per_psr; parsed = parsed,
-                  validate = validate, eics = (area,)) do
-        ENTSOE.generation141_d_generation_forecasts_for_wind_and_solar(
+    return _query(
+        parse_timeseries_per_psr; parsed = parsed,
+        validate = validate, eics = (area,)
+    ) do
+        generation141_d_generation_forecasts_for_wind_and_solar(
             apis.generation, "A69", "A01", String(area),
             _to_period(period_start), _to_period(period_end);
             psr_type = psr_type === nothing ? nothing : String(psr_type),
@@ -317,9 +344,11 @@ function actual_generation_per_production_type(
         psr_type::Union{Nothing, AbstractString} = nothing,
     )
     apis = entsoe_apis(client)
-    return _query(parse_timeseries_per_psr; parsed = parsed,
-                  validate = validate, eics = (area,)) do
-        ENTSOE.generation161_b_c_actual_generation_per_production_type(
+    return _query(
+        parse_timeseries_per_psr; parsed = parsed,
+        validate = validate, eics = (area,)
+    ) do
+        generation161_b_c_actual_generation_per_production_type(
             apis.generation, "A75", "A16", String(area),
             _to_period(period_start), _to_period(period_end);
             psr_type = psr_type === nothing ? nothing : String(psr_type),
@@ -349,9 +378,11 @@ function cross_border_physical_flows(
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
-    return _query(parse_timeseries; parsed = parsed,
-                  validate = validate, eics = (in_area, out_area)) do
-        ENTSOE.transmission121_g_cross_border_physical_flows(
+    return _query(
+        parse_timeseries; parsed = parsed,
+        validate = validate, eics = (in_area, out_area)
+    ) do
+        transmission121_g_cross_border_physical_flows(
             apis.transmission, "A11",
             String(out_area), String(in_area),  # generated layer takes (out, in) — see api/apis/api_TransmissionApi.jl
             _to_period(period_start), _to_period(period_end),

@@ -257,7 +257,9 @@ function code_for(table::NamedTuple, label::AbstractString)
     isempty(matches) &&
         throw(KeyError("no code in this list matches `$label`"))
     length(matches) == 1 ||
-        error("ambiguous: $(label) matches " *
-              join(("$(k) ($(v))" for (k, v) in matches), ", "))
+        error(
+        "ambiguous: $(label) matches " *
+            join(("$(k) ($(v))" for (k, v) in matches), ", ")
+    )
     return String(first(matches[1]))
 end

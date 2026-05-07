@@ -79,4 +79,3 @@
 ```@raw html
 <OAOperation operationId="transmission_9_1_expansion_and_dismantling_project" prefix-headings="true" />
 ```
-

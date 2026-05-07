@@ -58,7 +58,7 @@ seconds, or `nothing` when absent / unparsable.
 """
 struct RateLimitError <: APIError
     status::Int
-    retry_after::Union{Nothing,Float64}
+    retry_after::Union{Nothing, Float64}
     body::String
 end
 RateLimitError(; status::Integer = 429, retry_after = nothing, body::AbstractString = "") =
@@ -95,10 +95,10 @@ Throw the appropriate [`APIError`](@ref) subtype based on the HTTP status.
 Returns `nothing` for 2xx responses.
 """
 function check_response(
-    status::Integer,
-    body::AbstractString,
-    headers::AbstractDict = Dict{String,String}(),
-)
+        status::Integer,
+        body::AbstractString,
+        headers::AbstractDict = Dict{String, String}(),
+    )
     s = Int(status)
     if 200 <= s < 300
         return nothing

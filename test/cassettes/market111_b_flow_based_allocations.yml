@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item FLOW_BASED_ALLOCATIONS [11.1.B] (10YDOM-REGION-1V, 10YDOM-REGION-1V) and interval 2014-02-03T23:00:00Z/2014-02-04T05:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

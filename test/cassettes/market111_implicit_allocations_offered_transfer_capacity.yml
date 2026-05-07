@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item OFFERED_TRANSFER_CAPACITIES_IMPLICIT [11.1] (10Y1001A1001A82H, 10YDK-1--------W) and interval 2022-12-31T23:00:00Z/2023-01-01T23:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

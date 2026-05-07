@@ -63,4 +63,3 @@
 ```@raw html
 <OAOperation operationId="load_8_1_year_ahead_forecast_margin" prefix-headings="true" />
 ```
-

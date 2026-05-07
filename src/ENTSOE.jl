@@ -1,6 +1,8 @@
 module ENTSOE
 
-using HTTP, JSON, OpenAPI
+using HTTP: HTTP
+using JSON: JSON
+using OpenAPI: OpenAPI
 
 # Generated low-level surface — DO NOT EDIT, regenerate via gen/regenerate.jl
 include("api/ENTSOEAPI.jl")

@@ -5,14 +5,14 @@ info:
   description: |
     Auto-generated from the official ENTSO-E Postman collection by
     `scripts/postman_to_openapi.jl`.
-    
+
     The real ENTSO-E Transparency Platform API exposes a single endpoint that is
     dispatched purely by query parameters. To make this spec useful for code
     generation, each Postman request has been mapped to a SYNTHETIC path of the
     form `/{group}/{request-name}`. A client implemented from this spec must
     route every operation back to the real base URL with the query parameters
     attached.
-    
+
 servers:
   - url: "https://web-api.tp.entsoe.eu/api"
     description: "ENTSO-E Transparency Platform (synthetic paths -- see info.description)"
@@ -35,7 +35,7 @@ paths:
       summary: "12.1.E Implicit and Flow-based Allocations - Congestion Income"
       operationId: "market_12_1_e_implicit_and_flow_based_allocations_congestion_income"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -158,7 +158,7 @@ paths:
       summary: "11.1 Implicit Allocations - Offered Transfer Capacity"
       operationId: "market_11_1_implicit_allocations_offered_transfer_capacity"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -238,7 +238,7 @@ paths:
       summary: "12.1.H Transfer Capacities Allocated with Third Countries [12.1.H] (explicit)"
       operationId: "market_12_1_h_transfer_capacities_allocated_with_third_countries_12_1_h_explicit"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -318,7 +318,7 @@ paths:
       summary: "12.1.C Total Capacity Already Allocated"
       operationId: "market_12_1_c_total_capacity_already_allocated"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -391,7 +391,7 @@ paths:
       summary: "11.1.A Explicit Allocations - Offered Transfer Capacity"
       operationId: "market_11_1_a_explicit_allocations_offered_transfer_capacity"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -478,7 +478,7 @@ paths:
       summary: "12.1.A Explicit Allocations - Use of the Transfer Capacity"
       operationId: "market_12_1_a_explicit_allocations_use_of_the_transfer_capacity"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -558,7 +558,7 @@ paths:
       summary: "12.1.A Explicit Allocations - Auction Revenue"
       operationId: "market_12_1_a_explicit_allocations_auction_revenue"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -688,7 +688,7 @@ paths:
       summary: "11.1.B Flow Based Allocations"
       operationId: "market_11_1_b_flow_based_allocations"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 1 instances contained in the ZIP response, split into several files within the response ZIP file.
       parameters:
         - name: "documentType"
@@ -747,7 +747,7 @@ paths:
       summary: "11.1.B Flow Based Allocations Archives"
       operationId: "market_11_1_b_flow_based_allocations_archives"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 1 archive in the ZIP response.
       parameters:
         - name: "documentType"
@@ -813,7 +813,7 @@ paths:
       summary: "11.1 Continuous Allocations - Offered Transfer Capacity"
       operationId: "market_11_1_continuous_allocations_offered_transfer_capacity"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "DocumentType"
@@ -872,11 +872,11 @@ paths:
             type: "integer"
           description: |
             For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000.
-            
+
             If there is no OC evolution version with requested update_DateAndOrTime the system selects OC version valid in the given time (e.g., closest previous update_DateAndOrTime). The most recent publish OC version is provided in case the update_DateAndOrTime parameter is omitted. The most recent published OC version and intermediate OC versions is distinguished by document type:
             −	Intermediate OC values: A31
             −	Most recent published OC values: B33
-            
+
           example: "20240515123900"
       responses:
         "200":
@@ -892,7 +892,7 @@ paths:
       summary: "12.1.D Energy Prices"
       operationId: "market_12_1_d_energy_prices"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -966,7 +966,7 @@ paths:
       operationId: "load_6_1_a_actual_total_load_security_token_in_header"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         **Note**: This is an example where the security token is included in the request header rather than in the query parameters.
       parameters:
         - name: "documentType"
@@ -1441,9 +1441,9 @@ paths:
       operationId: "generation_16_1_b_c_actual_generation_per_production_type"
       description: |-
         <u><b>Request limit</b></u>: Each request may cover a period of up to 1 year.
-        
+
         Response from API is same irrespective of querying for Document Types A74 - Wind & Solar & A75 - Actual Generation Per Type
-        
+
         Time series with inBiddingZone_Domain attribute reflects Generation values while outBiddingZone_Domain reflects Consumption values.**
       parameters:
         - name: "documentType"
@@ -1503,11 +1503,11 @@ paths:
       operationId: "generation_16_1_a_actual_generation_per_generation_unit"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 day.
-        
+
         **Important notes:**
-        
+
         - Response from API is same irrespective of querying for Document Types A74 - Wind & Solar & A75 - Actual Generation Per Type
-            
+
         - Time series with inBiddingZone_Domain attribute reflects **generation** values while outBiddingZone_Domain reflects **consumption** values.
       parameters:
         - name: "documentType"
@@ -1574,7 +1574,7 @@ paths:
       operationId: "generation_14_1_c_generation_forecast_day_ahead"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         Time series with inBiddingZone_Domain attribute reflects Generation values while outBiddingZone_Domain reflects Consumption values.
       parameters:
         - name: "documentType"
@@ -1740,7 +1740,7 @@ paths:
       operationId: "transmission_12_1_g_cross_border_physical_flows"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         Unlike Web GUI, API responds not netted values as data is requested per direction.
       parameters:
         - name: "documentType"
@@ -1963,7 +1963,7 @@ paths:
       summary: "11.3 Cross Border Capacity of DC Links - Intraday Transfer Limits"
       operationId: "transmission_11_3_cross_border_capacity_of_dc_links_intraday_transfer_limits"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -2065,7 +2065,7 @@ paths:
       summary: "13.1.A Redispatching Internal"
       operationId: "transmission_13_1_a_redispatching_internal"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -2124,7 +2124,7 @@ paths:
       summary: "13.1.A Redispatching Cross Border"
       operationId: "transmission_13_1_a_redispatching_cross_border"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -2183,7 +2183,7 @@ paths:
       summary: "9.1 Expansion and Dismantling Project"
       operationId: "transmission_9_1_expansion_and_dismantling_project"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -2249,7 +2249,7 @@ paths:
       summary: "13.1.B Countertrading"
       operationId: "transmission_13_1_b_countertrading"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -2302,12 +2302,11 @@ paths:
       operationId: "outages_15_1_c_d_unavailability_of_production_units"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"
@@ -2402,12 +2401,11 @@ paths:
       operationId: "outages_15_1_a_b_unavailability_of_generation_units"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"
@@ -2552,12 +2550,11 @@ paths:
       operationId: "outages_10_1_a_b_unavailability_of_transmission_infrastructure"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"
@@ -2656,12 +2653,11 @@ paths:
       operationId: "outages_10_1_a_b_unavailability_of_transmission_infrastructure_available_capacity"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"
@@ -2759,12 +2755,11 @@ paths:
       operationId: "outages_10_1_a_b_unavailability_of_transmission_infrastructure_net_position_impact"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"
@@ -2862,12 +2857,11 @@ paths:
       operationId: "outages_10_1_c_unavailability_of_offshore_grid_infrastructure"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"
@@ -2946,7 +2940,7 @@ paths:
       summary: "Fall-backs [IFs IN 7.2, mFRR 3.11, aFRR 3.10]"
       operationId: "outages_fall_backs_ifs_in_7_2_mfrr_3_11_afrr_3_10"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 XML documents, where `offset=0` returns the first 100 documents, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3174,7 +3168,7 @@ paths:
       summary: "12.3.B&C Balancing energy bids"
       operationId: "balancing_12_3_b_c_balancing_energy_bids"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3261,7 +3255,7 @@ paths:
       summary: "12.3.B&C Balancing energy bids archives"
       operationId: "balancing_12_3_b_c_balancing_energy_bids_archives"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 ZIP files contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 ZIP archives, where`offset=0` returns the first 100 archives, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3334,7 +3328,7 @@ paths:
       summary: "IFs mFRR 9.9, aFRR 9.6&9.8 Changes to Bid Availability"
       operationId: "balancing_ifs_mfrr_9_9_afrr_9_6_9_8_changes_to_bid_availability"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3400,7 +3394,7 @@ paths:
       summary: "IFs mFRR 9.9, aFRR 9.6&9.8 Changes to Bid Availability Archives"
       operationId: "balancing_ifs_mfrr_9_9_afrr_9_6_9_8_changes_to_bid_availability_archives"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 ZIP files contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 ZIP archives, where`offset=0` returns the first 100 archives, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3524,9 +3518,9 @@ paths:
       operationId: "balancing_ifs_3_10_3_16_3_17_netted_and_exchanged_volumes"
       description: |-
         <u><b>Request limit:</b></u>
-        
+
         - For aFRR: Each request may cover a period of up to 1 day.
-            
+
         - For other process types: Each request may cover a period of up to 1 year.
       parameters:
         - name: "documentType"
@@ -3586,9 +3580,9 @@ paths:
       operationId: "balancing_ifs_3_10_3_16_3_17_netted_and_exchanged_volumes_per_border"
       description: |-
         <u><b>Request limit:</b></u>
-        
+
         - For aFRR: Each request may cover a period of up to 1 day.
-            
+
         - For other process types: Each request may cover a period of up to 1 year.
       parameters:
         - name: "documentType"
@@ -3647,7 +3641,7 @@ paths:
       summary: "IFs aFRR 3.4 & mFRR 3.4 Elastic Demands"
       operationId: "balancing_ifs_afrr_3_4_mfrr_3_4_elastic_demands"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3713,7 +3707,7 @@ paths:
       summary: "17.1.B&C Volumes and Prices of Contracted Reserves"
       operationId: "balancing_17_1_b_c_volumes_and_prices_of_contracted_reserves"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3793,7 +3787,7 @@ paths:
       summary: "12.3.F Procured balancing capacity (GL EB)"
       operationId: "balancing_12_3_f_procured_balancing_capacity_gl_eb"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -3959,7 +3953,7 @@ paths:
       summary: "190.2 Sharing of FCR between SAs (SO GL)"
       operationId: "balancing_190_2_sharing_of_fcr_between_sas_so_gl"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -4308,7 +4302,7 @@ paths:
       summary: "12.3.H&I Allocation and use of cross-zonal balancing capacity"
       operationId: "balancing_12_3_h_i_allocation_and_use_of_cross_zonal_balancing_capacity"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 instances contained in the ZIP response. One instance can be split into up to 8 TimeSeries. The total number of files in the ZIP file is variable and depends on the values of the dividing elements - allocation decision time, domain.mRID, etc.
       parameters:
         - name: "documentType"
@@ -4374,7 +4368,7 @@ paths:
       summary: "IFs 4.5 Permanent Allocation Limitations to Cross-border Capacity on HVDC Lines"
       operationId: "balancing_ifs_4_5_permanent_allocation_limitations_to_cross_border_capacity_on_hvdc_lines"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response.
       parameters:
         - name: "documentType"
@@ -4518,7 +4512,7 @@ paths:
       summary: "190.1 Sharing of RR and FRR (SO GL)"
       operationId: "balancing_190_1_sharing_of_rr_and_frr_so_gl"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements is returned per XML response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -4591,7 +4585,7 @@ paths:
       summary: "190.3 Exchanged Reserve Capacity (SO GL)"
       operationId: "balancing_190_3_exchanged_reserve_capacity_so_gl"
       description: |-
-        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.  
+        <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
         <u><b><br>Response limit</b></u>: A maximum of 100 TimeSeries elements in total, counted across all XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 100 TimeSeries, where `offset=0` returns the first 100 elements, `offset=100` returns the next 100, and so on.
       parameters:
         - name: "documentType"
@@ -4915,12 +4909,11 @@ paths:
       operationId: "omi_other_market_information"
       description: |-
         <u><b>Request limit:</b></u> Each request may cover a period of up to 1 year.
-        
+
         - It applies to PeriodStart and PeriodEnd if PeriodStartUpdate and PeriodEndUpdate parameters are not included in the request.
-            
+
         - It applies only to PeriodStartUpdate and PeriodEndUpdate if included in the request.
-            
-        
+
         <u><b>Response limit</b></u>: A maximum of 200 XML documents contained in the ZIP response. The `offset`parameter can be used to retrieve the data in batches of up to 200 XML documents, where `offset=0` returns the first 200 documents, `offset=200` returns the next 200, and so on.
       parameters:
         - name: "documentType"

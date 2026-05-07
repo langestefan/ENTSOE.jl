@@ -32,7 +32,7 @@ Pkg.activate(joinpath(ROOT, "test"); io = devnull)
 using BrokenRecord
 Pkg.activate(ROOT; io = devnull)
 
-# A temp env so we don't polute the package's own deps with JSON3.
+# A temp env so we don't pollute the package's own deps with JSON3.
 let env = mktempdir()
     Pkg.activate(env; io = devnull)
     Pkg.add("JSON3"; io = devnull)
@@ -52,22 +52,22 @@ let target = Base.Threads.maxthreadid()
     while length(BrokenRecord.STATE) < target
         push!(
             BrokenRecord.STATE, (
-                responses      = empty(BrokenRecord.STATE[1].responses),
+                responses = empty(BrokenRecord.STATE[1].responses),
                 ignore_headers = String[],
-                ignore_query   = String[],
+                ignore_query = String[],
             )
         )
     end
 end
 
 const TAG_TO_FIELD = Dict(
-    "Balancing"   => :balancing,
-    "Generation"  => :generation,
-    "Load"        => :load,
-    "Market"      => :market,
+    "Balancing" => :balancing,
+    "Generation" => :generation,
+    "Load" => :load,
+    "Market" => :market,
     "Master Data" => :master_data,
-    "OMI"         => :omi,
-    "Outages"     => :outages,
+    "OMI" => :omi,
+    "Outages" => :outages,
     "Transmission" => :transmission,
 )
 
@@ -118,7 +118,7 @@ end
 # ─── Signature parser (positional + kwarg names) ─────────────────────────────
 
 function _parse_sig(fn_name)
-    pat_full   = Regex("^function $(fn_name)\\(_api::\\w+, (.*?)\\)\$")
+    pat_full = Regex("^function $(fn_name)\\(_api::\\w+, (.*?)\\)\$")
     pat_kwonly = Regex("^function $(fn_name)\\(_api::\\w+; (.*?)\\)\$")
     for f in readdir(joinpath(ROOT, "src", "api", "apis"); join = true)
         for line in eachline(f)
@@ -181,11 +181,11 @@ function _build_descriptor(leaf, fn_name, sig)
         push!(kw_pairs, Symbol(kw) => occursin(r"^\d+$", v) ? parse(Int64, v) : v)
     end
     return (
-        fn_name    = fn_name,
+        fn_name = fn_name,
         positional = pos_args,
-        kwargs     = NamedTuple(kw_pairs),
-        leaf_tag   = leaf.tag,
-        leaf_name  = leaf.name,
+        kwargs = NamedTuple(kw_pairs),
+        leaf_tag = leaf.tag,
+        leaf_name = leaf.name,
     )
 end
 
@@ -207,13 +207,13 @@ function _record_all(descriptors, client, apis)
         ignore_headers = [
             "Authorization", "X-API-Key", "User-Agent", "Accept-Encoding",
         ],
-        ignore_query   = ["securityToken"],
+        ignore_query = ["securityToken"],
     )
 
     binary = String[]
     for d in descriptors
         api = getfield(apis, Symbol(TAG_TO_FIELD[d.leaf_tag]))
-        fn  = getfield(ENTSOE.ENTSOEAPI, Symbol(d.fn_name))
+        fn = getfield(ENTSOE.ENTSOEAPI, Symbol(d.fn_name))
         # First pass with YAML.
         BrokenRecord.configure!(extension = "yml")
         result = try
@@ -268,7 +268,7 @@ function _write_manifest(descriptors)
     for d in descriptors
         pos = "[" * join(_jl_repr.(d.positional), ", ") * "]"
         kws = ["$(k) = $(_jl_repr(v))" for (k, v) in pairs(d.kwargs)]
-        kw  = isempty(kws) ? "(;)" : "(; " * join(kws, ", ") * ")"
+        kw = isempty(kws) ? "(;)" : "(; " * join(kws, ", ") * ")"
         api_field = TAG_TO_FIELD[d.leaf_tag]
         println(io, "    (fn = :$(d.fn_name),")
         println(io, "     api_field = :$(api_field),")
@@ -287,7 +287,7 @@ function main()
     isempty(token) && error("no ENTSO-E token in ENV or token.txt")
 
     postman = JSON3.read(read(POSTMAN_PATH, String))
-    leaves  = NamedTuple[]
+    leaves = NamedTuple[]
     _walk_leaves(postman.item, nothing, leaves)
     @info "Postman leaves" count = length(leaves)
 
@@ -306,7 +306,7 @@ function main()
     @info "Resolved descriptors" count = length(descriptors)
 
     client = ENTSOEClient(String(token))
-    apis   = entsoe_apis(client)
+    apis = entsoe_apis(client)
     binary = _record_all(descriptors, client, apis)
     @info "Recorded" total = length(descriptors) binary = length(binary)
 

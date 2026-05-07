@@ -55,4 +55,3 @@
 ```@raw html
 <OAOperation operationId="generation_16_1_d_water_reservoirs_and_hydro_storage_plants" prefix-headings="true" />
 ```
-

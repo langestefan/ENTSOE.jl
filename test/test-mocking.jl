@@ -9,7 +9,7 @@ using Test
 let id = Base.identify_package("Mocking")
     if id === nothing
         @info "Mocking not installed; skipping mocked-HTTP tests. " *
-              "`pkg> add Mocking@0.8` in `test/` to enable."
+            "`pkg> add Mocking@0.8` in `test/` to enable."
     else
         @testset "Mocking is loadable" begin
             Mocking = Base.require(id)

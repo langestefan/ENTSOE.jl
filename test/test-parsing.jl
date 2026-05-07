@@ -84,18 +84,18 @@ const _ACK_XML = """
 @testset "parse_timeseries — prices" begin
     rows = parse_timeseries(_TS_PRICE_XML)
     @test length(rows) == 3
-    @test rows[1].time  == DateTime("2024-09-01T22:00")
-    @test rows[1].value == 50.10
-    @test rows[2].time  == DateTime("2024-09-01T23:00")  # +1 hour @ PT60M
-    @test rows[3].value == -2.00                          # negative price OK
+    @test rows[1].time == DateTime("2024-09-01T22:00")
+    @test rows[1].value == 50.1
+    @test rows[2].time == DateTime("2024-09-01T23:00")  # +1 hour @ PT60M
+    @test rows[3].value == -2.0                          # negative price OK
 end
 
 @testset "parse_timeseries — load (PT15M)" begin
     rows = parse_timeseries(_TS_LOAD_XML)
     @test length(rows) == 2
-    @test rows[1].time  == DateTime("2024-09-01T22:00")
+    @test rows[1].time == DateTime("2024-09-01T22:00")
     @test rows[1].value == 12156.45
-    @test rows[2].time  == DateTime("2024-09-01T22:15")  # +15 min @ PT15M
+    @test rows[2].time == DateTime("2024-09-01T22:15")  # +15 min @ PT15M
 end
 
 @testset "parse_timeseries — empty/acknowledgement document" begin
@@ -232,8 +232,9 @@ include("_brokenrecord_helpers.jl")
             @info "BrokenRecord not installed; skipping live cassette parse."
         else
             client = ENTSOEClient("PLAYBACK")
-            apis   = entsoe_apis(client)
-            xml, _ = Base.invokelatest(BR.playback,
+            apis = entsoe_apis(client)
+            xml, _ = Base.invokelatest(
+                BR.playback,
                 () -> ENTSOE.load61_a_actual_total_load(
                     apis.load, "A65", "A16", EIC.NL,
                     entsoe_period(DateTime("2024-09-01T22:00")),

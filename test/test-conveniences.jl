@@ -54,14 +54,18 @@ end
 @testset "set_config / get_config / no-arg ENTSOEClient" begin
     # Snapshot original config so we can restore at the end.
     orig = get_config()
-    saved = (token = orig.token, endpoint_url = orig.endpoint_url,
-             validate_eic = orig.validate_eic)
+    saved = (
+        token = orig.token, endpoint_url = orig.endpoint_url,
+        validate_eic = orig.validate_eic,
+    )
 
     try
         # set_config returns the (mutated) global.
-        cfg = set_config(; token = "TEST-TOKEN-XYZ",
-                          endpoint_url = "https://iop-web-api.tp.entsoe.eu/api",
-                          validate_eic = true)
+        cfg = set_config(;
+            token = "TEST-TOKEN-XYZ",
+            endpoint_url = "https://iop-web-api.tp.entsoe.eu/api",
+            validate_eic = true
+        )
         @test cfg.token == "TEST-TOKEN-XYZ"
         @test cfg.endpoint_url == "https://iop-web-api.tp.entsoe.eu/api"
         @test cfg.validate_eic == true
@@ -84,9 +88,11 @@ end
         end
     finally
         # Restore.
-        set_config(; token = saved.token,
-                    endpoint_url = saved.endpoint_url,
-                    validate_eic = saved.validate_eic)
+        set_config(;
+            token = saved.token,
+            endpoint_url = saved.endpoint_url,
+            validate_eic = saved.validate_eic
+        )
     end
 end
 
@@ -97,13 +103,21 @@ end
     @test validate_eic("10YNL----------L"; type = :BZN) === nothing
 
     # Unknown code throws ArgumentError with a helpful message.
-    err = try; validate_eic("10YNOT-A-CODE---"); nothing; catch e; e; end
+    err = try
+        validate_eic("10YNOT-A-CODE---"); nothing
+    catch e
+        e
+    end
     @test err isa ArgumentError
     @test occursin("unknown EIC", err.msg)
     @test occursin("10YNOT-A-CODE---", err.msg)
 
     # Known code missing the requested type tag rejects.
-    err2 = try; validate_eic("BY"; type = :BZN); nothing; catch e; e; end
+    err2 = try
+        validate_eic("BY"; type = :BZN); nothing
+    catch e
+        e
+    end
     @test err2 isa ArgumentError
     @test occursin("does not carry type", err2.msg)
     @test occursin(":BZN", err2.msg)
@@ -152,8 +166,10 @@ end
 
 @testset "entsoe_apis" begin
     apis = entsoe_apis(ENTSOEClient("T"))
-    expected = (:balancing, :generation, :load, :market, :master_data, :omi,
-                :outages, :transmission)
+    expected = (
+        :balancing, :generation, :load, :market, :master_data, :omi,
+        :outages, :transmission,
+    )
     @test keys(apis) === expected
     @test apis.market isa MarketApi
     @test apis.balancing isa BalancingApi

@@ -231,4 +231,3 @@
 ```@raw html
 <OAOperation operationId="balancing_ifs_mfrr_9_9_afrr_9_6_9_8_changes_to_bid_availability_archives" prefix-headings="true" />
 ```
-

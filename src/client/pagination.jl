@@ -12,7 +12,7 @@ end
 ```
 """
 function paginate_cursor(fetch_fn; channel_size::Int = 0)
-    Channel(channel_size) do ch
+    return Channel(channel_size) do ch
         cursor = nothing
         while true
             items, cursor = fetch_fn(cursor)
@@ -32,7 +32,7 @@ return an iterable of items. Iteration stops on the first short page (fewer
 items than `page_size`).
 """
 function paginate_offset(fetch_fn; page_size::Int = 50, start::Int = 0, channel_size::Int = 0)
-    Channel(channel_size) do ch
+    return Channel(channel_size) do ch
         offset = start
         while true
             items = collect(fetch_fn(offset, page_size))
@@ -52,7 +52,7 @@ Lazy iterator over a page-number-paginated API. `fetch_fn(page)` must return
 an iterable of items. Iteration stops on the first empty page.
 """
 function paginate_pagenum(fetch_fn; start::Int = 1, channel_size::Int = 0)
-    Channel(channel_size) do ch
+    return Channel(channel_size) do ch
         page = start
         while true
             items = collect(fetch_fn(page))

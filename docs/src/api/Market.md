@@ -103,4 +103,3 @@
 ```@raw html
 <OAOperation operationId="market_12_1_h_transfer_capacities_allocated_with_third_countries_12_1_h_explicit" prefix-headings="true" />
 ```
-

@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item UNAVAILABILITY_IN_TRANSMISSION_GRID [10.1.A, 10.1.B] (10YBE----------2, 10YFR-RTE------C) and interval 2023-12-01T23:00:00Z/2023-12-02T23:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

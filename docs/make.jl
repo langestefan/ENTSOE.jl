@@ -47,10 +47,12 @@ if HAS_SPEC
     push!(PAGES, "Generated Reference" => "generated_reference.md")
 end
 if !isempty(API_PAGES)
-    push!(PAGES, "REST API Reference" => Any[
-        "Overview" => "api/index.md",
-        API_PAGES...,
-    ])
+    push!(
+        PAGES, "REST API Reference" => Any[
+            "Overview" => "api/index.md",
+            API_PAGES...,
+        ]
+    )
 end
 
 # Make `ENTSOE` symbols available unqualified in every doctest — without

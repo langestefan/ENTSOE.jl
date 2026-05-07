@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item OTHER_MARKET_INFORMATION [OMI] (10YNL----------L) and interval 2024-09-23T22:00:00Z/2024-09-24T22:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

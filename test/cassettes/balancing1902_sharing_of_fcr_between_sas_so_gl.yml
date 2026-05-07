@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item SHARING_OF_FCR_R3 [SO GL 190.2] (10Y1001A1001A59C) and interval 2015-10-30T23:00:00Z/2015-12-15T23:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

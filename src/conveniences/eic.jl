@@ -14,43 +14,43 @@ directly when your zone isn't here. Authoritative codes are published by
 ENTSO-E at <https://www.entsoe.eu/data/energy-identification-codes-eic/>.
 """
 const EIC = (
-    AT     = "10YAT-APG------L",
-    BE     = "10YBE----------2",
-    BG     = "10YCA-BULGARIA-R",
-    CH     = "10YCH-SWISSGRIDZ",
-    CZ     = "10YCZ-CEPS-----N",
-    DE_LU  = "10Y1001A1001A82H",   # Bidding zone DE/LU since 2018-10-01
-    DK1    = "10YDK-1--------W",
-    DK2    = "10YDK-2--------M",
-    EE     = "10Y1001A1001A39I",
-    ES     = "10YES-REE------0",
-    FI     = "10YFI-1--------U",
-    FR     = "10YFR-RTE------C",
-    GB     = "10YGB----------A",
-    GR     = "10YGR-HTSO-----Y",
-    HR     = "10YHR-HEP------M",
-    HU     = "10YHU-MAVIR----U",
+    AT = "10YAT-APG------L",
+    BE = "10YBE----------2",
+    BG = "10YCA-BULGARIA-R",
+    CH = "10YCH-SWISSGRIDZ",
+    CZ = "10YCZ-CEPS-----N",
+    DE_LU = "10Y1001A1001A82H",   # Bidding zone DE/LU since 2018-10-01
+    DK1 = "10YDK-1--------W",
+    DK2 = "10YDK-2--------M",
+    EE = "10Y1001A1001A39I",
+    ES = "10YES-REE------0",
+    FI = "10YFI-1--------U",
+    FR = "10YFR-RTE------C",
+    GB = "10YGB----------A",
+    GR = "10YGR-HTSO-----Y",
+    HR = "10YHR-HEP------M",
+    HU = "10YHU-MAVIR----U",
     IE_SEM = "10Y1001A1001A59C",
     IT_NORTH = "10Y1001A1001A73I",
-    LT     = "10YLT-1001A0008Q",
-    LU     = "10YLU-CEGEDEL-NQ",
-    LV     = "10YLV-1001A00074",
-    NL     = "10YNL----------L",
-    NO1    = "10YNO-1--------2",
-    NO2    = "10YNO-2--------T",
-    NO3    = "10YNO-3--------J",
-    NO4    = "10YNO-4--------9",
-    NO5    = "10Y1001A1001A48H",
-    PL     = "10YPL-AREA-----S",
-    PT     = "10YPT-REN------W",
-    RO     = "10YRO-TEL------P",
-    RS     = "10YCS-SERBIATSOV",
-    SE1    = "10Y1001A1001A44P",
-    SE2    = "10Y1001A1001A45N",
-    SE3    = "10Y1001A1001A46L",
-    SE4    = "10Y1001A1001A47J",
-    SI     = "10YSI-ELES-----O",
-    SK     = "10YSK-SEPS-----K",
+    LT = "10YLT-1001A0008Q",
+    LU = "10YLU-CEGEDEL-NQ",
+    LV = "10YLV-1001A00074",
+    NL = "10YNL----------L",
+    NO1 = "10YNO-1--------2",
+    NO2 = "10YNO-2--------T",
+    NO3 = "10YNO-3--------J",
+    NO4 = "10YNO-4--------9",
+    NO5 = "10Y1001A1001A48H",
+    PL = "10YPL-AREA-----S",
+    PT = "10YPT-REN------W",
+    RO = "10YRO-TEL------P",
+    RS = "10YCS-SERBIATSOV",
+    SE1 = "10Y1001A1001A44P",
+    SE2 = "10Y1001A1001A45N",
+    SE3 = "10Y1001A1001A46L",
+    SE4 = "10Y1001A1001A47J",
+    SI = "10YSI-ELES-----O",
+    SK = "10YSK-SEPS-----K",
 )
 
 """
@@ -275,19 +275,23 @@ cheap way to debug.
 function validate_eic(code::AbstractString; type::Union{Nothing, Symbol} = nothing)
     entries = lookup_eic(code)
     if isempty(entries)
-        throw(ArgumentError(
-            "unknown EIC `$(code)` — not in EIC_REGISTRY. " *
-                "ENTSO-E's authoritative list is at " *
-                "https://www.entsoe.eu/data/energy-identification-codes-eic/"
-        ))
+        throw(
+            ArgumentError(
+                "unknown EIC `$(code)` — not in EIC_REGISTRY. " *
+                    "ENTSO-E's authoritative list is at " *
+                    "https://www.entsoe.eu/data/energy-identification-codes-eic/"
+            )
+        )
     end
     if type !== nothing && !any(type in e.types for e in entries)
         present = sort!(unique!(reduce(vcat, [e.types for e in entries])))
-        throw(ArgumentError(
-            "EIC `$(code)` exists but does not carry type `:$(type)`. " *
-                "Registered types for this code: " *
-                join(":" .* String.(present), ", ")
-        ))
+        throw(
+            ArgumentError(
+                "EIC `$(code)` exists but does not carry type `:$(type)`. " *
+                    "Registered types for this code: " *
+                    join(":" .* String.(present), ", ")
+            )
+        )
     end
     return nothing
 end

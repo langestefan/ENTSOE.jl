@@ -13,10 +13,10 @@ end
     api_mod = getfield(ENTSOE, :ENTSOEAPI)
     model_types = [
         getfield(api_mod, n) for n in names(api_mod; all = false)
-        if isdefined(api_mod, n) &&
-           getfield(api_mod, n) isa Type &&
-           getfield(api_mod, n) !== api_mod &&
-           getfield(api_mod, n) <: OpenAPI.APIModel
+            if isdefined(api_mod, n) &&
+            getfield(api_mod, n) isa Type &&
+            getfield(api_mod, n) !== api_mod &&
+            getfield(api_mod, n) <: OpenAPI.APIModel
     ]
     # ENTSO-E's spec returns `application/xml` as a plain `String` for every
     # operation — there are no response/request schemas, so no `APIModel`
@@ -39,9 +39,9 @@ end
     api_mod = getfield(ENTSOE, :ENTSOEAPI)
     api_sets = [
         getfield(api_mod, n) for n in names(api_mod; all = false)
-        if isdefined(api_mod, n) &&
-           getfield(api_mod, n) isa Type &&
-           getfield(api_mod, n) <: OpenAPI.APIClientImpl
+            if isdefined(api_mod, n) &&
+            getfield(api_mod, n) isa Type &&
+            getfield(api_mod, n) <: OpenAPI.APIClientImpl
     ]
     @test !isempty(api_sets)
     inner = OpenAPI.Clients.Client("https://example.test")

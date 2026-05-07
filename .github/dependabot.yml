@@ -5,11 +5,11 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-    # To group all GitHub Actions updates into a single PR, uncomment the following:
-    # groups:
-    #   github-actions:
-    #     patterns:
-    #       - "*"
+      # To group all GitHub Actions updates into a single PR, uncomment the following:
+      # groups:
+      #   github-actions:
+      #     patterns:
+      #       - "*"
   - package-ecosystem: "julia"
     directories:
       - "/"

@@ -17,7 +17,7 @@ function TokenBucket(; rate::Real = 10.0, burst::Real = 10.0)
     # `last_refill = NaN` is a sentinel meaning "uninitialised" — the first
     # `acquire!` will seed it from its `time_fn`, so a mocked clock and the
     # bucket's notion of time stay consistent.
-    TokenBucket(r, b, b, NaN, ReentrantLock())
+    return TokenBucket(r, b, b, NaN, ReentrantLock())
 end
 
 """
@@ -28,15 +28,15 @@ if the wait would exceed `timeout` seconds. `time_fn` and `sleep_fn` are
 injectable for testing.
 """
 function acquire!(
-    b::TokenBucket;
-    tokens::Real = 1.0,
-    timeout::Real = Inf,
-    sleep_fn = Base.sleep,
-    time_fn = time,
-)
+        b::TokenBucket;
+        tokens::Real = 1.0,
+        timeout::Real = Inf,
+        sleep_fn = Base.sleep,
+        time_fn = time,
+    )
     need = Float64(tokens)
     deadline = time_fn() + Float64(timeout)
-    lock(b.lock) do
+    return lock(b.lock) do
         while true
             now = time_fn()
             if isnan(b.last_refill)

@@ -1,0 +1,8 @@
+# https://github.com/google/yamlfmt/blob/main/docs/config-file.md
+formatter:
+  type: basic
+  retain_line_breaks_single: true
+  indent: 2
+line_ending: lf  # match the LF ending enforced by mixed-line-ending in pre-commit
+exclude:
+  - .copier-answers.yml

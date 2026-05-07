@@ -33,7 +33,7 @@ end
     # ZonedDateTime → goes through the AbstractDateTime overload, then
     # internally converted to UTC via `entsoe_period`.
     cest = FixedTimeZone("CEST", 7200)
-    zdt  = ZonedDateTime(DateTime("2024-09-02T00:00"), cest)
+    zdt = ZonedDateTime(DateTime("2024-09-02T00:00"), cest)
     @test ENTSOE._to_period(zdt) === Int64(202409012200)   # 22:00 UTC the prior day
 
     # Catch-all rejects unsupported types loudly.
@@ -54,7 +54,8 @@ let BR = _load_brokenrecord()
             # Pair to the negative test above — drives the loop body in
             # `_query` to completion (line 59) and confirms validation
             # doesn't false-positive on a real bidding zone code.
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> day_ahead_prices(
                     client, EIC.NL,
                     DateTime("2024-09-01T22:00"),
@@ -67,7 +68,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "actual_total_load (Load 6.1.A cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> actual_total_load(
                     client, EIC.NL,
                     DateTime("2024-09-01T22:00"),
@@ -81,7 +83,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "day_ahead_prices (Market 12.1.D cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> day_ahead_prices(
                     client, EIC.NL,
                     DateTime("2024-09-01T22:00"),
@@ -97,7 +100,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "installed_capacity_per_production_type (cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> installed_capacity_per_production_type(
                     client, EIC.NL,
                     DateTime("2023-12-31T23:00"),
@@ -115,7 +119,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "parsed=false returns raw XML" begin
-            xml = Base.invokelatest(BR.playback,
+            xml = Base.invokelatest(
+                BR.playback,
                 () -> day_ahead_prices(
                     client, EIC.NL,
                     DateTime("2024-09-01T22:00"),
@@ -135,10 +140,11 @@ let BR = _load_brokenrecord()
         # ---------------------------------------------------------------
 
         local _start = DateTime("2024-09-01T22:00")
-        local _stop  = DateTime("2024-09-02T22:00")
+        local _stop = DateTime("2024-09-02T22:00")
 
         @testset "day_ahead_load_forecast (Load 6.1.B cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> day_ahead_load_forecast(client, EIC.NL, _start, _stop),
                 "load_61b_day_ahead_forecast_NL.yml",
             )
@@ -147,7 +153,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "week_ahead_load_forecast (Load 6.1.C cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> week_ahead_load_forecast(client, EIC.NL, _start, _stop),
                 "load_61c_week_ahead_forecast_NL.yml",
             )
@@ -157,7 +164,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "month_ahead_load_forecast (Load 6.1.D cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> month_ahead_load_forecast(client, EIC.NL, _start, _stop),
                 "load_61d_month_ahead_forecast_NL.yml",
             )
@@ -165,17 +173,21 @@ let BR = _load_brokenrecord()
         end
 
         @testset "year_ahead_load_forecast (Load 6.1.E cassette)" begin
-            rows = Base.invokelatest(BR.playback,
-                () -> year_ahead_load_forecast(client, EIC.NL,
+            rows = Base.invokelatest(
+                BR.playback,
+                () -> year_ahead_load_forecast(
+                    client, EIC.NL,
                     DateTime("2023-12-31T23:00"),
-                    DateTime("2024-12-31T23:00")),
+                    DateTime("2024-12-31T23:00")
+                ),
                 "load_61e_year_ahead_forecast_NL.yml",
             )
             @test !isempty(rows)
         end
 
         @testset "generation_forecast_day_ahead (Generation 14.1.C cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> generation_forecast_day_ahead(client, EIC.NL, _start, _stop),
                 "generation_141c_forecast_day_ahead_NL.yml",
             )
@@ -184,7 +196,8 @@ let BR = _load_brokenrecord()
         end
 
         @testset "wind_solar_forecast (Generation 14.1.D cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> wind_solar_forecast(client, EIC.NL, _start, _stop),
                 "generation_141d_wind_solar_forecast_NL.yml",
             )
@@ -196,9 +209,11 @@ let BR = _load_brokenrecord()
         end
 
         @testset "actual_generation_per_production_type (Generation 16.1.B/C cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> actual_generation_per_production_type(
-                    client, EIC.NL, _start, _stop),
+                    client, EIC.NL, _start, _stop
+                ),
                 "generation_161bc_actual_per_psr_NL.yml",
             )
             @test !isempty(rows)
@@ -214,7 +229,8 @@ let BR = _load_brokenrecord()
             # sees the ack on iteration 0 and throws.
             err = nothing
             try
-                Base.invokelatest(BR.playback,
+                Base.invokelatest(
+                    BR.playback,
                     () -> omi_other_market_information(
                         client, EIC.NL,
                         DateTime("2024-09-23T22:00"),
@@ -231,9 +247,11 @@ let BR = _load_brokenrecord()
         end
 
         @testset "cross_border_physical_flows (Transmission 12.1.G cassette)" begin
-            rows = Base.invokelatest(BR.playback,
+            rows = Base.invokelatest(
+                BR.playback,
                 () -> cross_border_physical_flows(
-                    client, EIC.NL, EIC.DE_LU, _start, _stop),
+                    client, EIC.NL, EIC.DE_LU, _start, _stop
+                ),
                 "transmission_121g_cross_border_NL_DE.yml",
             )
             @test !isempty(rows)

@@ -58,7 +58,7 @@ responses:
                 </Period>
           </Bid_TimeSeries>
         </ReserveBid_MarketDocument>
-        
+
     status: 200
     request:
       txcount: 0

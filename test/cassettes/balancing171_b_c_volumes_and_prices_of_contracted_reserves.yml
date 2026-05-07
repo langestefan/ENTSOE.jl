@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item AMOUNT_AND_PRICES_PAID_OF_BALANCING_RESERVES_UNDER_CONTRACT_R3 [17.1.B&amp;C] (10YCZ-CEPS-----N) and interval 2023-09-24T22:00:00Z/2023-09-25T22:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

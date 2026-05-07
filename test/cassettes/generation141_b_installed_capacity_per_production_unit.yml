@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item INSTALLED_GENERATION_CAPACITY_PER_UNIT [NONE] and interval null/null.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

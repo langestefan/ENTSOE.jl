@@ -43,7 +43,7 @@ let BR = _load_brokenrecord()
         @testset "Smoke (replay all $(length(SMOKE_DESCRIPTORS)) endpoints)" begin
             for d in SMOKE_DESCRIPTORS
                 api = getfield(apis, d.api_field)
-                fn  = getfield(ENTSOE.ENTSOEAPI, d.fn::Symbol)
+                fn = getfield(ENTSOE.ENTSOEAPI, d.fn::Symbol)
                 # Most cassettes are YAML; a few endpoints return
                 # `application/zip` whose bytes don't roundtrip through
                 # YAML cleanly, so they were recorded as BSON instead.
@@ -69,7 +69,8 @@ let BR = _load_brokenrecord()
                     # response *content* is the named-arg wrappers' job
                     # (covered in `test-queries.jl`). Just assert we got
                     # *some* tuple back without throwing.
-                    rv = Base.invokelatest(BR.playback,
+                    rv = Base.invokelatest(
+                        BR.playback,
                         () -> fn(api, d.positional...; d.kwargs...),
                         cassette,
                     )

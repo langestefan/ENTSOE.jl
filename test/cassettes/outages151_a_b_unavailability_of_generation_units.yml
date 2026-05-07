@@ -25,7 +25,7 @@ responses:
       		<text>No matching data found for Data item UNAVAILABILITY_OF_PRODUCTION_AND_GENERATION_UNITS [15.1.A, 15.1.B, 15.1.C, 15.1.D] (10YBE----------2) and interval 2023-01-02T22:00:00Z/2024-01-02T22:00:00Z.</text>
       	</Reason>
       </Acknowledgement_MarketDocument>
-      
+
     status: 200
     request:
       txcount: 0

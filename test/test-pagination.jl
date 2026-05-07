@@ -13,11 +13,13 @@ end
 
 @testset "paginate_offset stops on short page" begin
     data = collect(1:23)
-    fetched = Tuple{Int,Int}[]
-    items = collect(ENTSOE.paginate_offset(; page_size = 10) do offset, limit
-        push!(fetched, (offset, limit))
-        data[(offset+1):min(offset + limit, length(data))]
-    end)
+    fetched = Tuple{Int, Int}[]
+    items = collect(
+        ENTSOE.paginate_offset(; page_size = 10) do offset, limit
+            push!(fetched, (offset, limit))
+            data[(offset + 1):min(offset + limit, length(data))]
+        end
+    )
     @test items == data
     @test fetched == [(0, 10), (10, 10), (20, 10)]
 end

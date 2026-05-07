@@ -6,7 +6,7 @@ function _mock_clock(start::Real = 100.0)
     sleeps = Float64[]
     sleep_fn = function (s)
         push!(sleeps, Float64(s))
-        now[] += Float64(s)
+        return now[] += Float64(s)
     end
     time_fn = () -> now[]
     return (; sleep_fn, time_fn, sleeps)
@@ -42,7 +42,9 @@ end
     clk = _mock_clock()
     b = ENTSOE.TokenBucket(; rate = 100.0, burst = 5.0)
     n = Ref(0)
-    ENTSOE.with_rate_limit(b, () -> n[] += 1;
-                            sleep_fn = clk.sleep_fn, time_fn = clk.time_fn)
+    ENTSOE.with_rate_limit(
+        b, () -> n[] += 1;
+        sleep_fn = clk.sleep_fn, time_fn = clk.time_fn
+    )
     @test n[] == 1
 end

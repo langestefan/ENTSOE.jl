@@ -220,13 +220,13 @@ The default policy retries on `408`/`429`/`5xx` and honours
 exception by `check_response`:
 
 | Status | Type |
-|---|---|
+| --- | --- |
 | 401 / 403 | `AuthError` |
 | 408 / 429 | `RateLimitError` (parses `Retry-After`) |
 | Other 4xx | `ClientError` |
 | 5xx | `ServerError` |
 | Network / DNS / TLS | `NetworkError` |
-| Timeout | `TimeoutError(:connect | :read | :total)` |
+| Timeout | `TimeoutError(:connect \| :read \| :total)` |
 
 ## Documentation
 

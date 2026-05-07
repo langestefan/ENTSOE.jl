@@ -52,7 +52,7 @@ function set_config(;
         validate_eic::Union{Nothing, Bool} = nothing,
     )
     cfg = _CONFIG[]
-    token        === nothing || (cfg.token        = String(token))
+    token === nothing || (cfg.token = String(token))
     endpoint_url === nothing || (cfg.endpoint_url = String(endpoint_url))
     validate_eic === nothing || (cfg.validate_eic = validate_eic)
     return cfg
@@ -80,10 +80,12 @@ function ENTSOEClient()
     cfg = get_config()
     tok = cfg.token
     isempty(tok) && (tok = get(ENV, "ENTSOE_API_TOKEN", ""))
-    isempty(tok) && throw(ArgumentError(
-        "no token configured: call ENTSOE.set_config(; token = …) " *
-            "or set ENV[\"ENTSOE_API_TOKEN\"], or pass it explicitly to " *
-            "ENTSOEClient(token)."
-    ))
+    isempty(tok) && throw(
+        ArgumentError(
+            "no token configured: call ENTSOE.set_config(; token = …) " *
+                "or set ENV[\"ENTSOE_API_TOKEN\"], or pass it explicitly to " *
+                "ENTSOEClient(token)."
+        )
+    )
     return ENTSOEClient(tok; base_url = cfg.endpoint_url)
 end

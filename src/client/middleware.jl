@@ -6,10 +6,10 @@ Bundle of reliability primitives composed by [`default_middleware`](@ref) and
 the chain.
 """
 Base.@kwdef struct DefaultMiddleware
-    retry::Union{Nothing,RetryPolicy} = RetryPolicy()
-    rate_limit::Union{Nothing,TokenBucket} = nothing
-    timeout::Union{Nothing,Float64} = nothing
-    log_label::Union{Nothing,String} = "api-call"
+    retry::Union{Nothing, RetryPolicy} = RetryPolicy()
+    rate_limit::Union{Nothing, TokenBucket} = nothing
+    timeout::Union{Nothing, Float64} = nothing
+    log_label::Union{Nothing, String} = "api-call"
 end
 
 """

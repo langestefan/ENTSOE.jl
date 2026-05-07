@@ -86,30 +86,34 @@ function parse_timeseries(xml::AbstractString)
     rows = NamedTuple{(:time, :value), Tuple{DateTime, Float64}}[]
     doc = parsexml(xml)
     for ts in _named(root(doc), "TimeSeries"),
-        period in _named(ts, "Period")
+            period in _named(ts, "Period")
 
-        ti      = _first_named(period, "timeInterval")
-        ti      === nothing && continue
+        ti = _first_named(period, "timeInterval")
+        ti === nothing && continue
         start_node = _first_named(ti, "start")
         start_node === nothing && continue
-        start   = _parse_entsoe_datetime(nodecontent(start_node))
+        start = _parse_entsoe_datetime(nodecontent(start_node))
 
         res_node = _first_named(period, "resolution")
         res_node === nothing && continue
-        stride   = _resolution_minutes(nodecontent(res_node))
+        stride = _resolution_minutes(nodecontent(res_node))
 
         for pt in _named(period, "Point")
             pos_node = _first_named(pt, "position")
             pos_node === nothing && continue
             pos = parse(Int, nodecontent(pos_node))
-            vnode = something(_first_named(pt, "quantity"),
-                              _first_named(pt, "price.amount"),
-                              Some(nothing))
+            vnode = something(
+                _first_named(pt, "quantity"),
+                _first_named(pt, "price.amount"),
+                Some(nothing)
+            )
             vnode === nothing && continue
-            push!(rows, (
-                time  = start + Minute((pos - 1) * stride),
-                value = parse(Float64, nodecontent(vnode)),
-            ))
+            push!(
+                rows, (
+                    time = start + Minute((pos - 1) * stride),
+                    value = parse(Float64, nodecontent(vnode)),
+                )
+            )
         end
     end
     return rows
@@ -155,7 +159,7 @@ function parse_timeseries_per_psr(xml::AbstractString)
             ti === nothing && continue
             start_node = _first_named(ti, "start")
             start_node === nothing && continue
-            start  = _parse_entsoe_datetime(nodecontent(start_node))
+            start = _parse_entsoe_datetime(nodecontent(start_node))
             res_node = _first_named(period, "resolution")
             res_node === nothing && continue
             stride = _resolution_minutes(nodecontent(res_node))
@@ -164,15 +168,19 @@ function parse_timeseries_per_psr(xml::AbstractString)
                 pos_node = _first_named(pt, "position")
                 pos_node === nothing && continue
                 pos = parse(Int, nodecontent(pos_node))
-                vnode = something(_first_named(pt, "quantity"),
-                                  _first_named(pt, "price.amount"),
-                                  Some(nothing))
+                vnode = something(
+                    _first_named(pt, "quantity"),
+                    _first_named(pt, "price.amount"),
+                    Some(nothing)
+                )
                 vnode === nothing && continue
-                push!(rows, (
-                    time     = start + Minute((pos - 1) * stride),
-                    psr_type = psr,
-                    value    = parse(Float64, nodecontent(vnode)),
-                ))
+                push!(
+                    rows, (
+                        time = start + Minute((pos - 1) * stride),
+                        psr_type = psr,
+                        value = parse(Float64, nodecontent(vnode)),
+                    )
+                )
             end
         end
     end
@@ -214,10 +222,12 @@ function parse_installed_capacity(xml::AbstractString)
         for pt in _named(period, "Point")
             qty = _first_named(pt, "quantity")
             qty === nothing && continue
-            push!(rows, (
-                psr_type    = psr,
-                capacity_mw = parse(Float64, nodecontent(qty)),
-            ))
+            push!(
+                rows, (
+                    psr_type = psr,
+                    capacity_mw = parse(Float64, nodecontent(qty)),
+                )
+            )
         end
     end
     return rows
@@ -252,8 +262,10 @@ Base.show(io::IO, ack::ENTSOEAcknowledgement) =
     print(io, "ENTSOEAcknowledgement($(repr(ack.reason_code)): $(ack.text))")
 
 Base.showerror(io::IO, ack::ENTSOEAcknowledgement) =
-    print(io, "ENTSOEAcknowledgement: ENTSO-E returned reason code ",
-          repr(ack.reason_code), " — ", ack.text)
+    print(
+    io, "ENTSOEAcknowledgement: ENTSO-E returned reason code ",
+    repr(ack.reason_code), " — ", ack.text
+)
 
 """
     parse_acknowledgement(xml) -> ENTSOEAcknowledgement | nothing
@@ -339,10 +351,12 @@ function unzip_response(zip_bytes::Vector{UInt8})
     # ask the user to install it on demand. This keeps `application/xml`
     # users (the 95% case) from paying the dependency cost.
     pkgid = Base.identify_package("ZipFile")
-    pkgid === nothing && throw(ArgumentError(
-        "unzip_response needs ZipFile.jl. " *
-            "Run `pkg> add ZipFile` to install."
-    ))
+    pkgid === nothing && throw(
+        ArgumentError(
+            "unzip_response needs ZipFile.jl. " *
+                "Run `pkg> add ZipFile` to install."
+        )
+    )
     ZipFile = Base.require(pkgid)
     return Base.invokelatest(_unzip_response_impl, ZipFile, zip_bytes)
 end

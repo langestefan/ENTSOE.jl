@@ -57,10 +57,11 @@ else
         # 2024-09-01 22:00 UTC → 2024-09-02 22:00 UTC == calendar day
         # 2024-09-02 in CET/CEST, the standard "one trading day" window.
         start_p = entsoe_period(DateTime("2024-09-01T22:00"))
-        stop_p  = entsoe_period(DateTime("2024-09-02T22:00"))
+        stop_p = entsoe_period(DateTime("2024-09-02T22:00"))
 
         @testset "Load 6.1.A actual total load (NL, 2024-09-02)" begin
-            xml, _ = Base.invokelatest(BR.playback,
+            xml, _ = Base.invokelatest(
+                BR.playback,
                 () -> ENTSOE.load61_a_actual_total_load(
                     apis.load,
                     "A65",          # documentType: System total load
@@ -77,8 +78,9 @@ else
 
         @testset "Generation 14.1.A installed capacity (NL, 2024)" begin
             year_start = entsoe_period(DateTime("2023-12-31T23:00"))
-            year_end   = entsoe_period(DateTime("2024-12-31T23:00"))
-            xml, _ = Base.invokelatest(BR.playback,
+            year_end = entsoe_period(DateTime("2024-12-31T23:00"))
+            xml, _ = Base.invokelatest(
+                BR.playback,
                 () -> ENTSOE.generation141_a_installed_capacity_per_production_type(
                     apis.generation,
                     "A68",          # documentType: Installed generation per type
@@ -93,7 +95,8 @@ else
         end
 
         @testset "Market 12.1.D day-ahead prices (NL, 2024-09-02)" begin
-            xml, _ = Base.invokelatest(BR.playback,
+            xml, _ = Base.invokelatest(
+                BR.playback,
                 () -> ENTSOE.market121_d_energy_prices(
                     apis.market,
                     "A44",          # documentType: Price document

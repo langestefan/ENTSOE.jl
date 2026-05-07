@@ -3,9 +3,9 @@ using OpenAPI
 using Test
 
 Base.@kwdef mutable struct _ShowFixture <: OpenAPI.APIModel
-    id::Union{Nothing,Int} = nothing
-    name::Union{Nothing,String} = nothing
-    tags::Union{Nothing,Vector{String}} = nothing
+    id::Union{Nothing, Int} = nothing
+    name::Union{Nothing, String} = nothing
+    tags::Union{Nothing, Vector{String}} = nothing
 end
 
 @testset "Pretty-print skips nothing fields" begin

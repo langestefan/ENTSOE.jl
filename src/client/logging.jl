@@ -1,7 +1,9 @@
-using Logging: Logging, @logmsg, Info
+using Logging: Logging, @logmsg
 
-const _SECRET_HEADERS = ("authorization", "x-api-key", "api_key", "cookie",
-                        "set-cookie", "proxy-authorization")
+const _SECRET_HEADERS = (
+    "authorization", "x-api-key", "api_key", "cookie",
+    "set-cookie", "proxy-authorization",
+)
 
 """
     redact_headers(headers) -> Dict{String,String}
@@ -12,7 +14,7 @@ Return a copy of `headers` with values for sensitive entries replaced by
 messages.
 """
 function redact_headers(headers::AbstractDict)
-    out = Dict{String,String}()
+    out = Dict{String, String}()
     for (k, v) in headers
         out[String(k)] = lowercase(String(k)) in _SECRET_HEADERS ? "[redacted]" : String(v)
     end

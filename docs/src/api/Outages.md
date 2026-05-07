@@ -63,4 +63,3 @@
 ```@raw html
 <OAOperation operationId="outages_fall_backs_ifs_in_7_2_mfrr_3_11_afrr_3_10" prefix-headings="true" />
 ```
-
