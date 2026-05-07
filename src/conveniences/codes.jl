@@ -242,7 +242,7 @@ finding a code from a fragment of the official label.
 julia> ENTSOE.code_for(PSR_TYPE, "wind onshore")
 "B19"
 
-julia> ENTSOE.code_for(DOCUMENT_TYPE, "price")
+julia> ENTSOE.code_for(DOCUMENT_TYPE, "price document")
 "A44"
 ```
 

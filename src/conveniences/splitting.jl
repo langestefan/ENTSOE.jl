@@ -44,7 +44,7 @@ arithmetic.
 julia> using Dates
 
 julia> split_period(DateTime("2022-01-01"), DateTime("2025-01-01"); window = Year(1))
-3-element Vector{Tuple{Dates.DateTime, Dates.DateTime}}:
+3-element Vector{Tuple{DateTime, DateTime}}:
  (DateTime("2022-01-01T00:00:00"), DateTime("2023-01-01T00:00:00"))
  (DateTime("2023-01-01T00:00:00"), DateTime("2024-01-01T00:00:00"))
  (DateTime("2024-01-01T00:00:00"), DateTime("2025-01-01T00:00:00"))

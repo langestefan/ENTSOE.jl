@@ -1,18 +1,26 @@
 [deps]
+Bonito = "824d6782-a2ef-11e9-3a09-e5662e0c26f8"
 BrokenRecord = "bdd55f5b-6e67-4da1-a080-6086e55655a0"
 CairoMakie = "13f3f980-e62b-5c42-98c6-ff1f3baf88f0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
 DocumenterVitepress = "4710194d-e776-4893-9690-8d956a29c365"
 ENTSOE = "1511bb12-f7c3-431d-bf69-363374839c3b"
+GeoMakie = "db073c08-6b98-4ee5-b6a4-5efafb3259c6"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
+WGLMakie = "276b4fcb-3e11-5398-bf8b-a0c2d153d008"
 
 [sources]
 ENTSOE = { path = ".." }
 
 [compat]
+Bonito = "4.2"
 BrokenRecord = "0.1"
 CairoMakie = "0.13, 0.14, 0.15"
 Documenter = "1"
 DocumenterVitepress = "0.2, 0.3"
+GeoMakie = "0.7, 0.8"
 JSON = "1"
+Statistics = "1"
+WGLMakie = "0.13, 0.14, 0.15"
