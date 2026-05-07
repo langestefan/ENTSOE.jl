@@ -2,7 +2,7 @@
 
 julia_version = "1.12.6"
 manifest_format = "2.0"
-project_hash = "e876b1e162c2254e74248292faf2bf323c0f0786"
+project_hash = "d81a80bbc13407d7e294556fcb16e11d9f4fd601"
 
 [[deps.ANSIColoredPrinters]]
 git-tree-sha1 = "574baf8110975760d391c710b6341da1afa48d8c"
@@ -365,7 +365,7 @@ uuid = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 version = "1.7.0"
 
 [[deps.ENTSOE]]
-deps = ["Base64", "Dates", "EzXML", "HTTP", "JSON", "Logging", "OpenAPI", "TOML", "TimeZones"]
+deps = ["Base64", "Dates", "EzXML", "HTTP", "JSON", "Logging", "OpenAPI", "StructArrays", "TOML", "TimeZones"]
 path = ".."
 uuid = "1511bb12-f7c3-431d-bf69-363374839c3b"
 version = "1.0.0-DEV"

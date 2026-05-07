@@ -3873,7 +3873,7 @@
             }
           },
           {
-            "description": "For Offered Capacity Evolution can be queried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000",
+            "description": "For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000",
             "example": "20230313123900",
             "in": "query",
             "name": "Update_DateAndOrTime",
@@ -4165,7 +4165,7 @@
             }
           },
           {
-            "description": "For Offered Capacity Evolution can be queried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000.\n\nIf there is no OC evolution version with requested update_DateAndOrTime the system selects OC version valid in the given time (e.g., closest previous update_DateAndOrTime). The most recent publish OC version is provided in case the update_DateAndOrTime parameter is omitted. The most recent published OC version and intermediate OC versions is distinguished by document type:\n\u2212\tIntermediate OC values: A31\n\u2212\tMost recent published OC values: B33\n",
+            "description": "For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000.\n\nIf there is no OC evolution version with requested update_DateAndOrTime the system selects OC version valid in the given time (e.g., closest previous update_DateAndOrTime). The most recent publish OC version is provided in case the update_DateAndOrTime parameter is omitted. The most recent published OC version and intermediate OC versions is distinguished by document type:\n\u2212\tIntermediate OC values: A31\n\u2212\tMost recent published OC values: B33\n",
             "example": "20240515123900",
             "in": "query",
             "name": "Update_DateAndOrTime",
@@ -4269,7 +4269,7 @@
             }
           },
           {
-            "description": "For Offered Capacity Evolution can be queried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000",
+            "description": "For Offered Capacity Evolution can be quried with datetime in numeric. For example 20210803113900000 for evolution update date time 03.08.2021 13:39:00.000",
             "example": "20230313123900",
             "in": "query",
             "name": "Update_DateAndOrTime",

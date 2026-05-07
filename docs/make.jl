@@ -36,7 +36,12 @@ const PAGES = Any[
     "Getting Started" => "getting_started.md",
     "Tutorials" => Any[
         "One zone, three plots" => "tutorial.md",
+        "Generation mix over a day" => "tutorial_generation_mix.md",
+        "Cross-border flows (NL ↔ DE)" => "tutorial_crossborder.md",
+        "Forecast vs. realised load" => "tutorial_load_forecast.md",
+        # "Five years of NL prices" => "tutorial_multiyear.md",       # TEMP-DISABLED while debugging build hang
         "EU price heat-map (2025)" => "tutorial_eu_map.md",
+        # "Renewables share map" => "tutorial_renewables_map.md",     # TEMP-DISABLED while debugging build hang
     ],
     "Guides" => Any[
         "Recorded HTTP tests" => "cassette_testing.md",

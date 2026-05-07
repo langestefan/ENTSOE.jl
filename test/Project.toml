@@ -3,6 +3,7 @@ Aqua = "4c88cf16-eb10-579e-8560-4a9242c79595"
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 BrokenRecord = "bdd55f5b-6e67-4da1-a080-6086e55655a0"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
+ENTSOE = "1511bb12-f7c3-431d-bf69-363374839c3b"
 HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
 JET = "c3a54625-cd67-489e-a8e7-0a5a0ff4e31b"
 OpenAPI = "d5e62ea6-ddf3-4d43-8e4c-ad5e6c8bfd7d"
@@ -16,29 +17,3 @@ Aqua = "0.8"
 BrokenRecord = "0.1"
 JET = "0.9, 0.10, 0.11"
 ZipFile = "0.10"
-
-# Note: the package being tested (ENTSOE) is NOT listed here.
-# `Pkg.test` injects it into the test sandbox automatically via `develop`
-# on every Julia version. Listing it would require `[sources]` to point
-# at the parent path — and `[sources]` is a Julia 1.11+ feature, ignored
-# by 1.10, which would then try to resolve ENTSOE from the registry and
-# fail with "has no known versions".
-
-# Aqua and JET are scaffolded by default so the linting tests in
-# `test-linting.jl` actually run. To skip linting on a slow CI runner set
-# `OPENAPI_SKIP_LINTING=1`. To drop them entirely:
-#
-#   pkg> activate test
-#   pkg> rm Aqua JET
-#
-# `test-linting.jl` detects-and-skips when they are absent.
-#
-# BrokenRecord, Mocking, and ReTestItems are also opt-in for the same
-# reason. Install when you want to use cassette playback / mocked HTTP /
-# parallel test items:
-#
-#   pkg> activate test
-#   pkg> add BrokenRecord@0.1 Mocking@0.8 ReTestItems@1
-#
-# `test-cassettes.jl` and `test-mocking.jl` detect-and-skip when the deps
-# are missing.
