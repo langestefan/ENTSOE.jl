@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using Test
 
 # Mocking.jl lets tests intercept low-level HTTP calls so error paths that
@@ -24,7 +24,7 @@ let id = Base.identify_package("Mocking")
         #     patch = @patch HTTP.request(args...; kwargs...) =
         #         HTTP.Response(503, ["Retry-After" => "0"])
         #     apply(patch) do
-        #         @test_throws EntsoE.ServerError some_endpoint(client)
+        #         @test_throws ENTSOE.ServerError some_endpoint(client)
         #     end
         # end
     end

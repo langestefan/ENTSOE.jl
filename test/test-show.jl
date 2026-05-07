@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using OpenAPI
 using Test
 

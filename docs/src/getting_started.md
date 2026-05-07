@@ -4,13 +4,13 @@
 
 ```julia
 using Pkg
-Pkg.add("EntsoE")
+Pkg.add("ENTSOE")
 ```
 
 ## Constructing a Client
 
 ```julia
-using EntsoE
+using ENTSOE
 
 client = Client("https://api.example.com"; auth = NoAuth())
 ```

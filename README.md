@@ -1,10 +1,10 @@
-# EntsoE.jl
+# ENTSOE.jl
 
-[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://langestefan.github.io/EntsoE.jl/stable/)
-[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://langestefan.github.io/EntsoE.jl/dev/)
-[![Build Status](https://github.com/langestefan/EntsoE.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/langestefan/EntsoE.jl/actions/workflows/CI.yml?query=branch%3Amain)
-[![Documentation](https://github.com/langestefan/EntsoE.jl/actions/workflows/Documentation.yml/badge.svg?branch=main)](https://github.com/langestefan/EntsoE.jl/actions/workflows/Documentation.yml?query=branch%3Amain)
-[![Coverage](https://codecov.io/gh/langestefan/EntsoE.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/langestefan/EntsoE.jl)
+[![Stable](https://img.shields.io/badge/docs-stable-blue.svg)](https://langestefan.github.io/ENTSOE.jl/stable/)
+[![Dev](https://img.shields.io/badge/docs-dev-blue.svg)](https://langestefan.github.io/ENTSOE.jl/dev/)
+[![Build Status](https://github.com/langestefan/ENTSOE.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/langestefan/ENTSOE.jl/actions/workflows/CI.yml?query=branch%3Amain)
+[![Documentation](https://github.com/langestefan/ENTSOE.jl/actions/workflows/Documentation.yml/badge.svg?branch=main)](https://github.com/langestefan/ENTSOE.jl/actions/workflows/Documentation.yml?query=branch%3Amain)
+[![Coverage](https://codecov.io/gh/langestefan/ENTSOE.jl/branch/main/graph/badge.svg)](https://codecov.io/gh/langestefan/ENTSOE.jl)
 [![Aqua QA](https://raw.githubusercontent.com/JuliaTesting/Aqua.jl/master/badge.svg)](https://github.com/JuliaTesting/Aqua.jl)
 [![tested with JET.jl](https://img.shields.io/badge/%F0%9F%9B%A9%EF%B8%8F_tested_with-JET.jl-233f9a)](https://github.com/aviatesk/JET.jl)
 
@@ -25,13 +25,13 @@ Two layers:
 
 ```julia
 using Pkg
-Pkg.add(url = "https://github.com/langestefan/EntsoE.jl")
+Pkg.add(url = "https://github.com/langestefan/ENTSOE.jl")
 ```
 
 ## Quick start
 
 ```julia
-using EntsoE
+using ENTSOE
 
 # Auth strategies: NoAuth, BearerToken, APIKey, BasicAuth
 client = Client("https://api.example.com";

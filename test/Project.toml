@@ -15,11 +15,11 @@ Aqua = "0.8"
 BrokenRecord = "0.1"
 JET = "0.9, 0.10, 0.11"
 
-# Note: the package being tested (EntsoE) is NOT listed here.
+# Note: the package being tested (ENTSOE) is NOT listed here.
 # `Pkg.test` injects it into the test sandbox automatically via `develop`
 # on every Julia version. Listing it would require `[sources]` to point
 # at the parent path — and `[sources]` is a Julia 1.11+ feature, ignored
-# by 1.10, which would then try to resolve EntsoE from the registry and
+# by 1.10, which would then try to resolve ENTSOE from the registry and
 # fail with "has no known versions".
 
 # Aqua and JET are scaffolded by default so the linting tests in

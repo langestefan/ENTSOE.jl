@@ -11,10 +11,10 @@ include("config.jl")
 include("queries.jl")
 include("splitting.jl")
 
-export entsoe_period, EIC, EntsoEClient, entsoe_apis, ENTSOE_BASE_URL
+export entsoe_period, EIC, ENTSOEClient, entsoe_apis, ENTSOE_BASE_URL
 export DOCUMENT_TYPE, PROCESS_TYPE, BUSINESS_TYPE, PSR_TYPE
 export parse_timeseries, parse_timeseries_per_psr, parse_installed_capacity
-export parse_acknowledgement, check_acknowledgement, EntsoEAcknowledgement
+export parse_acknowledgement, check_acknowledgement, ENTSOEAcknowledgement
 export unzip_response
 export EIC_REGISTRY, lookup_eic, is_known_eic, eics_of_type, validate_eic
 export day_ahead_prices,
@@ -27,7 +27,7 @@ export day_ahead_prices,
     actual_generation_per_production_type,
     cross_border_physical_flows
 # `omi_other_market_information` is already exported by the codegen layer
-# (`EntsoEAPI`); our paginated method is just a new dispatch on the same
+# (`ENTSOEAPI`); our paginated method is just a new dispatch on the same
 # name (`(::Client, …)` instead of `(::OMIApi, …)`), so no extra export.
 export split_period, query_split
-export EntsoEConfig, set_config, get_config
+export ENTSOEConfig, set_config, get_config

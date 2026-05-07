@@ -1,10 +1,10 @@
 ```@meta
-CurrentModule = EntsoE
+CurrentModule = ENTSOE
 ```
 
-# EntsoE.jl
+# ENTSOE.jl
 
-Documentation for [EntsoE.jl](https://github.com/langestefan/EntsoE.jl).
+Documentation for [ENTSOE.jl](https://github.com/langestefan/ENTSOE.jl).
 
 A Julia REST/JSON API wrapper scaffolded with
 [OpenAPITemplate.jl](https://github.com/langestefan/OpenAPITemplate.jl).
@@ -12,7 +12,7 @@ A Julia REST/JSON API wrapper scaffolded with
 ## Quick start
 
 ```julia
-using EntsoE
+using ENTSOE
 
 client = Client("https://api.example.com"; auth = BearerToken(ENV["ENTSOE_TOKEN"]))
 ```

@@ -3,7 +3,7 @@ using OpenAPI: OpenAPI
 const ENTSOE_BASE_URL = "https://web-api.tp.entsoe.eu/api"
 
 """
-    EntsoEClient(token; base_url=ENTSOE_BASE_URL, kwargs...) -> Client
+    ENTSOEClient(token; base_url=ENTSOE_BASE_URL, kwargs...) -> Client
 
 Build a `Client` wired with ENTSO-E's `securityToken` query-parameter auth.
 Every operation in the generated API declares the `SecurityToken` security
@@ -15,8 +15,8 @@ unwrap with `.inner` before constructing them — or use [`entsoe_apis`](@ref)
 which does that for you and returns one API per ENTSO-E group:
 
 ```julia
-using EntsoE
-client = EntsoEClient(ENV["ENTSOE_API_TOKEN"])
+using ENTSOE
+client = ENTSOEClient(ENV["ENTSOE_API_TOKEN"])
 apis = entsoe_apis(client)
 
 start = entsoe_period(Dates.DateTime("2023-08-23T22:00"))
@@ -27,7 +27,7 @@ xml, _ = market121_d_energy_prices(apis.market, "A44", EIC.NL, EIC.NL, start, st
 Extra keyword arguments are forwarded verbatim to `OpenAPI.Clients.Client`
 (useful for `timeout`, `httplib`, etc.).
 """
-function EntsoEClient(
+function ENTSOEClient(
         token::AbstractString;
         base_url::AbstractString = ENTSOE_BASE_URL,
         kwargs...,

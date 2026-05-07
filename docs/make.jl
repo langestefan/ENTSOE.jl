@@ -1,7 +1,7 @@
 using Documenter, DocumenterVitepress
-using EntsoE
+using ENTSOE
 
-const SPEC_SRC = joinpath(pkgdir(EntsoE), "spec", "openapi.json")
+const SPEC_SRC = joinpath(pkgdir(ENTSOE), "spec", "openapi.json")
 const HAS_SPEC = isfile(SPEC_SRC)
 
 # Bundle the committed OpenAPI spec into Vitepress's `public/` so the
@@ -50,19 +50,19 @@ if !isempty(API_PAGES)
     ])
 end
 
-# Make `EntsoE` symbols available unqualified in every doctest — without
+# Make `ENTSOE` symbols available unqualified in every doctest — without
 # this, `julia> DOCUMENT_TYPE.A44` fails with `UndefVarError` because
 # Documenter's doctest runner uses `Main` by default.
 Documenter.DocMeta.setdocmeta!(
-    EntsoE, :DocTestSetup, :(using EntsoE); recursive = true,
+    ENTSOE, :DocTestSetup, :(using ENTSOE); recursive = true,
 )
 
 makedocs(;
-    modules = [EntsoE],
-    sitename = "EntsoE.jl",
+    modules = [ENTSOE],
+    sitename = "ENTSOE.jl",
     authors = "langestefan",
     format = MarkdownVitepress(;
-        repo = "github.com/langestefan/EntsoE.jl",
+        repo = "github.com/langestefan/ENTSOE.jl",
         devbranch = "main",
         devurl = "dev",
         build_vitepress = true,
@@ -72,7 +72,7 @@ makedocs(;
 )
 
 DocumenterVitepress.deploydocs(;
-    repo = "github.com/langestefan/EntsoE.jl",
+    repo = "github.com/langestefan/ENTSOE.jl",
     devbranch = "main",
     push_preview = true,
 )

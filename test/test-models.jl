@@ -1,16 +1,16 @@
-using EntsoE
+using ENTSOE
 using OpenAPI
 using Test
 
 @testset "Generated module surface" begin
-    @test isdefined(EntsoE, :EntsoEAPI)
-    api_mod = getfield(EntsoE, :EntsoEAPI)
-    public = filter(n -> n !== :EntsoEAPI, names(api_mod; all = false))
+    @test isdefined(ENTSOE, :ENTSOEAPI)
+    api_mod = getfield(ENTSOE, :ENTSOEAPI)
+    public = filter(n -> n !== :ENTSOEAPI, names(api_mod; all = false))
     @test !isempty(public)
 end
 
 @testset "API model types" begin
-    api_mod = getfield(EntsoE, :EntsoEAPI)
+    api_mod = getfield(ENTSOE, :ENTSOEAPI)
     model_types = [
         getfield(api_mod, n) for n in names(api_mod; all = false)
         if isdefined(api_mod, n) &&
@@ -36,7 +36,7 @@ end
 end
 
 @testset "API set types accept Client" begin
-    api_mod = getfield(EntsoE, :EntsoEAPI)
+    api_mod = getfield(ENTSOE, :ENTSOEAPI)
     api_sets = [
         getfield(api_mod, n) for n in names(api_mod; all = false)
         if isdefined(api_mod, n) &&

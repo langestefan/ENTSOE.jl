@@ -1,5 +1,5 @@
 ```@meta
-CurrentModule = EntsoE
+CurrentModule = ENTSOE
 ```
 
 # Tutorial: a Dutch electricity day in three plots
@@ -31,7 +31,7 @@ parse the XML and accept `DateTime` arguments directly — no
 hand-written parsing or `entsoe_period(...)` boilerplate per call.
 
 ```@example tutorial
-using EntsoE
+using ENTSOE
 using CairoMakie
 using Dates: DateTime
 
@@ -55,7 +55,7 @@ let target = Base.Threads.maxthreadid()
     end
 end
 
-const CASSETTES_DIR = joinpath(pkgdir(EntsoE), "test", "cassettes")
+const CASSETTES_DIR = joinpath(pkgdir(ENTSOE), "test", "cassettes")
 
 BrokenRecord.configure!(;
     path = CASSETTES_DIR,
@@ -66,8 +66,8 @@ BrokenRecord.configure!(;
 
 # Token is irrelevant in playback mode — the HTTP layer is
 # intercepted before the request reaches ENTSO-E. Any non-empty
-# string lets `EntsoEClient` build a valid client.
-client = EntsoEClient("PLAYBACK")
+# string lets `ENTSOEClient` build a valid client.
+client = ENTSOEClient("PLAYBACK")
 nothing # hide
 ```
 
@@ -149,12 +149,12 @@ cap_rows = BrokenRecord.playback("generation_141a_installed_capacity_NL.yml") do
         DateTime("2024-12-31T23:00"))
 end
 sort!(cap_rows, by = r -> -r.capacity_mw)
-[(EntsoE.describe(PSR_TYPE, r.psr_type), round(r.capacity_mw; digits = 0))
+[(ENTSOE.describe(PSR_TYPE, r.psr_type), round(r.capacity_mw; digits = 0))
  for r in cap_rows]
 ```
 
 ```@example tutorial
-labels = [EntsoE.describe(PSR_TYPE, r.psr_type) for r in cap_rows]
+labels = [ENTSOE.describe(PSR_TYPE, r.psr_type) for r in cap_rows]
 mw     = [r.capacity_mw for r in cap_rows]
 fig = Figure(size = (900, 480))
 ax = Axis(fig[1, 1];
@@ -223,7 +223,7 @@ projects. All of that is now part of the package:
 - The named-argument wrappers above (one per common endpoint) hide
   the magic codes and accept `DateTime` directly.
 
-Drop down to the generated layer (`EntsoE.market121_d_energy_prices`,
+Drop down to the generated layer (`ENTSOE.market121_d_energy_prices`,
 …) only when you need an endpoint we haven't wrapped yet.
 
 ## Where to next

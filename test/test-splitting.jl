@@ -1,9 +1,9 @@
-using EntsoE
+using ENTSOE
 using Test
 using Dates: DateTime, Date, Year, Day, Month
 
 @testset "split_period basics" begin
-    chunks = EntsoE.split_period(
+    chunks = ENTSOE.split_period(
         DateTime("2022-01-01"), DateTime("2025-01-01");
         window = Year(1),
     )
@@ -13,7 +13,7 @@ using Dates: DateTime, Date, Year, Day, Month
 end
 
 @testset "split_period — partial last window" begin
-    chunks = EntsoE.split_period(
+    chunks = ENTSOE.split_period(
         DateTime("2024-01-01"), DateTime("2024-04-15");
         window = Month(1),
     )
@@ -22,7 +22,7 @@ end
 end
 
 @testset "split_period — accepts integer endpoints" begin
-    chunks = EntsoE.split_period(
+    chunks = ENTSOE.split_period(
         202401010000, 202402010000;
         window = Day(7),
     )
@@ -31,11 +31,11 @@ end
 end
 
 @testset "split_period — start == stop" begin
-    @test EntsoE.split_period(DateTime("2024-01-01"), DateTime("2024-01-01")) == []
+    @test ENTSOE.split_period(DateTime("2024-01-01"), DateTime("2024-01-01")) == []
 end
 
 @testset "split_period — invalid range" begin
-    @test_throws ArgumentError EntsoE.split_period(
+    @test_throws ArgumentError ENTSOE.split_period(
         DateTime("2024-02-01"), DateTime("2024-01-01"),
     )
 end
@@ -47,7 +47,7 @@ end
         push!(history, (s, e))
         [(time = s, value = 1.0, area = area, extra = extra)]
     end
-    rows = EntsoE.query_split(
+    rows = ENTSOE.query_split(
         fake_query, "client_stub", "10YNL----------L",
         DateTime("2024-01-01"), DateTime("2024-04-01");
         window = Month(1),
@@ -64,9 +64,9 @@ end
     # should be skipped (not propagated as an error).
     fake_query(client, area, s, e) = begin
         s == DateTime("2024-01-01") && return [(value = 42.0,)]
-        throw(EntsoEAcknowledgement("999", "No matching data found"))
+        throw(ENTSOEAcknowledgement("999", "No matching data found"))
     end
-    rows = EntsoE.query_split(
+    rows = ENTSOE.query_split(
         fake_query, "client_stub", "10YNL----------L",
         DateTime("2024-01-01"), DateTime("2024-03-01");
         window = Month(1),
@@ -77,7 +77,7 @@ end
 
 @testset "query_split — propagates non-acknowledgement errors" begin
     fake_query(client, area, s, e) = error("upstream went boom")
-    @test_throws ErrorException EntsoE.query_split(
+    @test_throws ErrorException ENTSOE.query_split(
         fake_query, "client_stub", "10YNL----------L",
         DateTime("2024-01-01"), DateTime("2024-03-01");
         window = Month(1),

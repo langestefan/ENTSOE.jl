@@ -63,14 +63,14 @@ Times are computed from `<timeInterval>/<start>` plus
 
 Returns an empty vector if the document has no usable TimeSeries —
 typically because the API returned an
-[`EntsoEAcknowledgement`](@ref). For typed handling of that case use a
+[`ENTSOEAcknowledgement`](@ref). For typed handling of that case use a
 pipeline that calls [`check_acknowledgement`](@ref) first.
 
 # Example
 ```julia
-using EntsoE, Dates
+using ENTSOE, Dates
 
-client = EntsoEClient(ENV["ENTSOE_API_TOKEN"])
+client = ENTSOEClient(ENV["ENTSOE_API_TOKEN"])
 apis   = entsoe_apis(client)
 xml, _ = market121_d_energy_prices(
     apis.market, "A44",
@@ -227,7 +227,7 @@ end
 # Acknowledgement detection (also used by `check_acknowledgement`).
 
 """
-    EntsoEAcknowledgement(reason_code, text) <: APIError
+    ENTSOEAcknowledgement(reason_code, text) <: APIError
 
 Parsed `<Acknowledgement_MarketDocument>` payload — *also* a throwable
 [`APIError`](@ref). ENTSO-E returns a 200 response containing this
@@ -243,20 +243,20 @@ the IEC 62325 reason-code list — the most commonly seen ones are:
 Use [`parse_acknowledgement`](@ref) for the non-throwing variant and
 [`check_acknowledgement`](@ref) when you want it raised as an error.
 """
-struct EntsoEAcknowledgement <: APIError
+struct ENTSOEAcknowledgement <: APIError
     reason_code::String
     text::String
 end
 
-Base.show(io::IO, ack::EntsoEAcknowledgement) =
-    print(io, "EntsoEAcknowledgement($(repr(ack.reason_code)): $(ack.text))")
+Base.show(io::IO, ack::ENTSOEAcknowledgement) =
+    print(io, "ENTSOEAcknowledgement($(repr(ack.reason_code)): $(ack.text))")
 
-Base.showerror(io::IO, ack::EntsoEAcknowledgement) =
-    print(io, "EntsoEAcknowledgement: ENTSO-E returned reason code ",
+Base.showerror(io::IO, ack::ENTSOEAcknowledgement) =
+    print(io, "ENTSOEAcknowledgement: ENTSO-E returned reason code ",
           repr(ack.reason_code), " — ", ack.text)
 
 """
-    parse_acknowledgement(xml) -> EntsoEAcknowledgement | nothing
+    parse_acknowledgement(xml) -> ENTSOEAcknowledgement | nothing
 
 If the document root is `<Acknowledgement_MarketDocument>`, parse out
 the first `<Reason>` element's `<code>` and `<text>` and return them.
@@ -270,10 +270,10 @@ function parse_acknowledgement(xml::AbstractString)
     doc = parsexml(xml)
     nodename(root(doc)) == "Acknowledgement_MarketDocument" || return nothing
     reason = _first_named(root(doc), "Reason")
-    reason === nothing && return EntsoEAcknowledgement("", "")
+    reason === nothing && return ENTSOEAcknowledgement("", "")
     code_node = _first_named(reason, "code")
     text_node = _first_named(reason, "text")
-    return EntsoEAcknowledgement(
+    return ENTSOEAcknowledgement(
         code_node === nothing ? "" : nodecontent(code_node),
         text_node === nothing ? "" : nodecontent(text_node),
     )
@@ -282,7 +282,7 @@ end
 """
     check_acknowledgement(xml) -> xml
 
-Throw an [`EntsoEAcknowledgement`](@ref) if `xml` is an
+Throw an [`ENTSOEAcknowledgement`](@ref) if `xml` is an
 `<Acknowledgement_MarketDocument>`; otherwise return the input string
 unchanged. Designed to be chained inline:
 

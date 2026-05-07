@@ -16,7 +16,7 @@
 #
 #   3. Acknowledgement detection. ENTSO-E returns a 200 with an
 #      `<Acknowledgement_MarketDocument>` when there is no data; that
-#      gets re-raised as an `EntsoEAcknowledgement <: APIError` (see
+#      gets re-raised as an `ENTSOEAcknowledgement <: APIError` (see
 #      `check_acknowledgement`).
 #
 #   4. Optional parsing. By default the result is the parsed time-series
@@ -77,13 +77,13 @@ same for an internal day-ahead price query). `period_start` /
 `Int64` `yyyymmddHHMM`. Returns `Vector{(time::DateTime, value::Float64)}`
 in EUR/MWh; `parsed=false` returns the raw XML.
 
-Throws an [`EntsoEAcknowledgement`](@ref) if ENTSO-E reports no
+Throws an [`ENTSOEAcknowledgement`](@ref) if ENTSO-E reports no
 matching data.
 
 # Example
 ```julia
 using Dates
-client = EntsoEClient(ENV["ENTSOE_API_TOKEN"])
+client = ENTSOEClient(ENV["ENTSOE_API_TOKEN"])
 prices = day_ahead_prices(client, EIC.NL,
                           DateTime("2024-09-01T22:00"),
                           DateTime("2024-09-02T22:00"))
@@ -98,7 +98,7 @@ function day_ahead_prices(
     apis = entsoe_apis(client)
     return _query(parse_timeseries; parsed = parsed,
                   validate = validate, eics = (area,)) do
-        EntsoE.market121_d_energy_prices(
+        ENTSOE.market121_d_energy_prices(
             apis.market, "A44",
             _to_period(period_start), _to_period(period_end),
             String(area), String(area),
@@ -140,7 +140,7 @@ actual_total_load(client::Client, area, start, stop;
     _load_query(
         client, "A16", area, start, stop;
         parsed = parsed, validate = validate,
-        api_fn = EntsoE.load61_a_actual_total_load,
+        api_fn = ENTSOE.load61_a_actual_total_load,
     )
 
 """
@@ -153,7 +153,7 @@ day_ahead_load_forecast(client::Client, area, start, stop;
     _load_query(
         client, "A01", area, start, stop;
         parsed = parsed, validate = validate,
-        api_fn = EntsoE.load61_b_day_ahead_total_load_forecast,
+        api_fn = ENTSOE.load61_b_day_ahead_total_load_forecast,
     )
 
 """
@@ -166,7 +166,7 @@ week_ahead_load_forecast(client::Client, area, start, stop;
     _load_query(
         client, "A31", area, start, stop;
         parsed = parsed, validate = validate,
-        api_fn = EntsoE.load61_c_week_ahead_total_load_forecast,
+        api_fn = ENTSOE.load61_c_week_ahead_total_load_forecast,
     )
 
 """
@@ -179,7 +179,7 @@ month_ahead_load_forecast(client::Client, area, start, stop;
     _load_query(
         client, "A32", area, start, stop;
         parsed = parsed, validate = validate,
-        api_fn = EntsoE.load61_d_month_ahead_total_load_forecast,
+        api_fn = ENTSOE.load61_d_month_ahead_total_load_forecast,
     )
 
 """
@@ -192,7 +192,7 @@ year_ahead_load_forecast(client::Client, area, start, stop;
     _load_query(
         client, "A33", area, start, stop;
         parsed = parsed, validate = validate,
-        api_fn = EntsoE.load61_e_year_ahead_total_load_forecast,
+        api_fn = ENTSOE.load61_e_year_ahead_total_load_forecast,
     )
 
 # ---------------------------------------------------------------------------
@@ -219,7 +219,7 @@ function installed_capacity_per_production_type(
     apis = entsoe_apis(client)
     return _query(parse_installed_capacity; parsed = parsed,
                   validate = validate, eics = (area,)) do
-        EntsoE.generation141_a_installed_capacity_per_production_type(
+        ENTSOE.generation141_a_installed_capacity_per_production_type(
             apis.generation, "A68", "A33", String(area),
             _to_period(period_start), _to_period(period_end),
         )
@@ -242,7 +242,7 @@ function generation_forecast_day_ahead(
     apis = entsoe_apis(client)
     return _query(parse_timeseries; parsed = parsed,
                   validate = validate, eics = (area,)) do
-        EntsoE.generation141_c_generation_forecast_day_ahead(
+        ENTSOE.generation141_c_generation_forecast_day_ahead(
             apis.generation, "A71", "A01", String(area),
             _to_period(period_start), _to_period(period_end),
         )
@@ -271,7 +271,7 @@ function wind_solar_forecast(
     apis = entsoe_apis(client)
     return _query(parse_timeseries_per_psr; parsed = parsed,
                   validate = validate, eics = (area,)) do
-        EntsoE.generation141_d_generation_forecasts_for_wind_and_solar(
+        ENTSOE.generation141_d_generation_forecasts_for_wind_and_solar(
             apis.generation, "A69", "A01", String(area),
             _to_period(period_start), _to_period(period_end);
             psr_type = psr_type === nothing ? nothing : String(psr_type),
@@ -300,7 +300,7 @@ function actual_generation_per_production_type(
     apis = entsoe_apis(client)
     return _query(parse_timeseries_per_psr; parsed = parsed,
                   validate = validate, eics = (area,)) do
-        EntsoE.generation161_b_c_actual_generation_per_production_type(
+        ENTSOE.generation161_b_c_actual_generation_per_production_type(
             apis.generation, "A75", "A16", String(area),
             _to_period(period_start), _to_period(period_end);
             psr_type = psr_type === nothing ? nothing : String(psr_type),
@@ -332,7 +332,7 @@ function cross_border_physical_flows(
     apis = entsoe_apis(client)
     return _query(parse_timeseries; parsed = parsed,
                   validate = validate, eics = (in_area, out_area)) do
-        EntsoE.transmission121_g_cross_border_physical_flows(
+        ENTSOE.transmission121_g_cross_border_physical_flows(
             apis.transmission, "A11",
             String(out_area), String(in_area),  # generated layer takes (out, in) — see api/apis/api_TransmissionApi.jl
             _to_period(period_start), _to_period(period_end),
@@ -355,7 +355,7 @@ queries at 5000 entries total — `max_pages * page_size` defaults to
 exactly that).
 
 Returns a `Vector{String}` of XML payloads, one per page. Stops when a
-page comes back as an [`EntsoEAcknowledgement`](@ref) (no more data)
+page comes back as an [`ENTSOEAcknowledgement`](@ref) (no more data)
 or when `max_pages` is reached.
 
 ```julia
@@ -385,7 +385,7 @@ function omi_other_market_information(
     pages = String[]
     for i in 0:(max_pages - 1)
         offset = i * page_size
-        xml, _ = EntsoEAPI.omi_other_market_information(
+        xml, _ = ENTSOEAPI.omi_other_market_information(
             apis.omi, dt, ca, ps, pe;
             offset = offset,
         )

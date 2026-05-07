@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using Test
 
 # Aqua and JET are NOT default deps of test/Project.toml — install on demand:
@@ -14,7 +14,7 @@ let aqua_id = Base.identify_package("Aqua")
             # `Base.require` advances the world; without `invokelatest` Julia
             # 1.12 refuses to dispatch to a method whose world is newer than
             # the call site's.
-            Base.invokelatest(Aqua.test_all, EntsoE;
+            Base.invokelatest(Aqua.test_all, ENTSOE;
                 ambiguities = false, stale_deps = false)
         end
     end
@@ -27,8 +27,8 @@ if v"1.12" <= VERSION < v"1.13"
         else
             JET = Base.require(jet_id)
             @testset "JET" begin
-                Base.invokelatest(JET.test_package, EntsoE;
-                    target_modules = (EntsoE,))
+                Base.invokelatest(JET.test_package, ENTSOE;
+                    target_modules = (ENTSOE,))
             end
         end
     end

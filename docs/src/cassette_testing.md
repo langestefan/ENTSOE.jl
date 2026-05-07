@@ -1,7 +1,7 @@
 # Recorded HTTP tests with BrokenRecord
 
 This tutorial walks through writing a deterministic test for an endpoint
-in `EntsoE.jl` using
+in `ENTSOE.jl` using
 [BrokenRecord.jl](https://github.com/JuliaTesting/BrokenRecord.jl).
 
 The package's test scaffold already includes `test/test-cassettes.jl`,
@@ -44,7 +44,7 @@ struct (`PetApi`, `StoreApi`, …) that takes an
 hand-written wrapper:
 
 ```julia
-using EntsoE
+using ENTSOE
 
 client  = Client("https://api.example.com"; auth = NoAuth())
 pet_api = PetApi(client.inner)

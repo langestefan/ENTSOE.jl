@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using Test
 using Dates: DateTime
 
@@ -111,8 +111,8 @@ end
 
 @testset "parse_acknowledgement" begin
     ack = parse_acknowledgement(_ACK_XML)
-    @test ack isa EntsoEAcknowledgement
-    @test ack isa EntsoE.APIError
+    @test ack isa ENTSOEAcknowledgement
+    @test ack isa ENTSOE.APIError
     @test ack.reason_code == "999"
     @test ack.text == "No matching data found"
 
@@ -133,7 +133,7 @@ end
     catch e
         e
     end
-    @test err isa EntsoEAcknowledgement
+    @test err isa ENTSOEAcknowledgement
     @test err.reason_code == "999"
     msg = sprint(showerror, err)
     @test occursin("999", msg)
@@ -169,10 +169,10 @@ end
                 ignore_query   = ["securityToken"],
             )
 
-            client = EntsoEClient("PLAYBACK")
+            client = ENTSOEClient("PLAYBACK")
             apis   = entsoe_apis(client)
             xml, _ = Base.invokelatest(BR.playback,
-                () -> EntsoE.load61_a_actual_total_load(
+                () -> ENTSOE.load61_a_actual_total_load(
                     apis.load, "A65", "A16", EIC.NL,
                     entsoe_period(DateTime("2024-09-01T22:00")),
                     entsoe_period(DateTime("2024-09-02T22:00")),

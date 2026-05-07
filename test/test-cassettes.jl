@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using Test
 using Dates: DateTime
 
@@ -66,7 +66,7 @@ function _run_cassette_tests(BrokenRecord)
     # BrokenRecord intercepts the HTTP layer before the token would be
     # validated against ENTSO-E.
     token = _resolve_token()
-    client = EntsoEClient(isempty(token) ? "PLAYBACK" : String(token))
+    client = ENTSOEClient(isempty(token) ? "PLAYBACK" : String(token))
     apis = entsoe_apis(client)
 
     # Fixed historical period so the recorded response is deterministic.
@@ -77,7 +77,7 @@ function _run_cassette_tests(BrokenRecord)
 
     @testset "Load 6.1.A actual total load (NL, 2024-09-02)" begin
         xml, _ = BrokenRecord.playback("load_61a_actual_total_load_NL.yml") do
-            EntsoE.load61_a_actual_total_load(
+            ENTSOE.load61_a_actual_total_load(
                 apis.load,
                 "A65",          # documentType: System total load
                 "A16",          # processType: Realised
@@ -95,7 +95,7 @@ function _run_cassette_tests(BrokenRecord)
         year_start = entsoe_period(DateTime("2023-12-31T23:00"))
         year_end   = entsoe_period(DateTime("2024-12-31T23:00"))
         xml, _ = BrokenRecord.playback("generation_141a_installed_capacity_NL.yml") do
-            EntsoE.generation141_a_installed_capacity_per_production_type(
+            ENTSOE.generation141_a_installed_capacity_per_production_type(
                 apis.generation,
                 "A68",          # documentType: Installed generation per type
                 "A33",          # processType: Year ahead
@@ -111,7 +111,7 @@ function _run_cassette_tests(BrokenRecord)
         xml, _ = BrokenRecord.playback("market_121d_day_ahead_prices_NL.yml") do
             # Argument order matches the codegen signature: documentType,
             # period bounds, then domains.
-            EntsoE.market121_d_energy_prices(
+            ENTSOE.market121_d_energy_prices(
                 apis.market,
                 "A44",          # documentType: Price document
                 start_p, stop_p,

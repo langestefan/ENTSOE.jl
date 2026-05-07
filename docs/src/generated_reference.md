@@ -1,7 +1,7 @@
 # Generated Reference
 
 ```@meta
-CurrentModule = EntsoE
+CurrentModule = ENTSOE
 ```
 
 This page lists every Julia name produced by [OpenAPI Generator](https://openapi-generator.tech/)
@@ -15,7 +15,7 @@ schemas, example payloads). This page is the *Julia* side: function
 signatures and the docstrings codegen attached to them.
 
 ```@autodocs
-Modules = [EntsoEAPI]
+Modules = [ENTSOEAPI]
 Private = false
 Order = [:type, :function, :constant]
 ```
@@ -27,12 +27,12 @@ The `basepath` function returns the canonical server URL declared in
 domain client constructor when no explicit `base_url` is supplied.
 
 ```@docs
-EntsoEAPI.basepath(::Type{EntsoEAPI.BalancingApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.GenerationApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.LoadApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.MarketApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.MasterDataApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.OMIApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.OutagesApi})
-EntsoEAPI.basepath(::Type{EntsoEAPI.TransmissionApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.BalancingApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.GenerationApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.LoadApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.MarketApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.MasterDataApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.OMIApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.OutagesApi})
+ENTSOEAPI.basepath(::Type{ENTSOEAPI.TransmissionApi})
 ```

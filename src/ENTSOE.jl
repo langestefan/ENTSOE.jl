@@ -1,15 +1,15 @@
-module EntsoE
+module ENTSOE
 
 using HTTP, JSON, OpenAPI
 
 # Generated low-level surface — DO NOT EDIT, regenerate via gen/regenerate.jl
-include("api/EntsoEAPI.jl")
-using .EntsoEAPI
+include("api/ENTSOEAPI.jl")
+using .ENTSOEAPI
 
 # Re-export every public name from the generated module so users don't have to
-# qualify with `EntsoEAPI.`.
-for n in names(EntsoEAPI; all = false)
-    n === Symbol("EntsoEAPI") && continue
+# qualify with `ENTSOEAPI.`.
+for n in names(ENTSOEAPI; all = false)
+    n === Symbol("ENTSOEAPI") && continue
     @eval export $n
 end
 

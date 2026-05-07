@@ -94,7 +94,7 @@ prices = query_split(
 endpoints (e.g. balancing energy bids) cap at one day, so pass
 `window = Day(1)` there.
 
-A chunk that returns an empty result (`EntsoEAcknowledgement` —
+A chunk that returns an empty result (`ENTSOEAcknowledgement` —
 "no matching data") is skipped rather than aborting the whole run,
 unless the chunk *throws* during a non-acknowledgement error in which
 case the exception propagates as usual.
@@ -118,7 +118,7 @@ function query_split(
         chunk_result = try
             query_fn(head..., s, e; kwargs...)
         catch err
-            err isa EntsoEAcknowledgement || rethrow()
+            err isa ENTSOEAcknowledgement || rethrow()
             continue   # acknowledgement on this window → skip it
         end
         push!(results, chunk_result)

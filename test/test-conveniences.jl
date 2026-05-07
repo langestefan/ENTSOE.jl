@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using OpenAPI
 using Test
 using Dates: DateTime, Date
@@ -51,7 +51,7 @@ end
     @test length(bzn) > 50   # ENTSO-E has 70-ish bidding zones currently.
 end
 
-@testset "set_config / get_config / no-arg EntsoEClient" begin
+@testset "set_config / get_config / no-arg ENTSOEClient" begin
     # Snapshot original config so we can restore at the end.
     orig = get_config()
     saved = (token = orig.token, endpoint_url = orig.endpoint_url,
@@ -67,20 +67,20 @@ end
         @test cfg.validate_eic == true
         @test get_config() === cfg     # singleton
 
-        # No-arg EntsoEClient picks up the global.
-        client = EntsoEClient()
+        # No-arg ENTSOEClient picks up the global.
+        client = ENTSOEClient()
         @test client.base_url == "https://iop-web-api.tp.entsoe.eu/api"
 
         # Token can also come from ENV when both config and arg are empty.
         set_config(; token = "")
         withenv("ENTSOE_API_TOKEN" => "ENV-PROVIDED-TOKEN") do
-            c2 = EntsoEClient()
+            c2 = ENTSOEClient()
             @test c2 isa Client
         end
 
         # And errors when neither is set.
         withenv("ENTSOE_API_TOKEN" => nothing) do
-            @test_throws ArgumentError EntsoEClient()
+            @test_throws ArgumentError ENTSOEClient()
         end
     finally
         # Restore.
@@ -126,32 +126,32 @@ end
 end
 
 @testset "describe / code_for" begin
-    @test EntsoE.describe(DOCUMENT_TYPE, "A44") == "Price document"
-    @test EntsoE.describe(DOCUMENT_TYPE, :A44) == "Price document"
-    @test_throws KeyError EntsoE.describe(DOCUMENT_TYPE, "ZZZ")
+    @test ENTSOE.describe(DOCUMENT_TYPE, "A44") == "Price document"
+    @test ENTSOE.describe(DOCUMENT_TYPE, :A44) == "Price document"
+    @test_throws KeyError ENTSOE.describe(DOCUMENT_TYPE, "ZZZ")
 
     # Substring, case-insensitive.
-    @test EntsoE.code_for(PSR_TYPE, "wind onshore") == "B19"
-    @test EntsoE.code_for(DOCUMENT_TYPE, "price document") == "A44"
-    @test_throws KeyError EntsoE.code_for(PSR_TYPE, "unobtanium")
+    @test ENTSOE.code_for(PSR_TYPE, "wind onshore") == "B19"
+    @test ENTSOE.code_for(DOCUMENT_TYPE, "price document") == "A44"
+    @test_throws KeyError ENTSOE.code_for(PSR_TYPE, "unobtanium")
     # "wind" matches both Onshore and Offshore — should error on ambiguity.
-    @test_throws ErrorException EntsoE.code_for(PSR_TYPE, "wind")
+    @test_throws ErrorException ENTSOE.code_for(PSR_TYPE, "wind")
 end
 
-@testset "EntsoEClient construction" begin
-    client = EntsoEClient("TEST-TOKEN-XYZ")
+@testset "ENTSOEClient construction" begin
+    client = ENTSOEClient("TEST-TOKEN-XYZ")
     @test client isa Client
     @test client.base_url == ENTSOE_BASE_URL
     @test client.inner isa OpenAPI.Clients.Client
     @test client.inner.root == ENTSOE_BASE_URL
 
     # Custom base_url is honored.
-    other = EntsoEClient("T"; base_url = "https://example.test/api")
+    other = ENTSOEClient("T"; base_url = "https://example.test/api")
     @test other.base_url == "https://example.test/api"
 end
 
 @testset "entsoe_apis" begin
-    apis = entsoe_apis(EntsoEClient("T"))
+    apis = entsoe_apis(ENTSOEClient("T"))
     expected = (:balancing, :generation, :load, :market, :master_data, :omi,
                 :outages, :transmission)
     @test keys(apis) === expected
@@ -161,7 +161,7 @@ end
 end
 
 @testset "pre_request_hook injects securityToken" begin
-    client = EntsoEClient("MY-SECRET-TOKEN")
+    client = ENTSOEClient("MY-SECRET-TOKEN")
     rt = Dict{Regex, Type}(r"^200$" => String)
 
     # Op declares the SecurityToken scheme — token must be injected.

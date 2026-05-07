@@ -1,4 +1,4 @@
-using EntsoE
+using ENTSOE
 using Test
 using Dates: DateTime, Date
 
@@ -14,7 +14,7 @@ using Dates: DateTime, Date
     # because there's no client config and we want a fast-fail test).
     # With validate=true the wrapper throws *before* hitting the
     # network or constructing API state.
-    client = EntsoEClient("PLAYBACK")
+    client = ENTSOEClient("PLAYBACK")
     @test_throws ArgumentError day_ahead_prices(
         client, "10YNOT-A-CODE---",
         DateTime("2024-09-01T22:00"), DateTime("2024-09-02T22:00");
@@ -24,11 +24,11 @@ end
 
 @testset "_to_period overloads" begin
     # `Int` round-trip.
-    @test EntsoE._to_period(Int64(202409012200)) === Int64(202409012200)
+    @test ENTSOE._to_period(Int64(202409012200)) === Int64(202409012200)
     # DateTime → yyyymmddHHMM.
-    @test EntsoE._to_period(DateTime("2024-09-01T22:00")) === Int64(202409012200)
+    @test ENTSOE._to_period(DateTime("2024-09-01T22:00")) === Int64(202409012200)
     # Date → midnight on that date.
-    @test EntsoE._to_period(Date("2024-09-02")) === Int64(202409020000)
+    @test ENTSOE._to_period(Date("2024-09-02")) === Int64(202409020000)
 end
 
 # Pad BrokenRecord state for Julia 1.12 thread-safety (same workaround as
@@ -60,7 +60,7 @@ let id = Base.identify_package("BrokenRecord")
             ignore_query   = ["securityToken"],
         )
 
-        client = EntsoEClient("PLAYBACK")
+        client = ENTSOEClient("PLAYBACK")
 
         @testset "actual_total_load (Load 6.1.A cassette)" begin
             rows = Base.invokelatest(BR.playback,

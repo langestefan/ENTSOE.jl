@@ -1,7 +1,7 @@
 # Julia API Reference
 
 ```@meta
-CurrentModule = EntsoE
+CurrentModule = ENTSOE
 ```
 
 ## Client
@@ -19,8 +19,8 @@ BearerToken
 APIKey
 BasicAuth
 resolve_credentials
-EntsoE.apply!
-EntsoE.build_pre_request_hook
+ENTSOE.apply!
+ENTSOE.build_pre_request_hook
 ```
 
 ## Errors
@@ -34,7 +34,7 @@ AuthError
 RateLimitError
 TimeoutError
 check_response
-EntsoE.parse_retry_after
+ENTSOE.parse_retry_after
 ```
 
 ## Reliability
@@ -42,8 +42,8 @@ EntsoE.parse_retry_after
 ```@docs
 RetryPolicy
 with_retry
-EntsoE.is_retryable
-EntsoE.backoff_delay
+ENTSOE.is_retryable
+ENTSOE.backoff_delay
 TokenBucket
 acquire!
 with_rate_limit
@@ -72,7 +72,7 @@ Base.show(::IO, ::MIME"text/plain", ::T) where T <: OpenAPI.APIModel
 ## ENTSO-E client + period
 
 ```@docs
-EntsoEClient
+ENTSOEClient
 entsoe_apis
 entsoe_period
 ENTSOE_BASE_URL
@@ -81,7 +81,7 @@ ENTSOE_BASE_URL
 ## Module configuration
 
 ```@docs
-EntsoEConfig
+ENTSOEConfig
 set_config
 get_config
 ```
@@ -104,8 +104,8 @@ DOCUMENT_TYPE
 PROCESS_TYPE
 BUSINESS_TYPE
 PSR_TYPE
-EntsoE.describe
-EntsoE.code_for
+ENTSOE.describe
+ENTSOE.code_for
 ```
 
 ## XML response parsing
@@ -116,7 +116,7 @@ parse_timeseries_per_psr
 parse_installed_capacity
 parse_acknowledgement
 check_acknowledgement
-EntsoEAcknowledgement
+ENTSOEAcknowledgement
 unzip_response
 ```
 
@@ -146,7 +146,7 @@ The OMI endpoint paginates server-side; our wrapper handles the
 offset loop:
 
 ```@docs
-omi_other_market_information(::EntsoE.Client, ::AbstractString, ::Any, ::Any)
+omi_other_market_information(::ENTSOE.Client, ::AbstractString, ::Any, ::Any)
 ```
 
 ## Request splitting

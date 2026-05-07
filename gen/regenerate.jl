@@ -17,7 +17,7 @@
 using Pkg
 
 const SPEC_URL = joinpath(dirname(@__DIR__), "spec", "openapi.json")
-const API_PKG = "EntsoEAPI"
+const API_PKG = "ENTSOEAPI"
 const GENERATOR_VERSION = "7.10.0"
 const NPM_WRAPPER_VERSION = "2.21.4"
 
