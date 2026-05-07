@@ -2,7 +2,7 @@ name: pre-commit Update
 
 on:
   schedule:
-    - cron: "0 7 1/7 * *"  # 07:00 UTC every 7 days
+    - cron: "0 7 1/7 * *" # 07:00 UTC every 7 days
   workflow_dispatch:
 
 jobs:
@@ -10,14 +10,14 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Hack for setup-python cache  # https://github.com/actions/setup-python/issues/807
+      - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
         run: touch requirements.txt
       - name: Setup Python
         uses: actions/setup-python@v6
         with:
           cache: pip
           python-version: "3.11"
-      - name: Hack for setup-python cache  # https://github.com/actions/setup-python/issues/807
+      - name: Hack for setup-python cache # https://github.com/actions/setup-python/issues/807
         run: rm requirements.txt
       - name: Install pre-commit
         run: pip install pre-commit
