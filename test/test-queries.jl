@@ -41,34 +41,12 @@ end
     @test_throws ArgumentError ENTSOE._to_period(3.14)
 end
 
-# Pad BrokenRecord state for Julia 1.12 thread-safety (same workaround as
-# in test-cassettes.jl). Without this, calling `playback` from a worker
-# thread hits a `BoundsError` in BrokenRecord 0.1.
-function _pad_brokenrecord_state(BR)
-    target = Base.Threads.maxthreadid()
-    while length(BR.STATE) < target
-        template = BR.STATE[1]
-        push!(BR.STATE, (
-            responses = empty(template.responses),
-            ignore_headers = String[],
-            ignore_query = String[],
-        ))
-    end
-    return nothing
-end
+include("_brokenrecord_helpers.jl")
 
-let id = Base.identify_package("BrokenRecord")
-    if id === nothing
+let BR = _load_brokenrecord()
+    if BR === nothing
         @info "BrokenRecord not installed; skipping query-wrapper live tests."
     else
-        BR = Base.require(id)
-        Base.invokelatest(_pad_brokenrecord_state, BR)
-        Base.invokelatest(BR.configure!;
-            path = joinpath(@__DIR__, "cassettes"),
-            ignore_headers = ["Authorization", "User-Agent",
-                              "Accept-Encoding"],
-            ignore_query   = ["securityToken"],
-        )
 
         client = ENTSOEClient("PLAYBACK")
 

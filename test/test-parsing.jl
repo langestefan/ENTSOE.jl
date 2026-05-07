@@ -220,35 +220,17 @@ end
     @test occursin("No matching data", msg)
 end
 
+include("_brokenrecord_helpers.jl")
+
 @testset "parse_timeseries — cassette payload (live integration)" begin
     # End-to-end shape check against the committed Load cassette
     # body — proves the parser handles the real ENTSO-E XML produced
     # by `load61_a_actual_total_load`. We replay the cassette through
     # BrokenRecord (no network) and parse the result.
-    let id = Base.identify_package("BrokenRecord")
-        if id === nothing
+    let BR = _load_brokenrecord()
+        if BR === nothing
             @info "BrokenRecord not installed; skipping live cassette parse."
         else
-            BR = Base.require(id)
-            # Reuse the per-thread-state padding workaround from
-            # test-cassettes.jl. Inlined here so the parser test file
-            # is self-contained.
-            target = Base.Threads.maxthreadid()
-            while length(BR.STATE) < target
-                template = BR.STATE[1]
-                push!(BR.STATE, (
-                    responses      = empty(template.responses),
-                    ignore_headers = String[],
-                    ignore_query   = String[],
-                ))
-            end
-            BR.configure!(;
-                path = joinpath(@__DIR__, "cassettes"),
-                ignore_headers = ["Authorization", "User-Agent",
-                                  "Accept-Encoding"],
-                ignore_query   = ["securityToken"],
-            )
-
             client = ENTSOEClient("PLAYBACK")
             apis   = entsoe_apis(client)
             xml, _ = Base.invokelatest(BR.playback,

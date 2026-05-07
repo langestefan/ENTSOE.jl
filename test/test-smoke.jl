@@ -29,36 +29,13 @@ using Test
 # To re-record (or add a new endpoint), follow the procedure in
 # `scripts/regenerate_smoke_cassettes.jl`.
 
+include("_brokenrecord_helpers.jl")
 include("_smoke_descriptors.jl")
 
-const _SMOKE_DIR = joinpath(@__DIR__, "cassettes")
-
-function _pad_brokenrecord_state(BR)
-    target = Base.Threads.maxthreadid()
-    while length(BR.STATE) < target
-        template = BR.STATE[1]
-        push!(BR.STATE, (
-            responses      = empty(template.responses),
-            ignore_headers = String[],
-            ignore_query   = String[],
-        ))
-    end
-    return nothing
-end
-
-let id = Base.identify_package("BrokenRecord")
-    if id === nothing
+let BR = _load_brokenrecord()
+    if BR === nothing
         @info "BrokenRecord not installed; skipping smoke replay tests."
     else
-        BR = Base.require(id)
-        Base.invokelatest(_pad_brokenrecord_state, BR)
-        Base.invokelatest(BR.configure!;
-            path = _SMOKE_DIR,
-            ignore_headers = ["Authorization", "X-API-Key", "User-Agent",
-                              "Accept-Encoding"],
-            ignore_query   = ["securityToken"],
-        )
-
         # Single client + apis instance shared across all replays.
         client = ENTSOEClient("PLAYBACK")
         apis = entsoe_apis(client)
@@ -73,7 +50,7 @@ let id = Base.identify_package("BrokenRecord")
                 # BrokenRecord picks the storage backend from
                 # `DEFAULTS[:extension]`, so flip per-cassette.
                 base = String(d.fn)
-                ext = isfile(joinpath(_SMOKE_DIR, base * ".bson")) ? "bson" : "yml"
+                ext = isfile(joinpath(_BROKENRECORD_CASSETTES_DIR, base * ".bson")) ? "bson" : "yml"
                 cassette = base * "." * ext
                 Base.invokelatest(BR.configure!; extension = ext)
                 @testset "$(d.fn)" begin
