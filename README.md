@@ -39,11 +39,30 @@ prices = day_ahead_prices(client, EIC.NL,
 )
 
 prices[1:3]
-# 3-element Vector{@NamedTuple{time::DateTime, value::Float64}}:
+# 3-element StructVector(@NamedTuple{time::DateTime, value::Float64}):
 #  (time = DateTime("2024-09-01T22:00"), value = 41.27)
 #  (time = DateTime("2024-09-01T22:15"), value = 41.27)
 #  (time = DateTime("2024-09-01T22:30"), value = 41.27)
+
+prices.value          # Vector{Float64}, all 24 prices
+prices.time           # Vector{DateTime}
+mean(prices.value)
+DataFrame(prices)     # works directly — every wrapper is Tables.jl-compatible
 ```
+
+### Tables.jl interface
+
+Every wrapper returns a
+[`StructVector`](https://github.com/JuliaArrays/StructArrays.jl) — a
+columnar layout that satisfies the
+[Tables.jl](https://github.com/JuliaData/Tables.jl) interface. You get
+both shapes for free:
+
+- **Row access** — `prices[1]` is a `NamedTuple`-like row.
+- **Column access** — `prices.value`, `prices.time` return plain
+  `Vector{Float64}` / `Vector{DateTime}` (no allocation).
+- **Round-trips** straight into `DataFrames.DataFrame`,
+  `CSV.write`, `Arrow.Table`, `Plots.plot`, etc.
 
 Every wrapper accepts `DateTime`, `Date`, `ZonedDateTime`, or a raw
 `Int64` `yyyymmddHHMM` for the period bounds — pick whichever you have

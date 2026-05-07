@@ -12,6 +12,7 @@
 
 using EzXML: EzXML, parsexml, root, elements, nodename, nodecontent
 using Dates: Dates, DateTime, Minute
+using StructArrays: StructArray, StructArrays
 
 # ---------------------------------------------------------------------------
 # Internal helpers — DOM walking with namespace-agnostic name matching.
@@ -51,18 +52,26 @@ _parse_entsoe_datetime(s::AbstractString) = DateTime(s[1:min(end, 16)])
 # Public parsers
 
 """
-    parse_timeseries(xml) -> Vector{(time::DateTime, value::Float64)}
+    parse_timeseries(xml) -> StructVector{@NamedTuple{time::DateTime, value::Float64}}
 
 Walk every `<TimeSeries>/<Period>/<Point>` in the document and produce a
-flat vector of `(time, value)` tuples. Picks `<quantity>` (load,
-generation, capacity, balancing volumes) or `<price.amount>` (price
-documents), whichever is present on the point.
+[Tables.jl](https://github.com/JuliaData/Tables.jl)-compatible
+[`StructVector`](https://github.com/JuliaArrays/StructArrays.jl) with
+two columns:
 
-Times are computed from `<timeInterval>/<start>` plus
-`(position - 1) * resolution`, in UTC.
+- `time`  — `DateTime` (UTC) computed from `<timeInterval>/<start>` plus
+  `(position - 1) * resolution`
+- `value` — `Float64` from `<quantity>` (load, generation, capacity,
+  balancing volumes) or `<price.amount>` (price documents), whichever
+  the point carries.
 
-Returns an empty vector if the document has no usable TimeSeries —
-typically because the API returned an
+The result indexes like a `Vector{NamedTuple}` (`prices[1].value`) and
+also exposes columns directly (`prices.value`, `prices.time` —
+`Vector{Float64}` / `Vector{DateTime}`). It plumbs straight into
+DataFrames (`DataFrame(prices)`) and any other Tables.jl consumer.
+
+Returns an empty `StructVector` if the document has no usable TimeSeries
+— typically because the API returned an
 [`ENTSOEAcknowledgement`](@ref). For typed handling of that case use a
 pipeline that calls [`check_acknowledgement`](@ref) first.
 
@@ -71,19 +80,18 @@ pipeline that calls [`check_acknowledgement`](@ref) first.
 using ENTSOE, Dates
 
 client = ENTSOEClient(ENV["ENTSOE_API_TOKEN"])
-apis   = entsoe_apis(client)
-xml, _ = market121_d_energy_prices(
-    apis.market, "A44",
-    entsoe_period(DateTime("2024-09-01T22:00")),
-    entsoe_period(DateTime("2024-09-02T22:00")),
-    EIC.NL, EIC.NL,
-)
-prices = parse_timeseries(xml)
-prices[1]   # → (time = DateTime("2024-09-01T22:00"), value = ...)
+prices = day_ahead_prices(client, EIC.NL,
+    DateTime("2024-09-01T22:00"), DateTime("2024-09-02T22:00"))
+
+prices[1]      # → (time = DateTime("2024-09-01T22:00"), value = 91.24)
+prices.value   # Vector{Float64} of all 24 prices
+mean(prices.value)
+DataFrame(prices)
 ```
 """
 function parse_timeseries(xml::AbstractString)
-    rows = NamedTuple{(:time, :value), Tuple{DateTime, Float64}}[]
+    times = DateTime[]
+    values = Float64[]
     doc = parsexml(xml)
     for ts in _named(root(doc), "TimeSeries"),
             period in _named(ts, "Period")
@@ -108,19 +116,15 @@ function parse_timeseries(xml::AbstractString)
                 Some(nothing)
             )
             vnode === nothing && continue
-            push!(
-                rows, (
-                    time = start + Minute((pos - 1) * stride),
-                    value = parse(Float64, nodecontent(vnode)),
-                )
-            )
+            push!(times, start + Minute((pos - 1) * stride))
+            push!(values, parse(Float64, nodecontent(vnode)))
         end
     end
-    return rows
+    return StructArray((time = times, value = values))
 end
 
 """
-    parse_timeseries_per_psr(xml) -> Vector{(time, psr_type, value)}
+    parse_timeseries_per_psr(xml) -> StructVector{@NamedTuple{time::DateTime, psr_type::String, value::Float64}}
 
 Like [`parse_timeseries`](@ref), but additionally extracts the
 `<MktPSRType>/<psrType>` from each `<TimeSeries>` and tags every point
@@ -131,20 +135,23 @@ Onshore, etc.
 
 Points without a `<MktPSRType>` get `psr_type = ""`.
 
+The return value is a Tables.jl-compatible `StructVector` — index
+rows (`rows[1]`), or pull a column (`rows.value`, `rows.psr_type`).
+
 # Example
 ```julia
-xml, _ = generation161_b_c_actual_generation_per_production_type(
-    apis.generation, "A75", "A16", EIC.NL, start_p, stop_p,
-)
-rows = parse_timeseries_per_psr(xml)
-solar = filter(r -> r.psr_type == "B16", rows)   # solar generation only
+rows = actual_generation_per_production_type(client, EIC.NL,
+    DateTime("2024-09-01T22:00"), DateTime("2024-09-02T22:00"))
+
+# Pivot a column out:
+solar_only = rows[rows.psr_type .== "B16"]
+solar_only.value
 ```
 """
 function parse_timeseries_per_psr(xml::AbstractString)
-    rows = NamedTuple{
-        (:time, :psr_type, :value),
-        Tuple{DateTime, String, Float64},
-    }[]
+    times = DateTime[]
+    psr_types = String[]
+    values = Float64[]
     doc = parsexml(xml)
     for ts in _named(root(doc), "TimeSeries")
         psrwrap = _first_named(ts, "MktPSRType")
@@ -174,41 +181,43 @@ function parse_timeseries_per_psr(xml::AbstractString)
                     Some(nothing)
                 )
                 vnode === nothing && continue
-                push!(
-                    rows, (
-                        time = start + Minute((pos - 1) * stride),
-                        psr_type = psr,
-                        value = parse(Float64, nodecontent(vnode)),
-                    )
-                )
+                push!(times, start + Minute((pos - 1) * stride))
+                push!(psr_types, psr)
+                push!(values, parse(Float64, nodecontent(vnode)))
             end
         end
     end
-    return rows
+    return StructArray((time = times, psr_type = psr_types, value = values))
 end
 
 """
-    parse_installed_capacity(xml) -> Vector{(psr_type, capacity_mw)}
+    parse_installed_capacity(xml) -> StructVector{@NamedTuple{psr_type::String, capacity_mw::Float64}}
 
 Parse a 14.1.A "Installed Capacity per Production Type" document.
 Returns one row per `<TimeSeries>` — each contains a single
 `<MktPSRType>/<psrType>` (e.g. `"B16"` for Solar) and a `<Period>`
 with one `<Point>` carrying the year-ahead declared capacity in MW.
 
+Tables.jl-compatible `StructVector`. Pull a column directly with
+`rows.capacity_mw` (`Vector{Float64}`) or `rows.psr_type`
+(`Vector{String}`); convert with `DataFrame(rows)`.
+
 The `psr_type` codes are documented in [`PSR_TYPE`](@ref); pass through
 [`describe(PSR_TYPE, code)`](@ref describe) for human-readable labels.
 
 # Example
 ```julia
-xml, _ = generation141_a_installed_capacity_per_production_type(
-    apis.generation, "A68", "A33", EIC.NL, year_start, year_end,
-)
-rows = parse_installed_capacity(xml)
-rows[1]   # → (psr_type = "B14", capacity_mw = 485.0)  # Nuclear
+rows = installed_capacity_per_production_type(client, EIC.NL,
+    DateTime("2024-12-31T23:00"), DateTime("2025-12-31T23:00"))
+
+rows[1]              # → (psr_type = "B01", capacity_mw = 580.0)
+rows.capacity_mw     # 14-element Vector{Float64}
+sum(rows.capacity_mw)
 ```
 """
 function parse_installed_capacity(xml::AbstractString)
-    rows = NamedTuple{(:psr_type, :capacity_mw), Tuple{String, Float64}}[]
+    psr_types = String[]
+    caps = Float64[]
     doc = parsexml(xml)
     for ts in _named(root(doc), "TimeSeries")
         psrwrap = _first_named(ts, "MktPSRType")
@@ -222,15 +231,11 @@ function parse_installed_capacity(xml::AbstractString)
         for pt in _named(period, "Point")
             qty = _first_named(pt, "quantity")
             qty === nothing && continue
-            push!(
-                rows, (
-                    psr_type = psr,
-                    capacity_mw = parse(Float64, nodecontent(qty)),
-                )
-            )
+            push!(psr_types, psr)
+            push!(caps, parse(Float64, nodecontent(qty)))
         end
     end
-    return rows
+    return StructArray((psr_type = psr_types, capacity_mw = caps))
 end
 
 # ---------------------------------------------------------------------------
