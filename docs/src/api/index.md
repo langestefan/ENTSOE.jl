@@ -1,8 +1,9 @@
 # REST API Reference
 
 This section is the interactive browser for the OpenAPI spec bundled with
-[`EntsoE.jl`](../). The spec is committed at
-[`spec/openapi.json`](/openapi.json) and rendered with
+[`EntsoE.jl`](../index.md). The spec is committed at
+[`spec/openapi.json`](https://github.com/langestefan/EntsoE.jl/blob/main/spec/openapi.json)
+and rendered with
 [`vitepress-openapi`](https://github.com/enzonotario/vitepress-openapi).
 
 ```@raw html

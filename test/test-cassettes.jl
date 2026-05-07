@@ -33,12 +33,18 @@ const _CASSETTES_DIR = joinpath(@__DIR__, "cassettes")
 function _run_cassette_tests(BrokenRecord)
     BrokenRecord.configure!(;
         path = _CASSETTES_DIR,
-        # Strip credential-bearing fields before they hit disk. Header
-        # matching is case-sensitive, so list common case variants of
-        # the same name (`api_key` vs `X-API-Key`).
+        # Two reasons to ignore a header:
+        # 1. Credential-bearing headers — strip from comparison so secrets
+        #    don't end up on disk.
+        # 2. Environment-dependent headers (User-Agent carries the Julia
+        #    and HTTP.jl version; Accept-Encoding can flip on/off across
+        #    HTTP.jl versions). Including these would make cassettes
+        #    fail to replay on a different Julia minor version than the
+        #    one used to record.
         ignore_headers = ["Authorization", "X-API-Key", "api_key",
                           "X-Api-Key", "Cookie", "Set-Cookie",
-                          "Proxy-Authorization"],
+                          "Proxy-Authorization", "User-Agent",
+                          "Accept-Encoding"],
         ignore_query = ["api_key", "token", "access_token"],
     )
 

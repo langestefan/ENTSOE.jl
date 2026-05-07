@@ -68,3 +68,13 @@ paginate_pagenum
 ```@docs
 Base.show(::IO, ::MIME"text/plain", ::T) where T <: OpenAPI.APIModel
 ```
+
+## ENTSO-E conveniences
+
+```@docs
+EntsoEClient
+entsoe_apis
+entsoe_period
+EIC
+ENTSOE_BASE_URL
+```
