@@ -5,6 +5,11 @@
 *.rej
 .DS_Store
 /Manifest*.toml
+# Test/docs manifests are Julia-version-specific (a manifest pinned on
+# 1.12 fails to merge on a CI runner using 1.10). Let `Pkg.instantiate()`
+# regenerate per-version instead of carrying a stale snapshot.
+/test/Manifest*.toml
+/docs/Manifest*.toml
 docs/.vitepress/cache/
 docs/.vitepress/dist/
 docs/build/
