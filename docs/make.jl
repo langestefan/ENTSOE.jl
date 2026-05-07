@@ -50,6 +50,13 @@ if !isempty(API_PAGES)
     ])
 end
 
+# Make `EntsoE` symbols available unqualified in every doctest — without
+# this, `julia> DOCUMENT_TYPE.A44` fails with `UndefVarError` because
+# Documenter's doctest runner uses `Main` by default.
+Documenter.DocMeta.setdocmeta!(
+    EntsoE, :DocTestSetup, :(using EntsoE); recursive = true,
+)
+
 makedocs(;
     modules = [EntsoE],
     sitename = "EntsoE.jl",
