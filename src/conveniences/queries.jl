@@ -16,18 +16,55 @@
 #
 #   3. Acknowledgement detection. ENTSO-E returns a 200 with an
 #      `<Acknowledgement_MarketDocument>` when there is no data; that
-#      gets re-raised as an `ENTSOEAcknowledgement <: APIError` (see
-#      `check_acknowledgement`).
+#      gets re-raised as an [`ENTSOEAcknowledgement`](@ref) (see
+#      [`check_acknowledgement`](@ref)).
 #
-#   4. Optional parsing. By default the result is the parsed time-series
-#      (`Vector{(time, value)}` or `(time, psr_type, value)` depending on
-#      the document shape). Pass `parsed = false` to get back the raw
-#      XML string instead, useful for debugging.
+#   4. Format dispatch. Every wrapper accepts an optional trailing
+#      [`ResponseFormat`](@ref) argument that picks the return shape:
+#      [`Parsed()`](@ref) (the default) returns a typed `StructVector`
+#      from the matching parser; [`Raw()`](@ref) returns the raw XML
+#      `String`. Two methods, two return types — fully type-stable, no
+#      `Union` widening.
 #
 # These wrappers live entirely outside `src/api/`, so re-running
 # `gen/regenerate.jl` against a refreshed spec leaves them untouched.
 
 using Dates: Dates, DateTime, Date
+
+"""
+    ResponseFormat
+
+Tag type that selects the return shape of every wrapper. Subtypes:
+[`Parsed`](@ref) (the default — a typed `StructVector` from the matching
+parser) and [`Raw`](@ref) (the raw `application/xml` `String`).
+
+Pass an instance as the **last positional argument** to any wrapper:
+
+```julia
+prices_xml = day_ahead_prices(client, EIC.NL, t1, t2, Raw())     # ::String
+prices     = day_ahead_prices(client, EIC.NL, t1, t2)            # ::StructVector
+prices2    = day_ahead_prices(client, EIC.NL, t1, t2, Parsed())  # explicit
+```
+"""
+abstract type ResponseFormat end
+
+"""
+    Parsed() <: ResponseFormat
+
+Default response format — wrappers return a `StructVector` produced by
+the matching parser (`parse_timeseries` for time-series documents,
+`parse_installed_capacity` for capacity documents, …).
+"""
+struct Parsed <: ResponseFormat end
+
+"""
+    Raw() <: ResponseFormat
+
+Pass as the trailing positional argument to any wrapper to skip parsing
+and return the raw `application/xml` payload as a `String`. Useful for
+debugging or for endpoints whose XML shape isn't covered by our parsers.
+"""
+struct Raw <: ResponseFormat end
 
 # Internal: normalise any of the accepted period inputs to the Int64
 # yyyymmddHHMM expected by the generated layer. Identity for already-
@@ -47,15 +84,14 @@ _to_period(t)::Int64 = throw(
     )
 )
 
-# Internal: every wrapper either parses the XML or returns it raw. The
-# `parser` argument is a function `xml::String -> Any`. `parsed=false`
-# short-circuits and returns the XML.
-function _query(
-        api_call::Function, parser;
-        parsed::Bool = true,
+# Internal: do the API call, surface HTTP errors as typed APIErrors,
+# raise acknowledgement documents, return the raw XML body. Always
+# returns `String` — used by both `Parsed()` and `Raw()` paths.
+function _query_xml(
+        api_call::Function;
         validate::Bool = false,
         eics = (),
-    )
+    )::String
     if validate
         for code in eics
             validate_eic(code; type = :BZN)
@@ -86,22 +122,35 @@ function _query(
         throw(ServerError(Int(raw.status), body))
     end
     check_acknowledgement(xml)
-    return parsed ? parser(xml) : xml
+    return xml
+end
+
+# Internal dispatch on `ResponseFormat`. Two methods, each with a
+# concrete return type — that's what makes the public wrappers
+# type-stable.
+function _query(api_call::Function, ::Parsed, parser::F; kw...) where {F <: Function}
+    return parser(_query_xml(api_call; kw...))
+end
+function _query(api_call::Function, ::Raw, ::F; kw...) where {F <: Function}
+    return _query_xml(api_call; kw...)
 end
 
 # ---------------------------------------------------------------------------
 # Market
 
 """
-    day_ahead_prices(client, area, period_start, period_end; parsed=true)
+    day_ahead_prices(client, area, period_start, period_end[, format]) -> StructVector | String
 
 Day-ahead clearing prices (Market 12.1.D, `documentType=A44`).
 
 `area` is used as both `in_Domain` and `out_Domain` (they're always the
 same for an internal day-ahead price query). `period_start` /
 `period_end` accept `DateTime`, `Date`, `ZonedDateTime`, or a raw
-`Int64` `yyyymmddHHMM`. Returns `Vector{(time::DateTime, value::Float64)}`
-in EUR/MWh; `parsed=false` returns the raw XML.
+`Int64` `yyyymmddHHMM`.
+
+Returns a Tables.jl-compatible `StructVector{(time, value)}` in EUR/MWh
+by default; pass [`Raw()`](@ref) as the trailing argument to get the raw
+XML `String` instead.
 
 Throws an [`ENTSOEAcknowledgement`](@ref) if ENTSO-E reports no
 matching data.
@@ -111,21 +160,26 @@ matching data.
 using Dates
 client = ENTSOEClient(ENV["ENTSOE_API_TOKEN"])
 prices = day_ahead_prices(client, EIC.NL,
-                          DateTime("2024-09-01T22:00"),
-                          DateTime("2024-09-02T22:00"))
+    DateTime("2024-09-01T22:00"), DateTime("2024-09-02T22:00"))
+
+prices.value      # Vector{Float64} — column access
+prices_xml = day_ahead_prices(client, EIC.NL,
+    DateTime("2024-09-01T22:00"), DateTime("2024-09-02T22:00"), Raw())
 ```
 """
+day_ahead_prices(
+    client::Client, area::AbstractString,
+    period_start, period_end;
+    kwargs...,
+) = day_ahead_prices(client, area, period_start, period_end, Parsed(); kwargs...)
+
 function day_ahead_prices(
         client::Client, area::AbstractString,
-        period_start, period_end;
-        parsed::Bool = true,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
-    return _query(
-        parse_timeseries; parsed = parsed,
-        validate = validate, eics = (area,)
-    ) do
+    return _query(format, parse_timeseries; validate = validate, eics = (area,)) do
         market121_d_energy_prices(
             apis.market, "A44",
             _to_period(period_start), _to_period(period_end),
@@ -141,16 +195,12 @@ end
 # `processType` differs.
 function _load_query(
         client::Client, process::AbstractString, area::AbstractString,
-        period_start, period_end;
-        parsed::Bool,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool,
         api_fn::Function,
     )
     apis = entsoe_apis(client)
-    return _query(
-        parse_timeseries; parsed = parsed,
-        validate = validate, eics = (area,)
-    ) do
+    return _query(format, parse_timeseries; validate = validate, eics = (area,)) do
         api_fn(
             apis.load, "A65", String(process), String(area),
             _to_period(period_start), _to_period(period_end),
@@ -159,107 +209,114 @@ function _load_query(
 end
 
 """
-    actual_total_load(client, area, start, stop; parsed=true)
+    actual_total_load(client, area, start, stop[, format]) -> StructVector | String
 
 Realised total system load (Load 6.1.A, `documentType=A65`,
 `processType=A16`). Quarter-hour resolution. Returns
-`Vector{(time, value)}` with `value` in MW.
+`StructVector{(time, value)}` with `value` in MW; pass [`Raw()`](@ref)
+for the XML body.
 """
+actual_total_load(client::Client, area, start, stop; kwargs...) =
+    actual_total_load(client, area, start, stop, Parsed(); kwargs...)
 actual_total_load(
-    client::Client, area, start, stop;
-    parsed = true, validate = false
-) =
-    _load_query(
-    client, "A16", area, start, stop;
-    parsed = parsed, validate = validate,
-    api_fn = load61_a_actual_total_load,
+    client::Client, area, start, stop, format::ResponseFormat;
+    validate = false,
+) = _load_query(
+    client, "A16", area, start, stop, format;
+    validate = validate, api_fn = load61_a_actual_total_load,
 )
 
 """
-    day_ahead_load_forecast(client, area, start, stop; parsed=true)
+    day_ahead_load_forecast(client, area, start, stop[, format]) -> StructVector | String
 
 Day-ahead total load forecast (Load 6.1.B, `processType=A01`).
 """
+day_ahead_load_forecast(client::Client, area, start, stop; kwargs...) =
+    day_ahead_load_forecast(client, area, start, stop, Parsed(); kwargs...)
 day_ahead_load_forecast(
-    client::Client, area, start, stop;
-    parsed = true, validate = false
-) =
-    _load_query(
-    client, "A01", area, start, stop;
-    parsed = parsed, validate = validate,
-    api_fn = load61_b_day_ahead_total_load_forecast,
+    client::Client, area, start, stop, format::ResponseFormat;
+    validate = false,
+) = _load_query(
+    client, "A01", area, start, stop, format;
+    validate = validate, api_fn = load61_b_day_ahead_total_load_forecast,
 )
 
 """
-    week_ahead_load_forecast(client, area, start, stop; parsed=true)
+    week_ahead_load_forecast(client, area, start, stop[, format]) -> StructVector | String
 
 Week-ahead total load forecast (Load 6.1.C, `processType=A31`).
 """
+week_ahead_load_forecast(client::Client, area, start, stop; kwargs...) =
+    week_ahead_load_forecast(client, area, start, stop, Parsed(); kwargs...)
 week_ahead_load_forecast(
-    client::Client, area, start, stop;
-    parsed = true, validate = false
-) =
-    _load_query(
-    client, "A31", area, start, stop;
-    parsed = parsed, validate = validate,
-    api_fn = load61_c_week_ahead_total_load_forecast,
+    client::Client, area, start, stop, format::ResponseFormat;
+    validate = false,
+) = _load_query(
+    client, "A31", area, start, stop, format;
+    validate = validate, api_fn = load61_c_week_ahead_total_load_forecast,
 )
 
 """
-    month_ahead_load_forecast(client, area, start, stop; parsed=true)
+    month_ahead_load_forecast(client, area, start, stop[, format]) -> StructVector | String
 
 Month-ahead total load forecast (Load 6.1.D, `processType=A32`).
 """
+month_ahead_load_forecast(client::Client, area, start, stop; kwargs...) =
+    month_ahead_load_forecast(client, area, start, stop, Parsed(); kwargs...)
 month_ahead_load_forecast(
-    client::Client, area, start, stop;
-    parsed = true, validate = false
-) =
-    _load_query(
-    client, "A32", area, start, stop;
-    parsed = parsed, validate = validate,
-    api_fn = load61_d_month_ahead_total_load_forecast,
+    client::Client, area, start, stop, format::ResponseFormat;
+    validate = false,
+) = _load_query(
+    client, "A32", area, start, stop, format;
+    validate = validate, api_fn = load61_d_month_ahead_total_load_forecast,
 )
 
 """
-    year_ahead_load_forecast(client, area, start, stop; parsed=true)
+    year_ahead_load_forecast(client, area, start, stop[, format]) -> StructVector | String
 
 Year-ahead total load forecast (Load 6.1.E, `processType=A33`).
 """
+year_ahead_load_forecast(client::Client, area, start, stop; kwargs...) =
+    year_ahead_load_forecast(client, area, start, stop, Parsed(); kwargs...)
 year_ahead_load_forecast(
-    client::Client, area, start, stop;
-    parsed = true, validate = false
-) =
-    _load_query(
-    client, "A33", area, start, stop;
-    parsed = parsed, validate = validate,
-    api_fn = load61_e_year_ahead_total_load_forecast,
+    client::Client, area, start, stop, format::ResponseFormat;
+    validate = false,
+) = _load_query(
+    client, "A33", area, start, stop, format;
+    validate = validate, api_fn = load61_e_year_ahead_total_load_forecast,
 )
 
 # ---------------------------------------------------------------------------
 # Generation
 
 """
-    installed_capacity_per_production_type(client, area, start, stop; parsed=true)
+    installed_capacity_per_production_type(client, area, start, stop[, format]) -> StructVector | String
 
 Year-ahead installed capacity per production type (Generation 14.1.A,
 `documentType=A68`, `processType=A33`). For a calendar-year window
 spanning Dec 31 23:00 → Dec 31 23:00. Returns
-`Vector{(psr_type::String, capacity_mw::Float64)}`; `parsed=false`
-returns the raw XML.
+`StructVector{(psr_type::String, capacity_mw::Float64)}`.
 
 Map `psr_type` codes to labels via [`PSR_TYPE`](@ref) /
 [`describe`](@ref): `describe(PSR_TYPE, "B16") == "Solar"`.
 """
+installed_capacity_per_production_type(
+    client::Client, area::AbstractString,
+    period_start, period_end;
+    kwargs...,
+) = installed_capacity_per_production_type(
+    client, area, period_start, period_end, Parsed(); kwargs...,
+)
+
 function installed_capacity_per_production_type(
         client::Client, area::AbstractString,
-        period_start, period_end;
-        parsed::Bool = true,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
     return _query(
-        parse_installed_capacity; parsed = parsed,
-        validate = validate, eics = (area,)
+        format, parse_installed_capacity;
+        validate = validate, eics = (area,),
     ) do
         generation141_a_installed_capacity_per_production_type(
             apis.generation, "A68", "A33", String(area),
@@ -269,23 +326,27 @@ function installed_capacity_per_production_type(
 end
 
 """
-    generation_forecast_day_ahead(client, area, start, stop; parsed=true)
+    generation_forecast_day_ahead(client, area, start, stop[, format]) -> StructVector | String
 
 Day-ahead total generation forecast (Generation 14.1.C,
 `documentType=A71`, `processType=A01`). Returns
-`Vector{(time, value)}` in MW.
+`StructVector{(time, value)}` in MW.
 """
+generation_forecast_day_ahead(
+    client::Client, area::AbstractString,
+    period_start, period_end;
+    kwargs...,
+) = generation_forecast_day_ahead(
+    client, area, period_start, period_end, Parsed(); kwargs...,
+)
+
 function generation_forecast_day_ahead(
         client::Client, area::AbstractString,
-        period_start, period_end;
-        parsed::Bool = true,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
-    return _query(
-        parse_timeseries; parsed = parsed,
-        validate = validate, eics = (area,)
-    ) do
+    return _query(format, parse_timeseries; validate = validate, eics = (area,)) do
         generation141_c_generation_forecast_day_ahead(
             apis.generation, "A71", "A01", String(area),
             _to_period(period_start), _to_period(period_end),
@@ -294,7 +355,8 @@ function generation_forecast_day_ahead(
 end
 
 """
-    wind_solar_forecast(client, area, start, stop; parsed=true, psr_type=nothing)
+    wind_solar_forecast(client, area, start, stop[, format]; psr_type=nothing)
+      -> StructVector | String
 
 Wind & solar forecast, day-ahead (Generation 14.1.D,
 `documentType=A69`, `processType=A01`). The returned document carries
@@ -305,17 +367,24 @@ one TimeSeries per technology — we parse with
 Pass `psr_type="B19"` to filter at the API level (returns just that
 technology).
 """
+wind_solar_forecast(
+    client::Client, area::AbstractString,
+    period_start, period_end;
+    kwargs...,
+) = wind_solar_forecast(
+    client, area, period_start, period_end, Parsed(); kwargs...,
+)
+
 function wind_solar_forecast(
         client::Client, area::AbstractString,
-        period_start, period_end;
-        parsed::Bool = true,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool = false,
         psr_type::Union{Nothing, AbstractString} = nothing,
     )
     apis = entsoe_apis(client)
     return _query(
-        parse_timeseries_per_psr; parsed = parsed,
-        validate = validate, eics = (area,)
+        format, parse_timeseries_per_psr;
+        validate = validate, eics = (area,),
     ) do
         generation141_d_generation_forecasts_for_wind_and_solar(
             apis.generation, "A69", "A01", String(area),
@@ -326,8 +395,8 @@ function wind_solar_forecast(
 end
 
 """
-    actual_generation_per_production_type(client, area, start, stop;
-                                           parsed=true, psr_type=nothing)
+    actual_generation_per_production_type(client, area, start, stop[, format];
+                                          psr_type=nothing) -> StructVector | String
 
 Realised generation broken down by production type (Generation
 16.1.B/C, `documentType=A75`, `processType=A16`). One TimeSeries per
@@ -336,17 +405,24 @@ MW.
 
 Pass `psr_type="B16"` to fetch a single technology server-side.
 """
+actual_generation_per_production_type(
+    client::Client, area::AbstractString,
+    period_start, period_end;
+    kwargs...,
+) = actual_generation_per_production_type(
+    client, area, period_start, period_end, Parsed(); kwargs...,
+)
+
 function actual_generation_per_production_type(
         client::Client, area::AbstractString,
-        period_start, period_end;
-        parsed::Bool = true,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool = false,
         psr_type::Union{Nothing, AbstractString} = nothing,
     )
     apis = entsoe_apis(client)
     return _query(
-        parse_timeseries_per_psr; parsed = parsed,
-        validate = validate, eics = (area,)
+        format, parse_timeseries_per_psr;
+        validate = validate, eics = (area,),
     ) do
         generation161_b_c_actual_generation_per_production_type(
             apis.generation, "A75", "A16", String(area),
@@ -360,27 +436,36 @@ end
 # Transmission
 
 """
-    cross_border_physical_flows(client, in_area, out_area, start, stop; parsed=true)
+    cross_border_physical_flows(client, in_area, out_area, start, stop[, format])
+      -> StructVector | String
 
 Cross-border physical flows between two bidding zones (Transmission
-12.1.G, `documentType=A11`). Returns hourly `Vector{(time, value)}` in
-MW.
+12.1.G, `documentType=A11`). Returns hourly `StructVector{(time, value)}`
+in MW.
 
 Note ENTSO-E's ordering: `in_area` is the receiving zone, `out_area`
 is the sending zone — flows are positive when they go *from* `out_area`
 *into* `in_area`.
 """
+cross_border_physical_flows(
+    client::Client,
+    in_area::AbstractString, out_area::AbstractString,
+    period_start, period_end;
+    kwargs...,
+) = cross_border_physical_flows(
+    client, in_area, out_area, period_start, period_end, Parsed(); kwargs...,
+)
+
 function cross_border_physical_flows(
         client::Client,
         in_area::AbstractString, out_area::AbstractString,
-        period_start, period_end;
-        parsed::Bool = true,
+        period_start, period_end, format::ResponseFormat;
         validate::Bool = false,
     )
     apis = entsoe_apis(client)
     return _query(
-        parse_timeseries; parsed = parsed,
-        validate = validate, eics = (in_area, out_area)
+        format, parse_timeseries;
+        validate = validate, eics = (in_area, out_area),
     ) do
         transmission121_g_cross_border_physical_flows(
             apis.transmission, "A11",
@@ -391,7 +476,10 @@ function cross_border_physical_flows(
 end
 
 # ---------------------------------------------------------------------------
-# OMI — paginated
+# OMI — paginated. Always returns Vector{String} (one XML page per
+# response); the `ResponseFormat` switch doesn't apply because there's
+# no single "parsed" shape — different document types live behind this
+# endpoint. Users parse pages with `parse_timeseries` etc. as needed.
 
 """
     omi_other_market_information(client, control_area, start, stop;

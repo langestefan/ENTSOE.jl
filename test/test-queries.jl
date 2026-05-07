@@ -118,14 +118,14 @@ let BR = _load_brokenrecord()
             @test solar[1].capacity_mw > 1_000
         end
 
-        @testset "parsed=false returns raw XML" begin
+        @testset "Raw() returns raw XML" begin
             xml = Base.invokelatest(
                 BR.playback,
                 () -> day_ahead_prices(
                     client, EIC.NL,
                     DateTime("2024-09-01T22:00"),
-                    DateTime("2024-09-02T22:00");
-                    parsed = false,
+                    DateTime("2024-09-02T22:00"),
+                    Raw(),
                 ),
                 "market_121d_day_ahead_prices_NL.yml",
             )

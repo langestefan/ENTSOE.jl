@@ -36,6 +36,7 @@ export with_timeout
 export with_logging, redact_headers
 export DefaultMiddleware, default_middleware, with_defaults
 export paginate_cursor, paginate_offset, paginate_pagenum
+export ResponseFormat, Parsed, Raw
 
 # ENTSO-E specific helpers (hand-written, not part of the codegen output).
 # Safe across `gen/regenerate.jl` runs — that script only rewrites `src/api/`.

@@ -125,8 +125,51 @@ unzip_response
 These are thin wrappers around the generated operation functions that
 pre-fill the standard `documentType` / `processType` codes, accept
 `DateTime` / `Date` / `ZonedDateTime` directly, and parse the XML
-response. Pass `parsed = false` to skip parsing and get back the raw
-XML string.
+response into a typed `StructVector`.
+
+### Parsed vs. raw — the `ResponseFormat` dispatch
+
+Every wrapper accepts an **optional trailing positional argument** of
+type [`ResponseFormat`](@ref) that selects the return shape:
+
+```julia
+prices     = day_ahead_prices(client, EIC.NL, t1, t2)            # default
+prices2    = day_ahead_prices(client, EIC.NL, t1, t2, Parsed())  # explicit
+prices_xml = day_ahead_prices(client, EIC.NL, t1, t2, Raw())     # bypass parser
+```
+
+| Trailing argument | Return type            | When you'd use it                                                                                          |
+| ----------------- | ---------------------- | ---------------------------------------------------------------------------------------------------------- |
+| *(none)*          | `StructVector{<row>}`  | Default. Tables.jl-compatible, drop into `DataFrame`/plot directly.                                        |
+| [`Parsed()`](@ref)| `StructVector{<row>}`  | Same as the default — useful when you want to make the choice explicit at the call site.                   |
+| [`Raw()`](@ref)   | `String`               | Skip the parser. Hand the XML to `EzXML`/`XML.jl` yourself, archive the body, debug a parse mismatch, etc. |
+
+The dispatch is on the singleton types `Parsed`/`Raw` (subtypes of
+`ResponseFormat`), so each variant has a **concrete inferred return
+type**:
+
+```julia
+julia> Base.return_types(day_ahead_prices,
+           Tuple{Client, String, DateTime, DateTime, Raw})
+1-element Vector{Any}:
+ String
+
+julia> Base.return_types(day_ahead_prices,
+           Tuple{Client, String, DateTime, DateTime})   # default → Parsed
+1-element Vector{Any}:
+ StructVector{@NamedTuple{time::DateTime, value::Float64}, …}
+```
+
+No `Union` widening, no `Any` — downstream code can specialize on the
+returned type.
+
+```@docs
+ResponseFormat
+Parsed
+Raw
+```
+
+### Wrappers
 
 ```@docs
 day_ahead_prices

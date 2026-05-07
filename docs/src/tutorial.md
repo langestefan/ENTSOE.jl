@@ -56,7 +56,8 @@ nothing # hide
 [`day_ahead_prices`](@ref) wraps Market 12.1.D
 (`documentType=A44`). It pre-fills both `in_Domain` and `out_Domain`
 to the requested area, normalises the period bounds, and returns a
-parsed `Vector{(time, value)}` straight away.
+parsed [`StructVector`](https://github.com/JuliaArrays/StructArrays.jl)
+of `(time, value)` rows straight away.
 
 ```@example tutorial
 prices = BR.playback("market_121d_day_ahead_prices_NL.yml") do
@@ -66,6 +67,31 @@ prices = BR.playback("market_121d_day_ahead_prices_NL.yml") do
 end
 length(prices), prices[1], prices[end]
 ```
+
+The result is Tables.jl-compatible — each column is a real
+`Vector` you can pull out without an allocation:
+
+```@example tutorial
+prices.value[1:3]    # ::Vector{Float64}
+```
+
+If you need the raw XML body (to drop into your own XML walker, archive
+the response, or debug a parse mismatch), pass [`Raw()`](@ref) as the
+trailing argument. The same wrapper now returns a `String`:
+
+```@example tutorial
+xml = BR.playback("market_121d_day_ahead_prices_NL.yml") do
+    day_ahead_prices(client, EIC.NL,
+        DateTime("2024-09-01T22:00"),
+        DateTime("2024-09-02T22:00"),
+        Raw())
+end
+first(xml, 200)
+```
+
+The dispatch is on the singleton type — no `Union{StructVector, String}`
+in the inferred signature. Without an explicit format the default
+[`Parsed()`](@ref) kicks in.
 
 ```@example tutorial
 fig = Figure(size = (900, 380))

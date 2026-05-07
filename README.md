@@ -74,9 +74,51 @@ day 2024-09-02.
 
 The high-level functions below pre-fill the magic ENTSO-E codes
 (`A44`, `A65`, `A68`, …) and parse the XML response into typed Julia
-values. All return `Vector{NamedTuple}`; pass `parsed = false` to get
-the raw XML string instead. They live in `src/conveniences/queries.jl`
-and wrap the auto-generated functions in `src/api/`.
+values. They live in `src/conveniences/queries.jl` and wrap the
+auto-generated functions in `src/api/`.
+
+### Choosing parsed vs. raw output
+
+Every wrapper takes an **optional trailing positional argument** of
+type `ResponseFormat` that switches the return shape:
+
+| Trailing argument | Return type | Use it for |
+| --- | --- | --- |
+| *(omitted)* | `StructVector{<row>}` | The default. Tables.jl-compatible, drop into `DataFrame` / plot / stats. |
+| `Parsed()` | `StructVector{<row>}` | Same as default — useful when you want the choice explicit at the call site. |
+| `Raw()` | `String` | Bypass the parser. Hand the XML to your own walker, archive the body, debug a parse mismatch. |
+
+```julia
+# Default — parsed StructVector
+prices = day_ahead_prices(client, EIC.NL,
+    DateTime("2024-09-01T22:00"),
+    DateTime("2024-09-02T22:00"))
+prices.value[1:3]    # → [91.24, 89.50, 87.13]
+
+# Explicit Parsed() — identical to the default; reads better in
+# pipelines where multiple formats coexist.
+prices2 = day_ahead_prices(client, EIC.NL, t1, t2, Parsed())
+
+# Raw() — return the application/xml String unchanged
+xml = day_ahead_prices(client, EIC.NL, t1, t2, Raw())
+typeof(xml)          # → String
+```
+
+`Parsed` and `Raw` are subtypes of the abstract `ResponseFormat`, so
+each variant has a **concrete inferred return type**:
+
+```julia
+Base.return_types(day_ahead_prices,
+    Tuple{Client, String, DateTime, DateTime, Raw})
+# → [String]
+
+Base.return_types(day_ahead_prices,
+    Tuple{Client, String, DateTime, DateTime})
+# → [StructVector{@NamedTuple{time::DateTime, value::Float64}, …}]
+```
+
+No `Union` widening, no `Any` — downstream code can specialize on the
+return type.
 
 ### Day-ahead prices
 
