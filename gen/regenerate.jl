@@ -127,16 +127,27 @@ function main()
     # OpenAPITemplate's scaffolder writes alongside this file.
     emit_pages_jl = joinpath(@__DIR__, "emit_api_pages.jl")
     api_pages_dst = joinpath(pkg_root, "docs", "src", "api")
+    generated_ref = joinpath(pkg_root, "docs", "src", "generated_reference.md")
     if isfile(emit_pages_jl) && isdir(joinpath(pkg_root, "docs", "src"))
         @info "Refreshing docs/src/api/<Tag>.md from spec."
         m = Module(:_OpenAPIEmitPages)
         Base.include(m, emit_pages_jl)
         Base.invokelatest(m.emit_api_pages, spec_local, api_pages_dst)
+
+        # Refresh the auto-derived `## Per-API base paths` section in
+        # `docs/src/generated_reference.md` so newly-tagged Api classes
+        # get explicit `@docs` entries (Documenter's `@autodocs` skips
+        # them).
+        if isfile(generated_ref)
+            @info "Refreshing generated_reference.md base-path section."
+            Base.invokelatest(m.emit_basepath_section, generated_ref,
+                joinpath(api_target, "apis"), API_PKG[1:end-3])
+        end
     end
 
     # Print a quick summary of what changed.
     if Sys.which("git") !== nothing && isdir(joinpath(pkg_root, ".git"))
-        run(Cmd(`git diff --stat src/api spec docs/src/api`; dir = pkg_root))
+        run(Cmd(`git diff --stat src/api spec docs/src docs/src/api`; dir = pkg_root))
     end
 
     @info "Regeneration complete." spec = spec_local api = api_target

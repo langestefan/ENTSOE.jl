@@ -39,6 +39,9 @@ const PAGES = Any[
     ],
     "Julia API Reference" => "julia_reference.md",
 ]
+if HAS_SPEC
+    push!(PAGES, "Generated Reference" => "generated_reference.md")
+end
 if !isempty(API_PAGES)
     push!(PAGES, "REST API Reference" => Any[
         "Overview" => "api/index.md",

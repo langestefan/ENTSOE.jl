@@ -77,6 +77,58 @@ function emit_api_pages(spec_path::AbstractString, dst_dir::AbstractString)
     return written
 end
 
+"""
+    emit_basepath_section(ref_path, apis_dir, pkg) -> Vector{String}
+
+Append (or refresh) a `## Per-API base paths` section in `ref_path`
+covering every codegen Api class found in `apis_dir`.
+
+Documenter's `@autodocs` skips `basepath(::Type{<Tag>Api})` methods
+because the function binding is shadowed across files. This helper
+emits an explicit `@docs` block so `checkdocs` is clean.
+
+Idempotent: any existing `## Per-API base paths` section is replaced.
+Returns the list of Api class names that were documented.
+"""
+function emit_basepath_section(
+        ref_path::AbstractString,
+        apis_dir::AbstractString,
+        pkg::AbstractString,
+    )
+    isfile(ref_path) ||
+        error("emit_basepath_section: $ref_path does not exist")
+    isdir(apis_dir) || return String[]
+
+    api_classes = String[]
+    for f in sort!(readdir(apis_dir))
+        endswith(f, ".jl") || continue
+        startswith(f, "api_") || continue
+        push!(api_classes, String(chopprefix(chopsuffix(f, ".jl"), "api_")))
+    end
+    isempty(api_classes) && return String[]
+
+    api_pkg = pkg * "API"
+    section = """
+
+    ## Per-API base paths
+
+    The `basepath` function returns the canonical server URL declared in
+    `spec/openapi.json` for each tagged API. It is the default used by the
+    domain client constructor when no explicit `base_url` is supplied.
+
+    ```@docs
+    """
+    for cls in api_classes
+        section *= "$api_pkg.basepath(::Type{$api_pkg.$cls})\n"
+    end
+    section *= "```\n"
+
+    body = read(ref_path, String)
+    body = replace(body, r"\n## Per-API base paths.*"s => "")
+    write(ref_path, body * section)
+    return api_classes
+end
+
 if abspath(PROGRAM_FILE) == @__FILE__
     length(ARGS) >= 2 || error(
         "Usage: julia --project gen/emit_api_pages.jl <spec.json> <dst_dir>"
