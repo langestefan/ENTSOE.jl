@@ -106,9 +106,9 @@ The visible pattern:
 - **NL exports during midday peaks** (red), driven by Dutch solar
   generation when DE prices are high enough to pull power across
   the interconnector.
-- The trace mostly stays well inside the
-  [GridGB-NL-DE NTC limits](https://www.entsoe.eu/news/2024/05/15/total-transfer-capacity-on-cross-border-trading/),
-  which means nothing in our window was congested.
+- The trace mostly stays well inside the published NTC limits for
+  the NL ↔ DE link (≈ 5 GW typical), which means nothing in our
+  window was congested.
 
 ## Aggregations
 
