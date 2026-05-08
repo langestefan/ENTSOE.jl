@@ -187,7 +187,6 @@ Colorbar(fig[1:4, 4];
     colormap = COLORMAP, colorrange = PRICE_RANGE,
     label = "EUR / MWh", height = Relative(0.85))
 fig
-save(joinpath(@__DIR__, "assets", "tut_eu_map_grid.png"), fig); nothing # hide
 ```
 
 A few patterns jump out month-to-month:
@@ -240,7 +239,6 @@ Colorbar(fig2[1, 2];
     colormap = COLORMAP, colorrange = PRICE_RANGE,
     label = "EUR / MWh")
 fig2
-save(joinpath(@__DIR__, "assets", "tut_eu_map_annual.png"), fig2); nothing # hide
 ```
 
 ## Where to next

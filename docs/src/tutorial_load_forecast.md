@@ -120,7 +120,6 @@ ax2.xticks = (
 hidexdecorations!(ax1; grid = false)
 rowgap!(fig.layout, 1, 6)
 fig
-save(joinpath(@__DIR__, "assets", "tut_load_forecast.png"), fig); nothing # hide
 ```
 
 A second plot — the **error histogram** — gives a quick read on the
@@ -137,7 +136,6 @@ hist!(ax, err; bins = 40, color = (:steelblue, 0.7), strokewidth = 0.5,
     strokecolor = :white)
 vlines!(ax, [0.0]; color = :black, linestyle = :dash, linewidth = 0.8)
 fig2
-save(joinpath(@__DIR__, "assets", "tut_load_forecast_hist.png"), fig2); nothing # hide
 ```
 
 What you read from this:

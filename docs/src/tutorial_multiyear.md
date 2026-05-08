@@ -85,7 +85,6 @@ boxplot!(ax, xs, ys;
 )
 ax.xticks = (2020:2024, string.(2020:2024))
 fig
-save(joinpath(@__DIR__, "assets", "tut_multiyear_box.png"), fig); nothing # hide
 ```
 
 The picture matches the well-known story:
@@ -142,7 +141,6 @@ ax2.xticks = (
     string.(2020:2024),
 )
 fig2
-save(joinpath(@__DIR__, "assets", "tut_multiyear_monthly.png"), fig2); nothing # hide
 ```
 
 ## Where to next

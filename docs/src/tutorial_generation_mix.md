@@ -110,7 +110,6 @@ for (code, label, color) in stacked
 end
 axislegend(ax; position = :rt, framevisible = false, labelsize = 10)
 fig
-save(joinpath(@__DIR__, "assets", "tut_generation_mix.png"), fig); nothing # hide
 ```
 
 A few things to read off the plot:
@@ -161,7 +160,6 @@ barplot!(ax, 1:length(day_totals), [d.mwh for d in day_totals];
     color = [d.color for d in day_totals],
     strokewidth = 0.4, strokecolor = :white)
 fig2
-save(joinpath(@__DIR__, "assets", "tut_generation_mix_totals.png"), fig2); nothing # hide
 ```
 
 ## Where to next

@@ -201,7 +201,6 @@ Colorbar(fig[1, 2];
     label = "Solar + wind share, %",
 )
 fig
-save(joinpath(@__DIR__, "assets", "tut_renewables_map.png"), fig); nothing # hide
 ```
 
 A summery weekend like this exposes the wide variation in daily VRE

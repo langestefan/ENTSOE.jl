@@ -97,7 +97,6 @@ ax.xticks = (
     [Dates.format(de_to_nl.time[i], "E dd") for i in 1:24:length(net)],
 )
 fig
-save(joinpath(@__DIR__, "assets", "tut_crossborder.png"), fig); nothing # hide
 ```
 
 The visible pattern:
@@ -149,7 +148,6 @@ barplot!(ax, 1:length(daily_gwh), daily_gwh;
     color = [v >= 0 ? :seagreen : :firebrick for v in daily_gwh],
     strokewidth = 0.5, strokecolor = :white)
 fig2
-save(joinpath(@__DIR__, "assets", "tut_crossborder_daily.png"), fig2); nothing # hide
 ```
 
 ## Where to next
